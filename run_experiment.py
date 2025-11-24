@@ -142,12 +142,25 @@ class ProcessHandler:
                 for pattern, response in self.triggers.items():
                     if isinstance(pattern, str) and pattern in accum and not self._recently_fired(pattern, now):
                         self.fired_triggers[pattern] = now
+                        global SUCCESS_FEEDBACK_LOCK, SUCCESS_FEEDBACK
                         if "SUCCESS" in response:
-                            global SUCCESS_FEEDBACK_LOCK, SUCCESS_FEEDBACK
+                            if SUCCESS_FEEDBACK == "FAILURE":
+                                if self.mode == OutMode.CONSOLE:
+                                    sys.stdout.write(
+                                        f"{self.prefix}SUCCESS condition detected but detected FAILURE earlier!\n"
+                                    )
+                                    sys.stdout.flush()
+                            else:
+                                with SUCCESS_FEEDBACK_LOCK:
+                                    SUCCESS_FEEDBACK = "SUCCESS"
+                                if self.mode == OutMode.CONSOLE:
+                                    sys.stdout.write(f"{self.prefix}SUCCESS condition detected!\n")
+                                    sys.stdout.flush()
+                        elif "FAILURE" in response: 
                             with SUCCESS_FEEDBACK_LOCK:
-                                SUCCESS_FEEDBACK = "SUCCESS"
+                                SUCCESS_FEEDBACK = "FAILURE"
                             if self.mode == OutMode.CONSOLE:
-                                sys.stdout.write(f"{self.prefix}SUCCESS condition detected!\n")
+                                sys.stdout.write(f"{self.prefix}FAILURE condition detected!\n")
                                 sys.stdout.flush()
                         else:
                             self._write_to_input(response)
