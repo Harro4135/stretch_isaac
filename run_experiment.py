@@ -321,8 +321,10 @@ def store_results(
     state_trajectory: list,
     success: bool,
     time_to_complete: float,
+    log_files: list[Path],
 ):
     state_file = output_root / f"{record}_state_trajectory.npy"
+    log_files += [state_file]
 
     try:
         with open(output_file, "r") as f:
@@ -345,6 +347,7 @@ def store_results(
         "time_to_complete": time_to_complete,
         "path_length": path_length,
         "success": success,
+        "log_files": [str(log_file) for log_file in log_files],
     }
 
     if not any(d.get("name") == new_record.get("name") for d in data):
@@ -417,6 +420,7 @@ def build_proccesses(
     else:
         input_path = None
 
+    output_files = []
     if app.lower() == "dynamem":
         if do_explore:
             dynamem_log = Path("/home/benni/repos/stretch_ai/dynamem_log")
@@ -436,6 +440,7 @@ def build_proccesses(
                 "Do you want to run picking? [Y/n]:": "n\n",
                 "Do you want to run placement? [Y/n]:": "n\n",
             }
+            output_files += [str(output_dir), str(output_dir.with_suffix(".pkl"))]
         else:
             options = [
                 "--input-path",
@@ -480,6 +485,7 @@ def build_proccesses(
         initial_scene_path = str(input_path) if not do_explore else '""'
         triggers = {15.0: "explore\n"} if do_explore else {15.0: f"{experiment['goal']['label']}\n"}
         triggers[" found at "] = "SUCCESS\n"
+        output_files += [str(output_dir)]
         processes += [
             {
                 "name": "PerceiveSemantix",
@@ -528,7 +534,7 @@ def build_proccesses(
                 "cwd": "/home/benni/repos/bringup_active_mapmaintenance/stretch_mpc/",
                 "color": COLORS["yellow"],
                 "triggers": {},
-                "output": OutMode.CONSOLE,
+                "output": OutMode.DISABLED,
             },
             {
                 "name": "MainCoordinator",
@@ -561,7 +567,7 @@ def build_proccesses(
             #     "output": OutMode.DISABLED,
             # },
         ]
-    return processes
+    return processes, output_files
 
 
 def robot_has_moved(translation_threshold: float = 0.01, orientation_threshold: float = 1) -> bool:
@@ -585,7 +591,7 @@ def robot_has_moved(translation_threshold: float = 0.01, orientation_threshold: 
 
 
 def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict, output_root: Path):
-    processes = build_proccesses(app, experiment, output_root)
+    processes, log_files = build_proccesses(app, experiment, output_root)
 
     record_key = f"{experiment['name']}_{app.lower()}"
     output_file = output_root / "experiments_results.json"
@@ -659,7 +665,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
     with SUCCESS_FEEDBACK_LOCK:
         SUCCESS_FEEDBACK = SUCCESS_FEEDBACK_DEFAULT
 
-    store_results(record_key, app, output_file, experiment, output_root, state_trajectory, success, time_to_complete)
+    store_results(record_key, app, output_file, experiment, output_root, state_trajectory, success, time_to_complete, log_files)
 
 
 def main():
@@ -668,6 +674,7 @@ def main():
         "--experiment-json",
         type=Path,
         help="Path to experiment JSON file.",
+        action="append",
     )
     parser.add_argument(
         "--app",
@@ -684,12 +691,11 @@ def main():
     )
     args = parser.parse_args()
 
-    experiments: dict = json.loads(args.experiment_json.read_text())
-
-    for experiment in experiments["experiments"]:
-        for app in args.app:
-            run_expriment(app, experiment, args.out_root)
-
+    for expirment_config in args.experiment_json:
+        experiments: dict = json.loads(expirment_config.read_text())
+        for experiment in experiments["experiments"]:
+            for app in args.app:
+                run_expriment(app, experiment, args.out_root)
 
 if __name__ == "__main__":
     main()
