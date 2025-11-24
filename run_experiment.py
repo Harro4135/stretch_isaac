@@ -307,6 +307,7 @@ def store_results(
     output_root: Path,
     state_trajectory: list,
     success: bool,
+    time_to_complete: float,
 ):
     state_file = output_root / f"{record}_state_trajectory.npy"
 
@@ -322,7 +323,6 @@ def store_results(
         dtype=float,
     )
     path_length = np.linalg.norm(np.diff(arr[:, 1:3], axis=0), axis=1).sum()
-    time_to_complete = arr[-1, 0] - arr[0, 0] if len(arr) > 1 else 0.0
 
     new_record = {
         "name": record,
@@ -551,6 +551,26 @@ def build_proccesses(
     return processes
 
 
+def robot_has_moved(translation_threshold: float = 0.01, orientation_threshold: float = 1) -> bool:
+    global STATE_LOCK, STATE_LIST
+    with STATE_LOCK:
+        if len(STATE_LIST) < 2:
+            return False
+        previous_state = STATE_LIST[-2]
+        previous_position = np.array(previous_state[1][:2])  # x, y
+        previous_orientation = np.array(previous_state[2])  # w, x, y, z
+        previous_orientation /= np.linalg.norm(previous_orientation)
+
+        state_now = STATE_LIST[-1]
+        position_now = np.array(state_now[1][:2])  # x, y
+        orientation_now = np.array(state_now[2])  # w, x, y, z
+        orientation_now /= np.linalg.norm(orientation_now)
+
+    position_change = np.linalg.norm(position_now - previous_position)
+    angular_change = 2 * np.arccos(np.clip(np.abs(np.dot(previous_orientation, orientation_now)), -1.0, 1.0))
+    return position_change > translation_threshold or angular_change > np.deg2rad(orientation_threshold)
+
+
 def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict, output_root: Path):
     processes = build_proccesses(app, experiment, output_root)
 
@@ -561,18 +581,8 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
         return
 
     running_processes, process_handlers = launch_processes(processes)
-    max_runtime: Optional[float] = experiment.get("max_runtime", None)
-
-    def timeout_watcher(procs, timeout: float):
-        time.sleep(timeout)
-        sys.stdout.write(f"Maximum runtime of {timeout} seconds reached. Terminating processes.\n")
-        terminate_processes(procs)
-
-    # If max runtime was provided, start watcher thread
-    if max_runtime is not None:
-        w = threading.Thread(target=timeout_watcher, args=(running_processes, max_runtime))
-        w.daemon = True
-        w.start()
+    active_timeout: Optional[float] = experiment.get("max_runtime", None)
+    total_timeout: Optional[float] = (active_timeout + 120.0) if active_timeout is not None else None
 
     do_explore = experiment["goal"]["task"] == "explore"
     if not do_explore:
@@ -581,12 +591,37 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
     else:
         success = True  # exploration always "succeeds"
 
+    # setup timeout watcher
+    initial_movement_detected = False
+    active_timeout_start: Optional[float] = None
+    total_timeout_start: float = time.time()
+
     # Wait for all to finish
     try:
         while any([proc.poll() is None for proc in running_processes]):
             time.sleep(0.1)
+
+            # If max runtime was provided, start watcher thread
+            if total_timeout is not None:
+                elapsed = time.time() - total_timeout_start
+                if elapsed >= total_timeout:
+                    sys.stdout.write(f"Total runtime of {total_timeout}s exceeded. Terminating processes.\n")
+                    break
+
+            if active_timeout is not None:
+                if not initial_movement_detected and robot_has_moved():
+                    initial_movement_detected = True
+                    active_timeout_start = time.time()
+                    sys.stdout.write("Detected robot movement. Starting timeout timer.\n")
+                if active_timeout_start is not None:
+                    elapsed = time.time() - active_timeout_start
+                    if elapsed >= active_timeout:
+                        sys.stdout.write(f"Max runtime of {active_timeout}s exceeded. Terminating processes.\n")
+                        break
+
             for handler in process_handlers:
                 handler.handle_time_triggers()
+
             if not do_explore and success_monitor(
                 goal_position,
                 2.0,
@@ -597,6 +632,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
     except KeyboardInterrupt:
         print("\nStopping processes...")
     finally:
+        time_to_complete = time.time() - (active_timeout_start or total_timeout_start)
         terminate_processes(running_processes, timeout=2)
         print("All processes terminated.")
 
@@ -610,7 +646,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
     with SUCCESS_FEEDBACK_LOCK:
         SUCCESS_FEEDBACK = SUCCESS_FEEDBACK_DEFAULT
 
-    store_results(record_key, app, output_file, experiment, output_root, state_trajectory, success)
+    store_results(record_key, app, output_file, experiment, output_root, state_trajectory, success, time_to_complete)
 
 
 def main():
