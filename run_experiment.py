@@ -36,50 +36,80 @@ SUCCESS_FEEDBACK_DEFAULT: str = ""
 SUCCESS_FEEDBACK_LOCK = threading.Lock()
 SUCCESS_FEEDBACK: str = SUCCESS_FEEDBACK_DEFAULT
 
+GOAL_POSITIONS_LOCK = threading.Lock()
+GOAL_POSITIONS: Optional[np.ndarray] = None
+
 
 def parse_sim_state(text: str):
     """Try to deserialize JSON from text; return state tuple or None if invalid."""
-    global STATE_LOCK, STATE_LIST
-    try:
-        data = json.loads(text)
-        time = data["time"]
-        position = [data["position"]["x"], data["position"]["y"], data["position"]["z"]]
-        orientation = [
-            data["orientation"]["w"],
-            data["orientation"]["x"],
-            data["orientation"]["y"],
-            data["orientation"]["z"],
-        ]
-        linear_velocity = [
-            data["linear_velocity"]["vx"],
-            data["linear_velocity"]["vy"],
-            data["linear_velocity"]["vz"],
-        ]
-    except (json.JSONDecodeError, KeyError, TypeError):
-        pass
-    else:
-        with STATE_LOCK:
-            STATE_LIST.append((time, position, orientation, linear_velocity))
+    if text.startswith("robot:"):
+        text = text[len("robot:") :]
+        try:
+            data = json.loads(text)
+            time = data["time"]
+            position = [data["position"]["x"], data["position"]["y"], data["position"]["z"]]
+            orientation = [
+                data["orientation"]["w"],
+                data["orientation"]["x"],
+                data["orientation"]["y"],
+                data["orientation"]["z"],
+            ]
+            linear_velocity = [
+                data["linear_velocity"]["vx"],
+                data["linear_velocity"]["vy"],
+                data["linear_velocity"]["vz"],
+            ]
+        except (json.JSONDecodeError, KeyError, TypeError):
+            pass
+        else:
+            global STATE_LOCK, STATE_LIST
+            with STATE_LOCK:
+                STATE_LIST.append((time, position, orientation, linear_velocity))
+    elif text.startswith("goals:"):
+        text = text[len("goals:") :]
+        try:
+            data = json.loads(text)
+            positions = []
+            for key in data.keys():
+                pos = data[key]
+                positions.append([pos["x"], pos["y"], pos["z"]])
+            positions_array = np.array(positions)
+        except (json.JSONDecodeError, KeyError, TypeError) as e:
+            print("Failed to parse goal positions from sim output:", e)
+        else:
+            if np.size(positions_array) == 0:
+                return
+            global GOAL_POSITIONS_LOCK, GOAL_POSITIONS
+            with GOAL_POSITIONS_LOCK:
+                GOAL_POSITIONS = positions_array
 
 
 def print_line(line: str, prefix: str = ""):
     sys.stdout.write(f"{prefix}{line.strip()}\n")
 
 
-def success_monitor(goal_position: np.ndarray, success_distance_threshold: float):
-    global SUCCESS_FEEDBACK_LOCK, SUCCESS_FEEDBACK
+def success_monitor(success_distance_threshold: float):
+    global SUCCESS_FEEDBACK_LOCK, SUCCESS_FEEDBACK, GOAL_POSITIONS_LOCK, GOAL_POSITIONS, STATE_LOCK, STATE_LIST
     success_reported = False
     with SUCCESS_FEEDBACK_LOCK:
         if "SUCCESS" in SUCCESS_FEEDBACK:
             success_reported = True
 
+    goal_positions = None
+    with GOAL_POSITIONS_LOCK:
+        if GOAL_POSITIONS is not None:
+            goal_positions = np.array(GOAL_POSITIONS[:, :2])  # x, y
+
+    last_state = None
     with STATE_LOCK:
         if STATE_LIST:
             last_state = STATE_LIST[-1]
-            position = np.array(last_state[1][:2])  # x, y
-            distance = np.linalg.norm(position - goal_position)
-        else:
-            distance = float("inf")
+
+    distance = float("inf")
+    if goal_positions is not None and last_state is not None:
+        position = np.array(last_state[1][:2])  # x, y
+        distances = np.linalg.norm(goal_positions - position, axis=1)
+        distance = float(np.min(distances))
 
     return success_reported and distance < success_distance_threshold
 
@@ -156,7 +186,7 @@ class ProcessHandler:
                                 if self.mode == OutMode.CONSOLE:
                                     sys.stdout.write(f"{self.prefix}SUCCESS condition detected!\n")
                                     sys.stdout.flush()
-                        elif "FAILURE" in response: 
+                        elif "FAILURE" in response:
                             with SUCCESS_FEEDBACK_LOCK:
                                 SUCCESS_FEEDBACK = "FAILURE"
                             if self.mode == OutMode.CONSOLE:
@@ -366,18 +396,24 @@ def build_proccesses(
         raise ValueError(f"Unsupported app: {app}")
 
     issac_sim_options = []
-    if "asset" in experiment["goal"] and "position" in experiment["goal"]:
+    if "asset" in experiment["goal"]:
         asset = experiment["goal"]["asset"]
-        position = experiment["goal"]["position"]
-        theta = experiment["goal"].get("theta", 0.0)
-        issac_sim_options += [
-            "--asset",
-            str(asset),
-            str(position[0]),
-            str(position[1]),
-            str(position[2]),
-            str(theta),
-        ]
+        if "position" in experiment["goal"]:
+            position = experiment["goal"]["position"]
+            theta = experiment["goal"].get("theta", 0.0)
+            issac_sim_options += [
+                "--asset",
+                str(asset),
+                str(position[0]),
+                str(position[1]),
+                str(position[2]),
+                str(theta),
+            ]
+        else:
+            issac_sim_options += [
+                "--gasset",
+                str(asset),
+            ]
     processes = [
         {
             "name": "IsaacSim",
@@ -395,7 +431,7 @@ def build_proccesses(
             "cwd": "/home/benni/repos/stretch_isaac/",
             "color": COLORS["red"],
             "triggers": {},
-            "output": OutMode.DISABLED,
+            "output": OutMode.CONSOLE,
             "line_handlers": [parse_sim_state],
         },
     ]
@@ -404,7 +440,7 @@ def build_proccesses(
     output_dir = output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     do_explore = experiment["goal"]["task"] == "explore"
-    if not do_explore:
+    if "initialmap_experiment" in experiment:
         input_path = (
             output_root / app.lower() / Path(experiment.get("scene")).stem / experiment["initialmap_experiment"]
         )
@@ -442,10 +478,6 @@ def build_proccesses(
             }
             output_files += [str(output_dir), str(output_dir.with_suffix(".pkl"))]
         else:
-            options = [
-                "--input-path",
-                str(input_path),
-            ]
             triggers = {
                 "Enter desired mode [E (explore and mapping) / M (Open vocabulary pick and place)]": "M\n",
                 "Enter the target object:": f"{experiment['goal']['label']}\n",
@@ -454,6 +486,11 @@ def build_proccesses(
                 "Do you want to run picking? [Y/n]:": "SUCCESS\n",
                 "Do you want to run placement? [Y/n]:": "n\n",
             }
+        if input_path is not None:
+            options = [
+                "--input-path",
+                str(input_path),
+            ]
         processes += [
             {
                 "name": "Ros2BridgeServer",
@@ -482,7 +519,7 @@ def build_proccesses(
             },
         ]
     elif app.lower() == "perceivesemantix":
-        initial_scene_path = str(input_path) if not do_explore else '""'
+        initial_scene_path = str(input_path) if input_path is not None else '""'
         triggers = {15.0: "explore\n"} if do_explore else {15.0: f"{experiment['goal']['label']}\n"}
         triggers[" found at "] = "SUCCESS\n"
         output_files += [str(output_dir)]
@@ -591,6 +628,7 @@ def robot_has_moved(translation_threshold: float = 0.01, orientation_threshold: 
 
 
 def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict, output_root: Path):
+    global STATE_LOCK, STATE_LIST, GOAL_POSITIONS_LOCK, GOAL_POSITIONS, SUCCESS_FEEDBACK_LOCK, SUCCESS_FEEDBACK
     processes, log_files = build_proccesses(app, experiment, output_root)
 
     record_key = f"{experiment['name']}_{app.lower()}"
@@ -605,7 +643,9 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
 
     do_explore = experiment["goal"]["task"] == "explore"
     if not do_explore:
-        goal_position = np.array([experiment["goal"]["position"][0], experiment["goal"]["position"][1]])
+        if "goal" in experiment and "position" in experiment["goal"]:
+            with GOAL_POSITIONS_LOCK:
+                GOAL_POSITIONS = np.array([[experiment["goal"]["position"][0], experiment["goal"]["position"][1], 0.0],])
         success = False
     else:
         success = True  # exploration always "succeeds"
@@ -641,10 +681,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
             for handler in process_handlers:
                 handler.handle_time_triggers()
 
-            if not do_explore and success_monitor(
-                goal_position,
-                2.0,
-            ):
+            if not do_explore and success_monitor(2.0):
                 success = True
                 sys.stdout.write("Success condition met. Terminating processes.\n")
                 break
@@ -655,17 +692,19 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
         terminate_processes(running_processes, timeout=2)
         print("All processes terminated.")
 
-    # Store results
-    global STATE_LOCK, STATE_LIST
+    # Reset globals
     with STATE_LOCK:
         state_trajectory = STATE_LIST.copy()
         STATE_LIST.clear()
-
-    global SUCCESS_FEEDBACK_LOCK, SUCCESS_FEEDBACK
     with SUCCESS_FEEDBACK_LOCK:
         SUCCESS_FEEDBACK = SUCCESS_FEEDBACK_DEFAULT
+    with GOAL_POSITIONS_LOCK:
+        GOAL_POSITIONS = None
 
-    store_results(record_key, app, output_file, experiment, output_root, state_trajectory, success, time_to_complete, log_files)
+    # Store results
+    store_results(
+        record_key, app, output_file, experiment, output_root, state_trajectory, success, time_to_complete, log_files
+    )
 
 
 def main():
@@ -696,6 +735,7 @@ def main():
         for experiment in experiments["experiments"]:
             for app in args.app:
                 run_expriment(app, experiment, args.out_root)
+
 
 if __name__ == "__main__":
     main()

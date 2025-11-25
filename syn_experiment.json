@@ -1,0 +1,25 @@
+{
+    "experiments": [
+        {
+            "name": "kujiale_0004_explore",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "stage",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0
+        },
+        {
+            "name": "kujiale_0004_book",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "book",
+                "asset": "book"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore"
+        }
+    ]
+}

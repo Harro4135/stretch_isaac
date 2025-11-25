@@ -15,7 +15,7 @@ from isaacsim.core.api import World
 from isaacsim.core.utils import extensions
 from omni.isaac.core.articulations import Articulation
 from omni.isaac.core.utils.stage import add_reference_to_stage
-from pxr import Sdf, Usd, UsdGeom, Gf
+from pxr import Sdf, Usd, UsdGeom, Gf, PhysxSchema
 
 
 def switch_lighting(mode: Literal["camera", "stage"] = "camera"):
@@ -82,7 +82,7 @@ def dump_state(
             "vz": linear_velocity[2],
         },
     }
-    print(json.dumps(data))
+    print("robot:" + json.dumps(data))
 
 
 def dump_prim_position(prims: list[Usd.Prim]):
@@ -91,8 +91,8 @@ def dump_prim_position(prims: list[Usd.Prim]):
         xformable = UsdGeom.Xformable(prim)
         world_matrix = xformable.ComputeLocalToWorldTransform(Usd.TimeCode.Default())
         pos = world_matrix.ExtractTranslation()
-        data[prim.GetName()] = {"x": pos[0], "y": pos[1], "z": pos[2]}
-    print(json.dumps(data))
+        data[prim.GetName()] = {"x": round(pos[0], 2), "y": round(pos[1], 2), "z": round(pos[2], 2)}
+    print("goals:" + json.dumps(data))
 
 
 def parse_assets(raw_assets):
@@ -127,6 +127,18 @@ def set_prim_pose(prim, pos, theta):
     # rotate Z
     r_op = xform.AddRotateZOp()
     r_op.Set(float(theta))
+
+
+def disable_collision(root_prim: Usd.Prim):
+    for prim in Usd.PrimRange(root_prim):
+        collision_api = PhysxSchema.PhysxCollisionAPI.Apply(prim)
+        attr = collision_api.GetPrim().GetAttribute("physics:collisionEnabled")
+        if attr:
+            attr.Set(False)
+        # attr.Set(False)
+        # if not attr:
+        #     # Create it if missing
+        #     attr = collision_api.GetPrim().CreateAttribute("physics:collisionEnabled", Sdf.ValueTypeNames.Bool)
 
 
 def main(simulation_app):
@@ -173,9 +185,7 @@ def main(simulation_app):
     root_prim = "/map"
 
     world = World()
-    ground_plane = world.scene.add_ground_plane(prim_path=root_prim + "/defaultGroundPlane", z_position=0.05)
     if args.scene is not None:
-        hide_prim(world.stage, ground_plane.prim_path)
         switch_lighting(mode=args.lighting)
         _scene = add_reference_to_stage(usd_path=str(args.scene), prim_path=root_prim)
         hide_assets = get_toplevel_prims_substring(_scene, args.rasset)
@@ -184,8 +194,14 @@ def main(simulation_app):
             hide_prim(world.stage, str(prim.GetPath()))
 
         goal_assets = get_toplevel_prims_substring(_scene, [args.gasset]) if args.gasset is not None else []
+
+        # disable_collision(_scene)
     else:
         switch_lighting(mode="camera")
+
+    ground_plane = world.scene.add_ground_plane(prim_path=root_prim + "/defaultGroundPlane", z_position=0.05)
+    if args.scene is not None:
+        hide_prim(world.stage, ground_plane.prim_path)
 
     # load robot
     stretch_asset_path = "/home/benni/repos/stretch_isaac/importable_stretch_no_arm_collider.usd"
