@@ -15,7 +15,7 @@ from isaacsim.core.api import World
 from isaacsim.core.utils import extensions
 from omni.isaac.core.articulations import Articulation
 from omni.isaac.core.utils.stage import add_reference_to_stage
-from pxr import Sdf, Usd, UsdGeom
+from pxr import Sdf, Usd, UsdGeom, Gf
 
 
 def switch_lighting(mode: Literal["camera", "stage"] = "camera"):
@@ -85,11 +85,48 @@ def dump_state(
     print(json.dumps(data))
 
 
+def dump_prim_position(prims: list[Usd.Prim]):
+    data = {}
+    for prim in prims:
+        xformable = UsdGeom.Xformable(prim)
+        world_matrix = xformable.ComputeLocalToWorldTransform(Usd.TimeCode.Default())
+        pos = world_matrix.ExtractTranslation()
+        data[prim.GetName()] = {"x": pos[0], "y": pos[1], "z": pos[2]}
+    print(json.dumps(data))
+
+
 def parse_assets(raw_assets):
     assets = []
     for name, x, y, z, theta in raw_assets or []:
         assets.append((name, float(x), float(y), float(z), float(theta)))
     return assets
+
+
+def get_toplevel_prims_substring(search_root: Usd.Prim, prim_substring: list[str]) -> list[Usd.Prim]:
+    matched_prims = []
+    for prim in Usd.PrimRange(search_root):
+        prim_name = prim.GetName()
+        if any(
+            (substring in prim_name and substring not in str(prim.GetPath().GetParentPath()))
+            for substring in prim_substring
+        ):
+            matched_prims.append(prim)
+    return matched_prims
+
+
+def set_prim_pose(prim, pos, theta):
+    xform = UsdGeom.Xformable(prim)
+
+    # translate
+    ops = xform.GetOrderedXformOps()
+    t_op = next((op for op in ops if op.GetOpName() == "xformOp:translate"), None)
+    if t_op is None:
+        t_op = xform.AddTranslateOp()
+    t_op.Set(Gf.Vec3d(*pos))
+
+    # rotate Z
+    r_op = xform.AddRotateZOp()
+    r_op.Set(float(theta))
 
 
 def main(simulation_app):
@@ -115,6 +152,18 @@ def main(simulation_app):
         help="Asset definition: name x y z theta (in deg) (can be provided multiple times)",
         default=[],
     )
+    parser.add_argument(
+        "--rasset",
+        type=str,
+        help="Substring of assets to remove from the scene.",
+        nargs="*",
+        default=[],
+    )
+    parser.add_argument(
+        "--gasset",
+        type=str,
+        help="Goal assets to broadcast their position.",
+    )
     args = parser.parse_args()
     args.asset = parse_assets(args.asset)
 
@@ -129,6 +178,12 @@ def main(simulation_app):
         hide_prim(world.stage, ground_plane.prim_path)
         switch_lighting(mode=args.lighting)
         _scene = add_reference_to_stage(usd_path=str(args.scene), prim_path=root_prim)
+        hide_assets = get_toplevel_prims_substring(_scene, args.rasset)
+        for prim in hide_assets:
+            print(f"Hiding prim {prim.GetPath()}")
+            hide_prim(world.stage, str(prim.GetPath()))
+
+        goal_assets = get_toplevel_prims_substring(_scene, [args.gasset]) if args.gasset is not None else []
     else:
         switch_lighting(mode="camera")
 
@@ -143,23 +198,20 @@ def main(simulation_app):
             f"Adding asset '{name}' at position ({x}, {y}, {z}) with rotation {theta} and asset path '{asset_usd_path}'"
         )
         prim_asset = add_reference_to_stage(usd_path=str(asset_usd_path), prim_path=f"{root_prim}/{name}_{id}")
-        prim_asset.GetAttribute("xformOp:translate").Set((x, y, z))
-        xform = UsdGeom.Xformable(prim_asset)
-        xform.AddRotateZOp().Set(float(theta))
-
+        set_prim_pose(prim_asset, (x, y, z), theta)
     world.reset()
 
     stretch = Articulation(prim_path=str(prim_stretch.GetPath()) + "/stretch")
     stretch.initialize()
 
     print_pose_interval: int = 33
+    print_goal_interval: int = 110
     try:
         step_count = 0
         while simulation_app.is_running():
             world.step(render=True)  # execute one physics step and one rendering step
             step_count += 1
-            if step_count == print_pose_interval:
-                step_count = 0
+            if step_count % print_pose_interval == 0:
                 position: np.ndarray
                 orientation: np.ndarray
                 position, orientation = stretch.get_world_pose()
@@ -170,6 +222,10 @@ def main(simulation_app):
                     orientation.tolist(),
                     linear_velocity.tolist(),
                 )
+            if step_count % print_goal_interval == 0:
+                dump_prim_position(goal_assets)
+            if step_count > 1e4:
+                step_count = 0
     except KeyboardInterrupt:
         print("Exiting simulation...")
 
