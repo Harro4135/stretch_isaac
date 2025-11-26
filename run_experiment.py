@@ -292,6 +292,14 @@ def launch_processes(
 
         process_handlers.append(handler)
         running_processes.append(proc)
+
+        if p["name"] == "IsaacSim":
+            while True:
+                with STATE_LOCK:
+                    if len(STATE_LIST) > 0:
+                        break
+                print("Waiting for IsaacSim to start up...")
+                time.sleep(1.0)
     return running_processes, process_handlers
 
 
