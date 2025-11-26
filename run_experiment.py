@@ -421,6 +421,12 @@ def build_proccesses(
                 "--gasset",
                 str(asset),
             ]
+    if "remove_assets" in experiment:
+        for rasset in experiment["remove_assets"]:
+            issac_sim_options += [
+                "--rasset",
+                str(rasset),
+            ]
     processes = [
         {
             "name": "IsaacSim",

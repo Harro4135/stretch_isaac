@@ -3,11 +3,12 @@
         {
             "name": "kujiale_0004_explore",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
-            "lighting": "stage",
+            "lighting": "camera",
             "goal": {
                 "task": "explore"
             },
-            "max_runtime": 900.0
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament"]
         },
         {
             "name": "kujiale_0004_book",
@@ -19,7 +20,21 @@
                 "asset": "book"
             },
             "max_runtime": 300.0,
-            "initialmap_experiment": "kujiale_0004_explore"
+            "initialmap_experiment": "kujiale_0004_explore",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0004_bowl",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "bowl",
+                "asset": "bowl"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore",
+            "remove_assets": ["ornament"]
         }
     ]
 }
