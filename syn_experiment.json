@@ -35,6 +35,399 @@
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0004_explore",
             "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0004_laptop",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "laptop",
+                "asset": "office_supply"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0004_wineglass",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "wine glass",
+                "asset": "wine_set"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0004_plate",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "plate",
+                "asset": "tray"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore",
+            "remove_assets": ["ornament"]
+        },
+
+
+        {
+            "name": "kujiale_0004_explore-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament", "bowl", "book", "office_supply", "tray", "wine_set"]
+        },
+        {
+            "name": "kujiale_0004_book-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "book",
+                "asset": "book"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore-hidden",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0004_bowl-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "bowl",
+                "asset": "bowl"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore-hidden",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0004_laptop-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "laptop",
+                "asset": "office_supply"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore-hidden",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0004_wineglass-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "wine glass",
+                "asset": "wine_set"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore-hidden",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0004_plate-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "plate",
+                "asset": "tray"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore-hidden",
+            "remove_assets": ["ornament"]
+        },
+
+
+        {
+            "name": "kujiale_0008_explore",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0008_book",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "book",
+                "asset": "book"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0008_explore",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0008_bottle",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "bottle",
+                "asset": "wine_set_0006"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0008_explore",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0008_cookingpot",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "cooking pot",
+                "asset": "cookware"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0008_explore",
+            "remove_assets": ["ornament"]
+        },
+
+        {
+            "name": "kujiale_0008_explore-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament", "book", "wine_set", "cookware"]
+        },
+        {
+            "name": "kujiale_0008_book-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "book",
+                "asset": "book"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0008_explore-hidden",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0008_bottle-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "bottle",
+                "asset": "wine_set_0006"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0008_explore-hidden",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0008_cookingpot-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "cooking pot",
+                "asset": "cookware"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0008_explore-hidden",
+            "remove_assets": ["ornament"]
+        },
+
+
+        {
+            "name": "kujiale_0020_explore",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0020_bottle",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "bottle",
+                "asset": "bottle"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0020_explore",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0020_lamp",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "lamp",
+                "asset": "lamp"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0020_explore",
+            "remove_assets": ["ornament"]
+        },
+
+
+        {
+            "name": "kujiale_0020_explore-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament", "bottle", "lamp"]
+        },
+        {
+            "name": "kujiale_0020_bottle-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "bottle",
+                "asset": "bottle"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0020_explore-hidden",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0020_lamp-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "lamp",
+                "asset": "lamp"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0020_explore-hidden",
+            "remove_assets": ["ornament"]
+        },
+
+        {
+            "name": "kujiale_0021_explore",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0021_bowl",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "bowl",
+                "asset": "bowl"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0021_explore",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0021_cup",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "cup",
+                "asset": "cup"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0021_explore",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0021_book",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "book",
+                "asset": "book"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0021_explore",
+            "remove_assets": ["ornament"]
+        },
+
+        {
+            "name": "kujiale_0021_explore-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament", "bowl", "cup", "book"]
+        },
+        {
+            "name": "kujiale_0021_bowl-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "bowl",
+                "asset": "bowl"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0021_explore-hidden",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0021_cup-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "cup",
+                "asset": "cup"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0021_explore-hidden",
+            "remove_assets": ["ornament"]
+        },
+        {
+            "name": "kujiale_0021_book-hidden",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "book",
+                "asset": "book"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0021_explore-hidden",
+            "remove_assets": ["ornament"]
         }
     ]
 }
