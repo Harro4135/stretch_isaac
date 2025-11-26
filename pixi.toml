@@ -25,4 +25,5 @@ ROS_DISCOVERY_SERVER="127.0.0.1:14520"
 
 [pypi-dependencies]
 isaacsim = { version = "==5.1.0", extras = ["all", "extscache", "ros2"] }
+pexpect = ">=4.9.0, <5"
 
