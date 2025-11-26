@@ -11,7 +11,7 @@ import time
 from enum import Enum
 from typing import Any, Literal, Optional, Union
 
-import numpy as np
+import numpy as np  
 
 
 class OutMode(Enum):
@@ -245,9 +245,9 @@ def launch_processes(
     processes: dict[str, Any],
 ) -> tuple[list[subprocess.Popen], list[ProcessHandler]]:
     names = [p.get("name") for p in processes]
-    if "DynaMem" in names:
-        subprocess.run(["rm", "-r", "/home/benni/repos/stretch_ai/.pixi"], check=False)
-        print("Removed .pixi directory before launching DynaMem.")
+    # if "DynaMem" in names:
+    #     subprocess.run(["rm", "-r", "/home/benni/repos/stretch_ai/.pixi"], check=False)
+    #     print("Removed .pixi directory before launching DynaMem.")
 
     for p in processes:
         cwd = p.get("cwd")
@@ -312,6 +312,20 @@ def terminate_processes(procs, timeout=2):
             pass
     all_pids = pids + gpids
 
+    for id in all_pids:
+        try:
+            os.killpg(id, signal.SIGTERM)
+        except ProcessLookupError:
+            pass
+
+    # Wait for processes to exit gracefully
+    print("Waiting for processes to terminate...")
+    end_time = time.time() + timeout
+    for proc in procs:
+        while proc.poll() is None and time.time() < end_time:
+            time.sleep(0.05)
+
+    print("Sending SIGTERM again to ensure termination...")
     for id in all_pids:
         try:
             os.killpg(id, signal.SIGTERM)
@@ -398,7 +412,7 @@ def store_results(
 
 def build_proccesses(
     app: Literal["dynamem", "perceivesemantix"], experiment: dict, output_root: Path
-) -> list[dict[str, Any]]:
+) -> tuple[list[dict[str, Any]], list[Path]]:
     if app.lower() not in ["dynamem", "perceivesemantix"]:
         raise ValueError(f"Unsupported app: {app}")
 
@@ -444,7 +458,7 @@ def build_proccesses(
             "cwd": "/home/benni/repos/stretch_isaac/",
             "color": COLORS["red"],
             "triggers": {},
-            "output": OutMode.ERRORS_ONLY,
+            "output": OutMode.DISABLED,
             "line_handlers": [parse_sim_state],
         },
     ]
