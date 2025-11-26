@@ -244,11 +244,6 @@ class ProcessHandler:
 def launch_processes(
     processes: dict[str, Any],
 ) -> tuple[list[subprocess.Popen], list[ProcessHandler]]:
-    names = [p.get("name") for p in processes]
-    # if "DynaMem" in names:
-    #     subprocess.run(["rm", "-r", "/home/benni/repos/stretch_ai/.pixi"], check=False)
-    #     print("Removed .pixi directory before launching DynaMem.")
-
     for p in processes:
         cwd = p.get("cwd")
         if not cwd:
@@ -671,6 +666,11 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
     if check_existing_record(record_key, output_file):
         print(f"Experiment record '{record_key}' already exists. Skipping experiment.")
         return
+    
+    for p in processes:
+        cmd = ' '.join(p["cmd"])
+        cwd = str(p["cwd"])
+        print(f"\"{cmd}\", cwd = \"{cwd}\"")
 
     running_processes, process_handlers = launch_processes(processes)
     active_timeout: Optional[float] = experiment.get("max_runtime", None)
