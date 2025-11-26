@@ -17,6 +17,7 @@ import numpy as np
 class OutMode(Enum):
     CONSOLE = 0
     DISABLED = 1
+    ERRORS_ONLY = 2
 
 
 COLORS = {
@@ -87,6 +88,10 @@ def parse_sim_state(text: str):
 def print_line(line: str, prefix: str = ""):
     sys.stdout.write(f"{prefix}{line.strip()}\n")
 
+def print_error_line(line: str, prefix: str = ""):
+    if "error" in line.lower() or "exception" in line.lower():
+        sys.stdout.write(f"{prefix}{line.strip()}\n")
+
 
 def success_monitor(success_distance_threshold: float):
     global SUCCESS_FEEDBACK_LOCK, SUCCESS_FEEDBACK, GOAL_POSITIONS_LOCK, GOAL_POSITIONS, STATE_LOCK, STATE_LIST
@@ -140,6 +145,8 @@ class ProcessHandler:
         self.line_handler = line_handlers
         if self.mode == OutMode.CONSOLE:
             self.line_handler.append(lambda line: print_line(line, self.prefix))
+        elif self.mode == OutMode.ERRORS_ONLY:
+            self.line_handler.append(lambda line: print_error_line(line, self.prefix))
 
     def forward_output_and_handle_input(self):
         # Read raw bytes from the PTY master fd so prompts without newlines are shown
@@ -431,7 +438,7 @@ def build_proccesses(
             "cwd": "/home/benni/repos/stretch_isaac/",
             "color": COLORS["red"],
             "triggers": {},
-            "output": OutMode.CONSOLE,
+            "output": OutMode.ERRORS_ONLY,
             "line_handlers": [parse_sim_state],
         },
     ]
@@ -539,7 +546,7 @@ def build_proccesses(
                     "-p",
                     "image_rotations_clockwise:=1",
                     "-p",
-                    "occupancy_map/floor_height:=0.05",
+                    "occupancy_map/floor_height:=0.1",
                     "-p",
                     f"store_output:={str(do_explore)}",
                     "-p",
