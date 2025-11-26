@@ -514,7 +514,9 @@ def build_proccesses(
                 "Enter the target receptacle:": "table\n",
                 "Do you want to run navigation? [Y/n]:": "Y\n",
                 "Do you want to run picking? [Y/n]:": "SUCCESS\n",
-                "Do you want to run placement? [Y/n]:": "n\n",
+                "Do you want to run picking? [Y/n]": "n\n",
+                "Navigation Failure: Could not find": "FAILURE\n",
+                "Do you want to run placement? [Y/n]": "n\n",
             }
         if input_path is not None:
             options = [
