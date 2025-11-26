@@ -157,7 +157,7 @@
         {
             "name": "kujiale_0008_explore",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "explore"
             },
@@ -167,7 +167,7 @@
         {
             "name": "kujiale_0008_book",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "book",
@@ -180,7 +180,7 @@
         {
             "name": "kujiale_0008_bottle",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "bottle",
@@ -193,7 +193,7 @@
         {
             "name": "kujiale_0008_cookingpot",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "cooking pot",
@@ -207,7 +207,7 @@
         {
             "name": "kujiale_0008_explore-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "explore"
             },
@@ -217,7 +217,7 @@
         {
             "name": "kujiale_0008_book-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "book",
@@ -230,7 +230,7 @@
         {
             "name": "kujiale_0008_bottle-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "bottle",
@@ -243,7 +243,7 @@
         {
             "name": "kujiale_0008_cookingpot-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "cooking pot",
@@ -258,7 +258,7 @@
         {
             "name": "kujiale_0020_explore",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "explore"
             },
@@ -268,7 +268,7 @@
         {
             "name": "kujiale_0020_bottle",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "bottle",
@@ -281,7 +281,7 @@
         {
             "name": "kujiale_0020_lamp",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "lamp",
@@ -296,7 +296,7 @@
         {
             "name": "kujiale_0020_explore-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "explore"
             },
@@ -306,7 +306,7 @@
         {
             "name": "kujiale_0020_bottle-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "bottle",
@@ -319,7 +319,7 @@
         {
             "name": "kujiale_0020_lamp-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "lamp",
@@ -333,7 +333,7 @@
         {
             "name": "kujiale_0021_explore",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "explore"
             },
@@ -343,7 +343,7 @@
         {
             "name": "kujiale_0021_bowl",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "bowl",
@@ -356,7 +356,7 @@
         {
             "name": "kujiale_0021_cup",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "cup",
@@ -369,7 +369,7 @@
         {
             "name": "kujiale_0021_book",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "book",
@@ -383,7 +383,7 @@
         {
             "name": "kujiale_0021_explore-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "explore"
             },
@@ -393,7 +393,7 @@
         {
             "name": "kujiale_0021_bowl-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "bowl",
@@ -406,7 +406,7 @@
         {
             "name": "kujiale_0021_cup-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "cup",
@@ -419,7 +419,7 @@
         {
             "name": "kujiale_0021_book-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "book",
