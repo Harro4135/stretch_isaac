@@ -265,6 +265,7 @@ def launch_processes(
             preexec_fn=os.setsid,
             close_fds=True,
             text=False,
+            shell=p.get("shell", False),
         )
         try:
             os.close(slave_fd)
@@ -439,12 +440,21 @@ def build_proccesses(
                 str(asset),
             ]
     if "remove_assets" in experiment:
-        for rasset in experiment["remove_assets"]:
-            issac_sim_options += [
-                "--rasset",
-                str(rasset),
-            ]
+        if experiment["remove_assets"]:
+            if isinstance(experiment["remove_assets"], str):
+                experiment["remove_assets"] = [experiment["remove_assets"]]
+            if len(experiment["remove_assets"]) > 0:
+                issac_sim_options += ["--rasset"] + experiment["remove_assets"]
     processes = [
+        {
+            "name": "DiscoveryServer",
+            "cmd": ["fastdds discovery -i 0 -l 127.0.0.1 -p 14520"],
+            "cwd": "/home/benni/",
+            "color": COLORS["magenta"],
+            "triggers": {},
+            "output": OutMode.CONSOLE,
+            "shell": True,
+        },
         {
             "name": "IsaacSim",
             "cmd": [
@@ -668,6 +678,8 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
     if check_existing_record(record_key, output_file):
         print(f"Experiment record '{record_key}' already exists. Skipping experiment.")
         return
+    else:
+        print(f" ############################ Running experiment '{record_key}' ############################")
     
     for p in processes:
         cmd = ' '.join(p["cmd"])
@@ -765,11 +777,19 @@ def main():
         help="Root output folder for experiment results.",
         default=Path("/home/benni/datasets/sim_results"),
     )
+    parser.add_argument(
+        "--name",
+        type=str,
+        help="Name for the experiment run.",
+        default=None,
+    )
     args = parser.parse_args()
 
     for expirment_config in args.experiment_json:
         experiments: dict = json.loads(expirment_config.read_text())
         for experiment in experiments["experiments"]:
+            if args.name is not None and experiment["name"] != args.name:
+                continue
             for app in args.app:
                 run_expriment(app, experiment, args.out_root)
 
