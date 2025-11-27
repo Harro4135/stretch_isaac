@@ -506,6 +506,8 @@ def build_proccesses(
                 str(rel_out_dir),
                 "--explore-iter",
                 "10",
+                "--max-search-steps",
+                "4",
             ]
             # in exploration mode the map is not saved, so instead we search for an object (volcano) which is never present
             triggers = {
@@ -528,8 +530,12 @@ def build_proccesses(
                 "Navigation Failure: Could not find": "FAILURE\n",
                 "Do you want to run placement? [Y/n]": "n\n",
             }
-        if input_path is not None:
             options = [
+                "--max-search-steps",
+                "30",
+            ]
+        if input_path is not None:
+            options += [
                 "--input-path",
                 str(input_path),
             ]
@@ -681,6 +687,10 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
     else:
         print(f" ############################ Running experiment '{record_key}' ############################")
     
+    print("Making sure FASTDDS is not running...")
+    subprocess.run("ps aux | grep discovery | grep -v grep | awk '{print $2}' | xargs kill", shell=True, check=False)
+    time.sleep(1.0)
+
     for p in processes:
         cmd = ' '.join(p["cmd"])
         cwd = str(p["cwd"])
