@@ -11,7 +11,7 @@ import time
 from enum import Enum
 from typing import Any, Literal, Optional, Union
 
-import numpy as np  
+import numpy as np
 
 
 class OutMode(Enum):
@@ -41,12 +41,42 @@ GOAL_POSITIONS_LOCK = threading.Lock()
 GOAL_POSITIONS: Optional[np.ndarray] = None
 
 
-def parse_sim_state(text: str):
+class BufferClass:
+    def __init__(self, max_size: int = 4096):
+        self.data = ""
+        self.max_size = max_size
+
+    def cut(self):
+        if len(self.data) > self.max_size:
+            self.data = self.data[-self.max_size :]
+
+    @staticmethod
+    def last_tag(buffer: str, tag: str) -> Optional[tuple[int, int]]:
+        end_tag = f"</{tag}>"
+        start_tag = f"<{tag}>"
+
+        end = buffer.rfind(end_tag)
+        if end == -1:
+            return None
+
+        start = buffer.rfind(start_tag, 0, end)
+        if start == -1:
+            return None
+
+        return start, end + len(end_tag)
+
+
+def parse_sim_state(text: str, buffer: BufferClass):
     """Try to deserialize JSON from text; return state tuple or None if invalid."""
-    if text.startswith("robot:"):
-        text = text[len("robot:") :]
+    buffer.data += text
+    buffer.cut()
+
+    last_robot_tag = BufferClass.last_tag(buffer.data, "robot")
+    last_goals_tag = BufferClass.last_tag(buffer.data, "goals")
+    if last_robot_tag is not None:
+        robot_text = buffer.data[last_robot_tag[0] + len("<robot>") : last_robot_tag[1] - len("</robot>")]
         try:
-            data = json.loads(text)
+            data = json.loads(robot_text)
             time = data["time"]
             position = [data["position"]["x"], data["position"]["y"], data["position"]["z"]]
             orientation = [
@@ -66,10 +96,11 @@ def parse_sim_state(text: str):
             global STATE_LOCK, STATE_LIST
             with STATE_LOCK:
                 STATE_LIST.append((time, position, orientation, linear_velocity))
-    elif text.startswith("goals:"):
-        text = text[len("goals:") :]
+
+    if last_goals_tag is not None:
+        goals_text = buffer.data[last_goals_tag[0] + len("<goals>") : last_goals_tag[1] - len("</goals>")]
         try:
-            data = json.loads(text)
+            data = json.loads(goals_text)
             positions = []
             for key in data.keys():
                 pos = data[key]
@@ -84,9 +115,18 @@ def parse_sim_state(text: str):
             with GOAL_POSITIONS_LOCK:
                 GOAL_POSITIONS = positions_array
 
+    if last_robot_tag is not None or last_goals_tag is not None:
+        # Remove processed data from buffer
+        last_end = max(
+            last_robot_tag[1] if last_robot_tag is not None else 0,
+            last_goals_tag[1] if last_goals_tag is not None else 0,
+        )
+        buffer.data = buffer.data[last_end:]
+
 
 def print_line(line: str, prefix: str = ""):
     sys.stdout.write(f"{prefix}{line.strip()}\n")
+
 
 def print_error_line(line: str, prefix: str = ""):
     if "error" in line.lower() or "exception" in line.lower():
@@ -445,6 +485,7 @@ def build_proccesses(
                 experiment["remove_assets"] = [experiment["remove_assets"]]
             if len(experiment["remove_assets"]) > 0:
                 issac_sim_options += ["--rasset"] + experiment["remove_assets"]
+    issac_sim_parse_buffer = BufferClass()
     processes = [
         {
             "name": "DiscoveryServer",
@@ -472,7 +513,7 @@ def build_proccesses(
             "color": COLORS["red"],
             "triggers": {},
             "output": OutMode.DISABLED,
-            "line_handlers": [parse_sim_state],
+            "line_handlers": [lambda x: parse_sim_state(x, issac_sim_parse_buffer)],
         },
     ]
 
@@ -505,13 +546,13 @@ def build_proccesses(
                 "--output-path",
                 str(rel_out_dir),
                 "--explore-iter",
-                "10",
-                "--max-search-steps",
                 "4",
+                "--max-search-steps",
+                "1",
             ]
             # in exploration mode the map is not saved, so instead we search for an object (volcano) which is never present
             triggers = {
-                "Enter desired mode [E (explore and mapping) / M (Open vocabulary pick and place)]": "M\n",
+                "Enter desired mode [E (explore and mapping) / M (Open vocabulary pick and place)]": "E\n",
                 "Enter the target object:": "volcano\n",
                 "Enter the target receptacle:": "volcano\n",
                 "Do you want to run navigation? [Y/n]:": "Y\n",
@@ -686,25 +727,29 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
         return
     else:
         print(f" ############################ Running experiment '{record_key}' ############################")
-    
+
     print("Making sure FASTDDS is not running...")
     subprocess.run("ps aux | grep discovery | grep -v grep | awk '{print $2}' | xargs kill", shell=True, check=False)
     time.sleep(1.0)
 
     for p in processes:
-        cmd = ' '.join(p["cmd"])
+        cmd = " ".join(p["cmd"])
         cwd = str(p["cwd"])
-        print(f"\"{cmd}\", cwd = \"{cwd}\"")
+        print(f'"{cmd}", cwd = "{cwd}"')
 
     running_processes, process_handlers = launch_processes(processes)
     active_timeout: Optional[float] = experiment.get("max_runtime", None)
-    total_timeout: Optional[float] = (active_timeout + 120.0) if active_timeout is not None else None
+    total_timeout: Optional[float] = (active_timeout + 180.0) if active_timeout is not None else None
 
     do_explore = experiment["goal"]["task"] == "explore"
     if not do_explore:
         if "goal" in experiment and "position" in experiment["goal"]:
             with GOAL_POSITIONS_LOCK:
-                GOAL_POSITIONS = np.array([[experiment["goal"]["position"][0], experiment["goal"]["position"][1], 0.0],])
+                GOAL_POSITIONS = np.array(
+                    [
+                        [experiment["goal"]["position"][0], experiment["goal"]["position"][1], 0.0],
+                    ]
+                )
         success = False
     else:
         success = True  # exploration always "succeeds"
