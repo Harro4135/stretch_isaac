@@ -358,6 +358,13 @@ def terminate_processes(procs, timeout=2):
 
     for id in all_pids:
         try:
+            os.killpg(id, signal.SIGINT)
+        except ProcessLookupError:
+            pass
+
+    time.sleep(1.0)
+    for id in all_pids:
+        try:
             os.killpg(id, signal.SIGTERM)
         except ProcessLookupError:
             pass
@@ -739,7 +746,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
 
     running_processes, process_handlers = launch_processes(processes)
     active_timeout: Optional[float] = experiment.get("max_runtime", None)
-    total_timeout: Optional[float] = (active_timeout + 180.0) if active_timeout is not None else None
+    total_timeout: Optional[float] = (active_timeout + 5 * 60.0) if active_timeout is not None else None
 
     do_explore = experiment["goal"]["task"] == "explore"
     if not do_explore:
