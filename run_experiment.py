@@ -432,6 +432,7 @@ def store_results(
     experiment: dict,
     output_root: Path,
     path_length: float,
+    state_array: np.ndarray,
     success: bool,
     time_to_complete: float,
     log_files: list[Path],
@@ -460,7 +461,7 @@ def store_results(
         data.append(new_record)
         with open(output_file, "w") as f:
             json.dump(data, f, indent=2)
-        np.save(state_file, arr)
+        np.save(state_file, state_array)
     else:
         print(f"Experiment record '{record}' already exists in results file.")
 
@@ -830,15 +831,15 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
         GOAL_POSITIONS = None
 
     # Compute path length
-    arr = np.array(
+    state_array = np.array(
         [[time] + pos + ori + vel for time, pos, ori, vel in state_trajectory],
         dtype=float,
     )
-    path_length = np.linalg.norm(np.diff(arr[:, 1:3], axis=0), axis=1).sum()
+    path_length = np.linalg.norm(np.diff(state_array[:, 1:3], axis=0), axis=1).sum()
 
     # Store results
     store_results(
-        record_key, app, output_file, experiment, output_root, path_length, success, time_to_complete, log_files
+        record_key, app, output_file, experiment, output_root, path_length, state_array, success, time_to_complete, log_files
     )
 
     if app == "dynamem" and len(log_files) > 0:
