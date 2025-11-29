@@ -438,6 +438,7 @@ def store_results(
     log_files: list[Path],
 ):
     state_file = output_root / f"{record}_state_trajectory.npy"
+    log_files = list(log_files)
     log_files += [state_file]
 
     try:
@@ -497,6 +498,12 @@ def build_proccesses(
                 experiment["remove_assets"] = [experiment["remove_assets"]]
             if len(experiment["remove_assets"]) > 0:
                 issac_sim_options += ["--rasset"] + experiment["remove_assets"]
+    if "exclude_remove_assets" in experiment:
+        if experiment["exclude_remove_assets"]:
+            if isinstance(experiment["exclude_remove_assets"], str):
+                experiment["exclude_remove_assets"] = [experiment["exclude_remove_assets"]]
+            if len(experiment["exclude_remove_assets"]) > 0:
+                issac_sim_options += ["--rasset-exclude"] + experiment["exclude_remove_assets"]
     issac_sim_parse_buffer = BufferClass()
     processes = [
         {
@@ -807,12 +814,12 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
                 sys.stdout.write("Success condition met. Terminating processes.\n")
                 break
         
-        regular_exit = False
         exit_codes = [proc.poll() for proc in running_processes]
         for exit_code, proc, handler in zip(exit_codes, running_processes, process_handlers):
             if exit_code is None:
                 continue
             print(f"Process {handler.name} exited with code {exit_code}. Something went wrong.")
+            regular_exit = False
       
     except KeyboardInterrupt:
         print("\nStopping processes...")
@@ -844,7 +851,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
 
     if app == "dynamem" and len(log_files) > 0:
         # check that pkl can be loaded
-        out_pkl = log_files[0]
+        out_pkl = log_files[-1]
         try:
             with open(out_pkl, "rb") as f:
                 _data = pickle.load(f)
