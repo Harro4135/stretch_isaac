@@ -10,6 +10,7 @@ import threading
 import time
 from enum import Enum
 from typing import Any, Literal, Optional, Union
+import pickle
 
 import numpy as np
 
@@ -430,7 +431,7 @@ def store_results(
     output_file: Path,
     experiment: dict,
     output_root: Path,
-    state_trajectory: list,
+    path_length: float,
     success: bool,
     time_to_complete: float,
     log_files: list[Path],
@@ -443,13 +444,6 @@ def store_results(
             data = json.load(f)
     except FileNotFoundError:
         data = []
-
-    # Convert list of tuples to a 2D NumPy array
-    arr = np.array(
-        [[time] + pos + ori + vel for time, pos, ori, vel in state_trajectory],
-        dtype=float,
-    )
-    path_length = np.linalg.norm(np.diff(arr[:, 1:3], axis=0), axis=1).sum()
 
     new_record = {
         "name": record,
@@ -835,10 +829,32 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
     with GOAL_POSITIONS_LOCK:
         GOAL_POSITIONS = None
 
+    # Compute path length
+    arr = np.array(
+        [[time] + pos + ori + vel for time, pos, ori, vel in state_trajectory],
+        dtype=float,
+    )
+    path_length = np.linalg.norm(np.diff(arr[:, 1:3], axis=0), axis=1).sum()
+
     # Store results
     store_results(
-        record_key, app, output_file, experiment, output_root, state_trajectory, success, time_to_complete, log_files
+        record_key, app, output_file, experiment, output_root, path_length, success, time_to_complete, log_files
     )
+
+    if app == "dynamem" and len(log_files) > 0:
+        # check that pkl can be loaded
+        out_pkl = log_files[0]
+        try:
+            with open(out_pkl, "rb") as f:
+                _data = pickle.load(f)
+        except Exception as e:
+            print(f"Failed to load dynamem output pkl file '{out_pkl}': {e}")
+            regular_exit = False
+    
+    if path_length < 0.4:
+        print(f"Robot did not move enough (path length {path_length:.3f}m < 0.4m). Likely something went wrong.")
+        regular_exit = False
+
     return regular_exit
 
 
