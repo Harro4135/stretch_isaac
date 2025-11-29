@@ -35,13 +35,27 @@
             "max_runtime": 900.0
         },
         {
+            "name": "00801-HaxA7YrQdEC_keyboard",
+            "scene": "/home/benni/datasets/hm3d-minival-glb-v0.2/00801-HaxA7YrQdEC/HaxA7YrQdEC_collision.usd",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "keyboard",
+                "position": [3.7186, 0.2136, 0.4905],
+                "theta": 0,
+                "asset": "/home/benni/datasets/computer_keyboard.usd"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "00801-HaxA7YrQdEC_explore"
+        },
+        {
             "name": "00801-HaxA7YrQdEC_cup",
             "scene": "/home/benni/datasets/hm3d-minival-glb-v0.2/00801-HaxA7YrQdEC/HaxA7YrQdEC_collision.usd",
             "lighting": "camera",
             "goal": {
                 "task": "search",
                 "label": "cup",
-                "position": [-2.55, 1.84, 0.91],
+                "position": [-1.61756, 0.26453, 0.89626],
                 "theta": -90,
                 "asset": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/Mugs/SM_Mug_D1.usd"
             },
@@ -83,15 +97,29 @@
             "max_runtime": 900.0
         },
         {
-            "name": "00804-BHXhpBwSMLh_cup",
+            "name": "00804-BHXhpBwSMLh_wateringcan",
             "scene": "/home/benni/datasets/hm3d-minival-glb-v0.2/00804-BHXhpBwSMLh/BHXhpBwSMLh_collision.usd",
             "lighting": "camera",
             "goal": {
                 "task": "search",
-                "label": "cup",
-                "position": [15.57266, -2.70003, 0.75185],
+                "label": "watering can",
+                "position": [5.56876, 5.16812, 0.40129],
                 "theta": 0,
-                "asset": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/Mugs/SM_Mug_C1.usd"
+                "asset": "/home/benni/datasets/wateringcan_2.usd"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "00804-BHXhpBwSMLh_explore"
+        },
+        {
+            "name": "00804-BHXhpBwSMLh_keyboard",
+            "scene": "/home/benni/datasets/hm3d-minival-glb-v0.2/00804-BHXhpBwSMLh/BHXhpBwSMLh_collision.usd",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "keyboard",
+                "position": [1.65545, 6.8386, 0.48469],
+                "theta": 0,
+                "asset": "/home/benni/datasets/computer_keyboard.usd"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "00804-BHXhpBwSMLh_explore"
@@ -108,15 +136,15 @@
             "max_runtime": 900.0
         },
         {
-            "name": "00805-SUHsP6z2gcJ_cup",
+            "name": "00805-SUHsP6z2gcJ_plate",
             "scene": "/home/benni/datasets/hm3d-minival-glb-v0.2/00805-SUHsP6z2gcJ/SUHsP6z2gcJ_collision.usd",
             "lighting": "camera",
             "goal": {
                 "task": "search",
-                "label": "cup",
+                "label": "plate",
                 "position": [8.33141, -0.388, 0.92837],
                 "theta": 0,
-                "asset": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/Mugs/SM_Mug_C1.usd"
+                "asset": "/home/benni/datasets/plate.usd"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "00805-SUHsP6z2gcJ_explore"

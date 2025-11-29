@@ -333,7 +333,7 @@
         {
             "name": "kujiale_0021_explore",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "stage",
+            "lighting": "camera",
             "goal": {
                 "task": "explore"
             },
@@ -343,7 +343,7 @@
         {
             "name": "kujiale_0021_bowl",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "stage",
+            "lighting": "camera",
             "goal": {
                 "task": "search",
                 "label": "bowl",
@@ -356,7 +356,7 @@
         {
             "name": "kujiale_0021_cup",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "stage",
+            "lighting": "camera",
             "goal": {
                 "task": "search",
                 "label": "cup",
@@ -369,7 +369,7 @@
         {
             "name": "kujiale_0021_book",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "stage",
+            "lighting": "camera",
             "goal": {
                 "task": "search",
                 "label": "book",
@@ -383,7 +383,7 @@
         {
             "name": "kujiale_0021_explore-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "stage",
+            "lighting": "camera",
             "goal": {
                 "task": "explore"
             },
@@ -393,7 +393,7 @@
         {
             "name": "kujiale_0021_bowl-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "stage",
+            "lighting": "camera",
             "goal": {
                 "task": "search",
                 "label": "bowl",
@@ -406,7 +406,7 @@
         {
             "name": "kujiale_0021_cup-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "stage",
+            "lighting": "camera",
             "goal": {
                 "task": "search",
                 "label": "cup",
@@ -419,7 +419,7 @@
         {
             "name": "kujiale_0021_book-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "stage",
+            "lighting": "camera",
             "goal": {
                 "task": "search",
                 "label": "book",
