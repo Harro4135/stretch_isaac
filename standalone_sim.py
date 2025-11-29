@@ -82,7 +82,7 @@ def dump_state(
             "vz": linear_velocity[2],
         },
     }
-    print("robot:" + json.dumps(data))
+    print("<robot>" + json.dumps(data) + "</robot>")
 
 
 def dump_prim_position(prims: list[Usd.Prim]):
@@ -92,7 +92,7 @@ def dump_prim_position(prims: list[Usd.Prim]):
         world_matrix = xformable.ComputeLocalToWorldTransform(Usd.TimeCode.Default())
         pos = world_matrix.ExtractTranslation()
         data[prim.GetName()] = {"x": round(pos[0], 2), "y": round(pos[1], 2), "z": round(pos[2], 2)}
-    print("goals:" + json.dumps(data))
+    print("<goals>" + json.dumps(data) + "</goals>")
 
 
 def parse_assets(raw_assets):
@@ -102,12 +102,19 @@ def parse_assets(raw_assets):
     return assets
 
 
-def get_toplevel_prims_substring(search_root: Usd.Prim, prim_substring: list[str]) -> list[Usd.Prim]:
+def get_toplevel_prims_substring(search_root: Usd.Prim, prim_substring: list[str], references_only: bool = False) -> list[Usd.Prim]:
     matched_prims = []
     for prim in Usd.PrimRange(search_root):
         prim_name = prim.GetName()
+
+        has_payload = prim.HasPayload()
+        has_reference = prim.HasAuthoredReferences()
+        valid = (not references_only) or (has_reference or has_payload)
+        if has_payload or has_reference:
+            print(f"{prim_name}: payload={has_payload}, reference={has_reference}")
+
         if any(
-            (substring in prim_name and substring not in str(prim.GetPath().GetParentPath()))
+            (valid and substring in prim_name and substring not in str(prim.GetPath().GetParentPath()))
             for substring in prim_substring
         ):
             matched_prims.append(prim)
@@ -174,7 +181,7 @@ def main(simulation_app):
     parser.add_argument(
         "--gasset",
         type=str,
-        help="Goal assets to broadcast their position.",
+        help="Goal assets to broadcast their position. Goal assets are also not removed from the scene even if they match rasset.",
     )
     args = parser.parse_args()
     args.asset = parse_assets(args.asset)
@@ -189,8 +196,11 @@ def main(simulation_app):
     if args.scene is not None:
         print(f"Loading scene from {args.scene}")
         _scene = add_reference_to_stage(usd_path=str(args.scene), prim_path=root_prim + "/scene" )
-        hide_assets = get_toplevel_prims_substring(_scene, args.rasset)
+        hide_assets = get_toplevel_prims_substring(_scene, args.rasset, True)
         for prim in hide_assets:
+            if args.gasset is not None and args.gasset in prim.GetName():
+                print(f"Skipping hiding goal prim {prim.GetPath()}")
+                continue
             print(f"Hiding prim {prim.GetPath()}")
             hide_prim(world.stage, str(prim.GetPath()))
 
