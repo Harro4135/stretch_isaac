@@ -413,6 +413,16 @@ def check_existing_record(record: str, output_file: Path) -> bool:
 
     return any(d.get("name") == record for d in data)
 
+def delete_existing_record(record: str, output_file: Path) -> None:
+    try:
+        with open(output_file, "r") as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        return
+
+    data = [d for d in data if d.get("name") != record]
+    with open(output_file, "w") as f:
+        json.dump(data, f, indent=2)
 
 def store_results(
     record: str,
@@ -723,19 +733,23 @@ def robot_has_moved(translation_threshold: float = 0.01, orientation_threshold: 
     return position_change > translation_threshold or angular_change > np.deg2rad(orientation_threshold)
 
 
-def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict, output_root: Path):
+def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict, output_root: Path, overwrite: bool = False) -> bool:
     global STATE_LOCK, STATE_LIST, GOAL_POSITIONS_LOCK, GOAL_POSITIONS, SUCCESS_FEEDBACK_LOCK, SUCCESS_FEEDBACK
     processes, log_files = build_proccesses(app, experiment, output_root)
 
     record_key = f"{experiment['name']}_{app.lower()}"
     output_file = output_root / "experiments_results.json"
     if check_existing_record(record_key, output_file):
-        print(f"Experiment record '{record_key}' already exists. Skipping experiment.")
-        return
-    else:
-        print(f" ############################ Running experiment '{record_key}' ############################")
-
+        if overwrite:
+            print(f"Experiment record '{record_key}' already exists. Overwriting as requested.")
+            delete_existing_record(record_key, output_file)
+        else:
+            print(f"Experiment record '{record_key}' already exists. Skipping experiment.")
+            return True
+    
+    print(f" ############################ Running experiment '{record_key}' ############################")
     print("Making sure FASTDDS is not running...")
+
     subprocess.run("ps aux | grep discovery | grep -v grep | awk '{print $2}' | xargs kill", shell=True, check=False)
     time.sleep(1.0)
 
@@ -747,6 +761,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
     running_processes, process_handlers = launch_processes(processes)
     active_timeout: Optional[float] = experiment.get("max_runtime", None)
     total_timeout: Optional[float] = (active_timeout + 5 * 60.0) if active_timeout is not None else None
+    regular_exit = True
 
     do_explore = experiment["goal"]["task"] == "explore"
     if not do_explore:
@@ -768,7 +783,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
 
     # Wait for all to finish
     try:
-        while any([proc.poll() is None for proc in running_processes]):
+        while all([proc.poll() is None for proc in running_processes]):
             time.sleep(0.1)
 
             # If max runtime was provided, start watcher thread
@@ -796,6 +811,14 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
                 success = True
                 sys.stdout.write("Success condition met. Terminating processes.\n")
                 break
+        
+        regular_exit = False
+        exit_codes = [proc.poll() for proc in running_processes]
+        for exit_code, proc, handler in zip(exit_codes, running_processes, process_handlers):
+            if exit_code is None:
+                continue
+            print(f"Process {handler.name} exited with code {exit_code}. Something went wrong.")
+      
     except KeyboardInterrupt:
         print("\nStopping processes...")
     finally:
@@ -816,6 +839,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
     store_results(
         record_key, app, output_file, experiment, output_root, state_trajectory, success, time_to_complete, log_files
     )
+    return regular_exit
 
 
 def main():
@@ -845,6 +869,12 @@ def main():
         help="Name for the experiment run.",
         default=None,
     )
+    parser.add_argument(
+        "--max-attempts",
+        type=int,
+        help="Maximum number of attempts to run the experiment.",
+        default=2,
+    )
     args = parser.parse_args()
 
     for expirment_config in args.experiment_json:
@@ -853,7 +883,14 @@ def main():
             if args.name is not None and experiment["name"] != args.name:
                 continue
             for app in args.app:
-                run_expriment(app, experiment, args.out_root)
+                overwrite = False
+                for _attempt in range(args.max_attempts):
+                    regular_exit = run_expriment(app, experiment, args.out_root, overwrite=overwrite)
+                    if regular_exit:
+                        break
+                    else:
+                        print(f"Experiment '{experiment['name']}' with app '{app}' did not exit regularly.")
+                        overwrite = True
 
 
 if __name__ == "__main__":
