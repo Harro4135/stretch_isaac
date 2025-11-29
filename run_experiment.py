@@ -583,7 +583,7 @@ def build_proccesses(
             triggers = {
                 "Enter desired mode [E (explore and mapping) / M (Open vocabulary pick and place)]": "M\n",
                 "Enter the target object:": f"{experiment['goal']['label']}\n",
-                "Enter the target receptacle:": "table\n",
+                "Enter the target receptacle:": f"{experiment['goal']['label']}\n",
                 "Do you want to run navigation? [Y/n]:": "Y\n",
                 "Do you want to run picking? [Y/n]:": "SUCCESS\n",
                 "Do you want to run picking? [Y/n]": "n\n",
