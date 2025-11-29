@@ -1,35 +1,59 @@
 from pathlib import Path
 import argparse
 import json
+from typing import Optional
+
+import matplotlib.pyplot as plt
+
+def select_experiments(data, app_name: Optional[str] = None, name_filter: list[str] = [], exclusive_name: list[str] = [], success: Optional[bool] = None):
+    if app_name:
+        data = [exp for exp in data if exp['app'] == app_name]
+    if name_filter:
+        data = [exp for exp in data if any(nf in exp['experiment']['name'] for nf in name_filter)]
+    if exclusive_name:
+        data = [exp for exp in data if all(en not in exp['experiment']['name'] for en in exclusive_name)]
+    if success is not None:
+        data = [exp for exp in data if exp['success'] == success]
+    return data
 
 def main(file: Path):
     # Load data from .json file
     with open(file, 'r') as f:
         data = json.load(f)
 
-    experiments_dynamem = [exp for exp in data if exp['app'] == 'dynamem']
-    experiments_ours = [exp for exp in data if exp['app'] == 'perceivesemantix']
+    for exp in data:
+        if exp["path_length"] < 1.0:
+            print(f"Warning: Experiment {exp['name']} has path length {exp['path_length']}")
 
-    experiments_dynamem_search_known = [exp for exp in experiments_dynamem if "asset" not in exp["experiment"]["goal"]]
-    experiments_ours_search_known = [exp for exp in experiments_ours if "asset" not in exp["experiment"]["goal"]]
-    success_dynamem = [exp for exp in experiments_dynamem_search_known if exp["success"]]
-    success_ours = [exp for exp in experiments_ours_search_known if exp["success"]]
-    success_rates_dynamem = len(success_dynamem) / len(experiments_dynamem_search_known) if experiments_dynamem_search_known else 0
-    success_rates_ours = len(success_ours) / len(experiments_ours_search_known) if experiments_ours_search_known else 0
+    known_dynamem_experiments = len(select_experiments(data, app_name='dynamem', exclusive_name=['hidden', 'explore']))
+    known_dynamem_success_rates = len(select_experiments(data, app_name='dynamem', exclusive_name=['hidden', 'explore'], success=True)) / known_dynamem_experiments if known_dynamem_experiments > 0 else 0
 
-    experiments_dynamem_search_novel = [exp for exp in experiments_dynamem if "asset" in exp["experiment"]["goal"]]
-    experiments_ours_search_novel = [exp for exp in experiments_ours if "asset" in exp["experiment"]["goal"]]
-    success_dynamem = [exp for exp in experiments_dynamem_search_novel if exp["success"]]
-    success_ours = [exp for exp in experiments_ours_search_novel if exp["success"]]
-    success_rates_dynamem_novel = len(success_dynamem) / len(experiments_dynamem_search_novel) if experiments_dynamem_search_novel else 0
-    success_rates_ours_novel = len(success_ours) / len(experiments_ours_search_novel) if experiments_ours_search_novel else 0
+    known_ours_experiments = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore']))
+    known_ours_success_rates = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore'], success=True)) / known_ours_experiments if known_ours_experiments > 0 else 0
 
 
-    print(f"Dynamem Success Rates {success_rates_dynamem:.2f} over {len(experiments_dynamem_search_known)} trials")
-    print(f"Ours Success Rates {success_rates_ours:.2f} over {len(experiments_ours_search_known)} trials")
+    novel_dynamem_experiments = len(select_experiments(data, app_name='dynamem', name_filter=['hidden'], exclusive_name=['explore']))
+    novel_dynamem_success_rates = len(select_experiments(data, app_name='dynamem', name_filter=['hidden'], exclusive_name=['explore'], success=True)) / novel_dynamem_experiments if novel_dynamem_experiments > 0 else 0
+    
+    novel_ours_experiments = len(select_experiments(data, app_name='perceivesemantix', name_filter=['hidden'], exclusive_name=['explore']))
+    novel_ours_success_rates = len(select_experiments(data, app_name='perceivesemantix', name_filter=['hidden'], exclusive_name=['explore'], success=True)) / novel_ours_experiments if novel_ours_experiments > 0 else 0
 
-    print(f"Dynamem Success Rates {success_rates_dynamem_novel:.2f} over {len(experiments_dynamem_search_novel)} trials")
-    print(f"Ours Success Rates {success_rates_ours_novel:.2f} over {len(experiments_ours_search_novel)} trials")
+
+    print(f"Dynamem Success Rates {known_dynamem_success_rates:.2f} over {known_dynamem_experiments} trials")
+    print(f"Ours Success Rates {known_ours_success_rates:.2f} over {known_ours_experiments} trials")
+
+    print(f"Dynamem Success Rates {novel_dynamem_success_rates:.2f} over {novel_dynamem_experiments} trials")
+    print(f"Ours Success Rates {novel_ours_success_rates:.2f} over {novel_ours_experiments} trials")
+
+    plt.bar(
+        ['Known Dynamem', 'Known Ours', 'Novel Dynamem', 'Novel Ours'],
+        [known_dynamem_success_rates, known_ours_success_rates, novel_dynamem_success_rates, novel_ours_success_rates],
+        color=['blue', 'orange', 'blue', 'orange']
+    )
+    plt.ylim(0, 1)
+    plt.ylabel('Success Rate')
+    plt.title('Simulation Success Rates')
+    plt.show()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Plot simulation results from a .npz file.")
