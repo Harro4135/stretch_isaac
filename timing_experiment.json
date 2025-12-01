@@ -1,7 +1,7 @@
 {
     "experiments": [
         {
-            "name": "kujiale_0004_explore-cpu",
+            "name": "kujiale_0004_explore-2-cpu",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
             "lighting": "camera",
             "goal": {
