@@ -5,8 +5,8 @@ from numpy.polynomial import Polynomial
 import numpy as np
 
 def main():
-    pkl_file = "/home/benni/datasets/timing_experiment/perceivesemantix/kujiale_0004/kujiale_0004_explore/timer_logs.pkl"
-    pkl_file = "/home/benni/datasets/timing_experiment/perceivesemantix/kujiale_0004/kujiale_0004_explore-cpu/timer_logs.pkl"
+    pkl_file = "/home/benni/datasets/timing_experiment/perceivesemantix/kujiale_0004/kujiale_0004_explore-2/timer_logs.pkl"
+    pkl_file = "/home/benni/datasets/timing_experiment/perceivesemantix/kujiale_0004/kujiale_0004_explore-2-cpu/timer_logs.pkl"
     with open(pkl_file, 'rb') as f:
         data = pickle.load(f)
 
