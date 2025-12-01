@@ -809,7 +809,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
             for handler in process_handlers:
                 handler.handle_time_triggers()
 
-            if not do_explore and success_monitor(2.0):
+            if not do_explore and success_monitor(1.0):
                 success = True
                 sys.stdout.write("Success condition met. Terminating processes.\n")
                 break
