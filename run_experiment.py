@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import pty
+import shutil
 import signal
 import subprocess
 import sys
@@ -851,13 +852,39 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
 
     if app == "dynamem" and len(log_files) > 0:
         # check that pkl can be loaded
-        out_pkl = log_files[-1]
-        try:
-            with open(out_pkl, "rb") as f:
-                _data = pickle.load(f)
-        except Exception as e:
-            print(f"Failed to load dynamem output pkl file '{out_pkl}': {e}")
+        standard_pkl = Path(log_files[-1])
+        out_pkls = [standard_pkl.with_suffix(".0.pkl"), standard_pkl.with_suffix(".1.pkl")]
+        out_pkls_loadable = [False, False]
+        for i, pkl in enumerate(out_pkls):
+            try:
+                with open(pkl, "rb") as f:
+                    _data = pickle.load(f)
+                out_pkls_loadable[i] = True
+            except Exception as e:
+                print(f"Failed to load dynamem output pkl file '{pkl}': {e}")
+
+        if not any(out_pkls_loadable):
+            print(f"Failed to load dynamem output pkl files '{out_pkls[0]}' and '{out_pkls[1]}'")
             regular_exit = False
+
+        # get newest loadable pkl by modification time
+        newest_pkl = None
+        newest_mtime = 0.0
+        for i, pkl in enumerate(out_pkls):
+            if out_pkls_loadable[i]:
+                mtime = pkl.stat().st_mtime
+                if mtime > newest_mtime:
+                    newest_mtime = mtime
+                    newest_pkl = pkl
+        if newest_pkl is not None:
+            # rename this file to standard output pkl name and delete the other one
+            if newest_pkl != standard_pkl:
+                shutil.move(newest_pkl, standard_pkl)
+                print(f"Renamed dynamem output pkl file '{newest_pkl}' to standard output name '{standard_pkl}'")
+            for pkl in out_pkls:
+                if pkl != newest_pkl and pkl.exists():
+                    pkl.unlink()
+                    print(f"Deleted unused dynamem output pkl file '{pkl}'")
     
     if path_length < 0.4:
         print(f"Robot did not move enough (path length {path_length:.3f}m < 0.4m). Likely something went wrong.")
