@@ -179,9 +179,16 @@ def main(simulation_app):
         default=[],
     )
     parser.add_argument(
+        "--rasset-exclude",
+        type=str,
+        help="Substring of assets to exclude from removal even if they match rasset.",
+        nargs="*",
+        default=[],
+    )
+    parser.add_argument(
         "--gasset",
         type=str,
-        help="Goal assets to broadcast their position. Goal assets are also not removed from the scene even if they match rasset.",
+        help="Goal assets to broadcast their position.",
     )
     args = parser.parse_args()
     args.asset = parse_assets(args.asset)
@@ -198,8 +205,8 @@ def main(simulation_app):
         _scene = add_reference_to_stage(usd_path=str(args.scene), prim_path=root_prim + "/scene" )
         hide_assets = get_toplevel_prims_substring(_scene, args.rasset, True)
         for prim in hide_assets:
-            if args.gasset is not None and args.gasset in prim.GetName():
-                print(f"Skipping hiding goal prim {prim.GetPath()}")
+            if any(exclude in prim.GetName() for exclude in args.rasset_exclude):
+                print(f"Excluding prim {prim.GetPath()} from hiding")
                 continue
             print(f"Hiding prim {prim.GetPath()}")
             hide_prim(world.stage, str(prim.GetPath()))

@@ -1,0 +1,206 @@
+{
+    "experiments": [
+        {
+            "name": "kujiale_0004_explore_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament", "book", "bowl", "tray", "wine_set"],
+            "exclude_remove_assets": ["book_0010", "bowl_0004", "tray_0002", "wine_set_0001" ]
+        },
+        {
+            "name": "kujiale_0004_book_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "book",
+                "asset": "book_0011",
+                "shortest_path": 2.4986
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore_moved",
+            "remove_assets": ["ornament", "book", "bowl", "tray", "wine_set"],
+            "exclude_remove_assets": ["book_0011"]
+        },
+        {
+            "name": "kujiale_0004_bowl_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "bowl",
+                "asset": "bowl_0000",
+                "shortest_path": 4.691
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore_moved",
+            "remove_assets": ["ornament", "book", "bowl", "tray", "wine_set"],
+            "exclude_remove_assets": ["bowl_0000"]
+        },
+        {
+            "name": "kujiale_0004_wineglass_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "wine glass",
+                "asset": "wine_set_0002",
+                "shortest_path": 5.6
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore_moved",
+            "remove_assets": ["ornament", "book", "bowl", "tray", "wine_set"],
+            "exclude_remove_assets": ["wine_set_0002"]
+        },
+        {
+            "name": "kujiale_0004_plate_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "plate",
+                "asset": "tray_0001",
+                "shortest_path": 4.77487
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0004_explore_moved",
+            "remove_assets": ["ornament", "book", "bowl", "tray", "wine_set"],
+            "exclude_remove_assets": ["tray_0001"]
+        },
+
+
+        {
+            "name": "kujiale_0008_explore_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "stage",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament", "book", "cookware", "plate", "lamp"],
+            "exclude_remove_assets": ["book_0008", "cookware_0000", "plate_0001"]
+        },
+        {
+            "name": "kujiale_0008_book_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "stage",
+            "goal": {
+                "task": "search",
+                "label": "book",
+                "asset": "book_0001",
+                "shortest_path": 9.84
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0008_explore_moved",
+            "remove_assets": ["ornament", "book", "cookware", "plate", "lamp"],
+            "exclude_remove_assets": ["book_0001"]
+        },
+        {
+            "name": "kujiale_0008_cookingpot_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "stage",
+            "goal": {
+                "task": "search",
+                "label": "cooking pot",
+                "asset": "cookware_0001",
+                "shortest_path": 3.538
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0008_explore_moved",
+            "remove_assets": ["ornament", "book", "cookware", "plate", "lamp"],
+            "exclude_remove_assets": ["cookware_0001"]
+        },
+        {
+            "name": "kujiale_0008_plate_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "stage",
+            "goal": {
+                "task": "search",
+                "label": "plate",
+                "asset": "plate_0021",
+                "shortest_path": 1.09462
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0008_explore_moved",
+            "remove_assets": ["ornament", "book", "cookware", "plate", "lamp"],
+            "exclude_remove_assets": ["plate_0021"]
+        },
+        {
+            "name": "kujiale_0008_plate_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+            "lighting": "stage",
+            "goal": {
+                "task": "search",
+                "label": "lamp",
+                "asset": "lamp_0000",
+                "shortest_path": 5.73812
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0008_explore_moved",
+            "remove_assets": ["ornament", "book", "cookware", "plate", "lamp"],
+            "exclude_remove_assets": ["lamp_0000"]
+        },
+
+
+        {
+            "name": "kujiale_0020_explore_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+            "lighting": "stage",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament", "bottle", "flower", "cup"],
+            "exclude_remove_assets": ["bottle_0012", "flower_0003", "cup_0003"]
+        },
+        {
+            "name": "kujiale_0020_bottle_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+            "lighting": "stage",
+            "goal": {
+                "task": "search",
+                "label": "bottle",
+                "asset": "bottle_0010",
+                "shortest_path": 5.8263
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0020_explore_moved",
+            "remove_assets": ["ornament", "bottle", "flower"],
+            "exclude_remove_assets": ["bottle_0010"]
+        },
+        {
+            "name": "kujiale_0020_potted-plant_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+            "lighting": "stage",
+            "goal": {
+                "task": "search",
+                "label": "potted plant",
+                "asset": "flower_0000",
+                "shortest_path": 3.38663
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0020_explore_moved",
+            "remove_assets": ["ornament", "bottle", "flower"],
+            "exclude_remove_assets": ["flower_0000"]
+        },
+        {
+            "name": "kujiale_0020_cup_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+            "lighting": "stage",
+            "goal": {
+                "task": "search",
+                "label": "cup",
+                "asset": "cup_0004",
+                "shortest_path": 2.93628
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0020_explore_moved",
+            "remove_assets": ["ornament", "bottle", "flower", "cup"],
+            "exclude_remove_assets": ["cup_0004"]
+        }
+   ]
+}
