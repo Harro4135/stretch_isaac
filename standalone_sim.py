@@ -198,11 +198,12 @@ def main(simulation_app):
 
     root_prim = "/map"
 
-    world = World()
     goal_assets = []
     if args.scene is not None:
         print(f"Loading scene from {args.scene}")
-        _scene = add_reference_to_stage(usd_path=str(args.scene), prim_path=root_prim + "/scene" )
+        omni.usd.get_context().open_stage(str(args.scene))
+        world = World()
+        _scene = world.stage.GetPrimAtPath("/Root")
         hide_assets = get_toplevel_prims_substring(_scene, args.rasset, True)
         for prim in hide_assets:
             if any(exclude in prim.GetName() for exclude in args.rasset_exclude):
@@ -221,8 +222,8 @@ def main(simulation_app):
     if args.scene is not None:
         hide_prim(world.stage, ground_plane.prim_path)
 
-    print(f"Setting lighting mode to {args.lighting}")
-    switch_lighting(mode=args.lighting)
+    # print(f"Setting lighting mode to {args.lighting}")
+    # switch_lighting(mode=args.lighting)
 
     # load robot
     stretch_asset_path = "/home/benni/repos/stretch_isaac/importable_stretch_no_arm_collider.usd"
