@@ -37,19 +37,6 @@
             "remove_assets": ["ornament"]
         },
         {
-            "name": "kujiale_0004_laptop",
-            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
-            "lighting": "camera",
-            "goal": {
-                "task": "search",
-                "label": "laptop",
-                "asset": "office_supply"
-            },
-            "max_runtime": 300.0,
-            "initialmap_experiment": "kujiale_0004_explore",
-            "remove_assets": ["ornament"]
-        },
-        {
             "name": "kujiale_0004_wineglass",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
             "lighting": "camera",
@@ -114,19 +101,6 @@
             "remove_assets": ["ornament"]
         },
         {
-            "name": "kujiale_0004_laptop-hidden",
-            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
-            "lighting": "camera",
-            "goal": {
-                "task": "search",
-                "label": "laptop",
-                "asset": "office_supply"
-            },
-            "max_runtime": 300.0,
-            "initialmap_experiment": "kujiale_0004_explore-hidden",
-            "remove_assets": ["ornament"]
-        },
-        {
             "name": "kujiale_0004_wineglass-hidden",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
             "lighting": "camera",
@@ -178,19 +152,6 @@
             "remove_assets": ["ornament"]
         },
         {
-            "name": "kujiale_0008_bottle",
-            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
-            "lighting": "stage",
-            "goal": {
-                "task": "search",
-                "label": "bottle",
-                "asset": "wine_set_0006"
-            },
-            "max_runtime": 300.0,
-            "initialmap_experiment": "kujiale_0008_explore",
-            "remove_assets": ["ornament"]
-        },
-        {
             "name": "kujiale_0008_cookingpot",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
             "lighting": "stage",
@@ -222,19 +183,6 @@
                 "task": "search",
                 "label": "book",
                 "asset": "book"
-            },
-            "max_runtime": 300.0,
-            "initialmap_experiment": "kujiale_0008_explore-hidden",
-            "remove_assets": ["ornament"]
-        },
-        {
-            "name": "kujiale_0008_bottle-hidden",
-            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
-            "lighting": "stage",
-            "goal": {
-                "task": "search",
-                "label": "bottle",
-                "asset": "wine_set_0006"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0008_explore-hidden",
@@ -570,19 +518,6 @@
             "remove_assets": ["ornament", "cosmetic"]
         },
         {
-            "name": "kujiale_0024_toilet",
-            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
-            "lighting": "camera",
-            "goal": {
-                "task": "search",
-                "label": "toilet",
-                "asset": "closestool"
-            },
-            "max_runtime": 300.0,
-            "initialmap_experiment": "kujiale_0024_explore",
-            "remove_assets": ["ornament", "cosmetic"]
-        },
-        {
             "name": "kujiale_0024_washingmachine",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
             "lighting": "camera",
@@ -631,19 +566,6 @@
             },
             "max_runtime": 900.0,
             "remove_assets": ["ornament", "cosmetic", "washing_machine", "closestool", "book", "cup"]
-        },
-        {
-            "name": "kujiale_0024_toilet-hidden",
-            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
-            "lighting": "camera",
-            "goal": {
-                "task": "search",
-                "label": "toilet",
-                "asset": "closestool"
-            },
-            "max_runtime": 300.0,
-            "initialmap_experiment": "kujiale_0024_explore-hidden",
-            "remove_assets": ["ornament", "cosmetic"]
         },
         {
             "name": "kujiale_0024_washingmachine-hidden",
@@ -722,19 +644,6 @@
             "initialmap_experiment": "kujiale_0026_explore",
             "remove_assets": ["ornament", "menorah"]
         },
-        {
-            "name": "kujiale_0026_wine_glass",
-            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
-            "lighting": "camera",
-            "goal": {
-                "task": "search",
-                "label": "wine glass",
-                "asset": "wine_set"
-            },
-            "max_runtime": 300.0,
-            "initialmap_experiment": "kujiale_0026_explore",
-            "remove_assets": ["ornament", "menorah"]
-        },
 
 
         {
@@ -768,19 +677,6 @@
                 "task": "search",
                 "label": "plate",
                 "asset": "plate"
-            },
-            "max_runtime": 300.0,
-            "initialmap_experiment": "kujiale_0026_explore-hidden",
-            "remove_assets": ["ornament", "menorah"]
-        },
-        {
-            "name": "kujiale_0026_wine_glass-hidden",
-            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
-            "lighting": "camera",
-            "goal": {
-                "task": "search",
-                "label": "wine glass",
-                "asset": "wine_set"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0026_explore-hidden",
