@@ -3,10 +3,12 @@
 import argparse
 import json
 from pathlib import Path
-from typing import Literal, Union
+from typing import Literal, Optional, Union
 
+from matplotlib import pyplot as plt
 import numpy as np
 from isaacsim import SimulationApp
+from multi_dijkstra import MultiDijkstra
 
 app = SimulationApp({"headless": False})  # we can also run as headless.
 
@@ -16,6 +18,97 @@ from isaacsim.core.utils import extensions
 from omni.isaac.core.articulations import Articulation
 from omni.isaac.core.utils.stage import add_reference_to_stage
 from pxr import Sdf, Usd, UsdGeom, Gf, PhysxSchema
+import omni
+import carb
+
+
+def compute_occupancy_map(
+    root_prim_path: str, resolution: float, width_m: float, height_m: float, z_min: float, z_max: float
+) -> np.ndarray:
+    """
+    Computes a 2D occupancy map under the given root prim.
+    Uses fixed grid size (width, height) and cell resolution.
+    Returns a numpy bool array.
+    """
+    stage = omni.usd.get_context().get_stage()
+    root = stage.GetPrimAtPath(root_prim_path)
+
+    if not root.IsValid():
+        raise ValueError(f"Invalid prim path: {root_prim_path}")
+
+    # Root AABB (only to determine map center)
+    bbox = UsdGeom.Boundable(root).ComputeWorldBound(0, "default").GetRange()
+    # bbox_size = bbox.GetMax() - bbox.GetMin()  # Gf.Vec3f
+    width = int(np.ceil(width_m / resolution))
+    height = int(np.ceil(height_m / resolution))
+
+    center = (bbox.GetMin() + bbox.GetMax()) * 0.5
+
+    xs = center[0] + (np.arange(width) * resolution - width * resolution * 0.5)
+    ys = center[1] + (np.arange(height) * resolution - height * resolution * 0.5)
+
+    occ = np.zeros((width, height))
+
+    physx = omni.physx.get_physx_scene_query_interface()
+
+    def on_hit(hit):
+        return True
+
+    for ix, x in enumerate(xs):
+        for iy, y in enumerate(ys):
+            num_hits = physx.overlap_box(
+                carb.Float3(resolution * 0.5, resolution * 0.5, (z_max - z_min) / 2),
+                carb.Float3(x, y, (z_min + z_max) / 2),
+                carb.Float4(1.0, 0.0, 0.0, 0.0),
+                on_hit,
+                True,
+            )
+            if num_hits > 0:
+                occ[ix, iy] = 1
+
+    occ[0, :] = 0
+
+    return occ, xs, ys
+
+
+def get_shortest_path_to_prims(
+    prims: list[Usd.Prim],
+    start_position: np.ndarray = np.zeros(2),
+    resolution: float = 0.1,
+    map_width: float = 20.0,
+    map_height: float = 20.0,
+    z_min: float = 0.2,
+    z_max: float = 1.8,
+    visualize: bool = False,
+) -> Optional[float]:
+    if len(prims) == 0:
+        return None
+    goal_positions = dump_prim_position(prims, print_output=False)
+    occupancy_map, x, y = compute_occupancy_map(
+        root_prim_path="/Root", resolution=resolution, width_m=map_width, height_m=map_height, z_min=z_min, z_max=z_max
+    )
+    multi_dijkstra = MultiDijkstra(
+        occupancy_map.T, resolution=resolution, origin=np.array([x[0], y[0]]), approx_downsample_resolution=None
+    )
+    _costs, dists, paths = multi_dijkstra.get_min_distance_to_goals(start_position, goal_positions[:, :2])
+    i = np.argmin(dists)
+    dist = dists[i]
+    path = paths[i]
+    print(f"Computed shorted path with distance {dist}")
+
+    if visualize:
+        X, Y = np.meshgrid(x, y, indexing="ij")
+        plt.pcolormesh(X, Y, 1 - occupancy_map, cmap="gray", shading="auto")
+        plt.scatter(start_position[0], start_position[1], c="green", marker="o", label="Start")
+        plt.scatter(goal_positions[:, 0], goal_positions[:, 1], c="red", marker="x", label="Goals")
+        plt.plot(path[:, 0], path[:, 1], c="blue", linewidth=2, label="Path")
+        plt.gca().set_aspect("equal")
+        plt.title("Occupancy Map")
+        plt.xlabel("X")
+        plt.ylabel("Y")
+        plt.show()
+
+    return dist
 
 
 def switch_lighting(mode: Literal["camera", "stage"] = "camera"):
@@ -85,14 +178,20 @@ def dump_state(
     print("<robot>" + json.dumps(data) + "</robot>")
 
 
-def dump_prim_position(prims: list[Usd.Prim]):
+def dump_prim_position(prims: list[Usd.Prim], shortest_distance: Optional[float] = None, print_output: bool = True) -> np.ndarray:
+    positions = np.ndarray((len(prims), 3))
     data = {}
-    for prim in prims:
+    for i, prim in enumerate(prims):
         xformable = UsdGeom.Xformable(prim)
         world_matrix = xformable.ComputeLocalToWorldTransform(Usd.TimeCode.Default())
         pos = world_matrix.ExtractTranslation()
         data[prim.GetName()] = {"x": round(pos[0], 2), "y": round(pos[1], 2), "z": round(pos[2], 2)}
-    print("<goals>" + json.dumps(data) + "</goals>")
+        positions[i, :] = [pos[0], pos[1], pos[2]]
+    if shortest_distance is not None:
+        data["shortest_distance"] = round(shortest_distance, 2)
+    if print_output:
+        print("<goals>" + json.dumps(data) + "</goals>")
+    return positions
 
 
 def parse_assets(raw_assets):
@@ -102,7 +201,9 @@ def parse_assets(raw_assets):
     return assets
 
 
-def get_toplevel_prims_substring(search_root: Usd.Prim, prim_substring: list[str], references_only: bool = False) -> list[Usd.Prim]:
+def get_toplevel_prims_substring(
+    search_root: Usd.Prim, prim_substring: list[str], references_only: bool = False
+) -> list[Usd.Prim]:
     matched_prims = []
     for prim in Usd.PrimRange(search_root):
         prim_name = prim.GetName()
@@ -199,6 +300,7 @@ def main(simulation_app):
     root_prim = "/map"
 
     goal_assets = []
+    shortest_goal_distance = None
     if args.scene is not None:
         print(f"Loading scene from {args.scene}")
         omni.usd.get_context().open_stage(str(args.scene))
@@ -214,6 +316,13 @@ def main(simulation_app):
 
         print(f"Searching for goal assets with substring: {args.gasset}")
         goal_assets = get_toplevel_prims_substring(_scene, [args.gasset]) if args.gasset is not None else []
+
+        print("Computing shortest path to goals...")
+        world.reset()
+        shortest_goal_distance = get_shortest_path_to_prims(goal_assets)
+        if shortest_goal_distance is not None:
+            shortest_goal_distance -= 1.5 # viewing distance offset
+            print(f"Shortest distance to goal assets (with offset): {round(shortest_goal_distance, 2)}")
 
         print(f"Disabling collision for scene {_scene.GetPath()}")
         disable_collision(_scene)
@@ -261,7 +370,7 @@ def main(simulation_app):
                     linear_velocity.tolist(),
                 )
             if step_count % print_goal_interval == 0:
-                dump_prim_position(goal_assets)
+                dump_prim_position(goal_assets, shortest_goal_distance)
             if step_count > 1e4:
                 step_count = 0
     except KeyboardInterrupt:

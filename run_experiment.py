@@ -42,6 +42,9 @@ SUCCESS_FEEDBACK: str = SUCCESS_FEEDBACK_DEFAULT
 GOAL_POSITIONS_LOCK = threading.Lock()
 GOAL_POSITIONS: Optional[np.ndarray] = None
 
+GOAL_SHORTEST_DISTANCE_LOCK = threading.Lock()
+GOAL_SHORTEST_DISTANCE: Optional[float] = None
+
 
 class BufferClass:
     def __init__(self, max_size: int = 4096):
@@ -104,9 +107,13 @@ def parse_sim_state(text: str, buffer: BufferClass):
         try:
             data = json.loads(goals_text)
             positions = []
+            shortest_distance = None
             for key in data.keys():
-                pos = data[key]
-                positions.append([pos["x"], pos["y"], pos["z"]])
+                if key == "shortest_distance":
+                    shortest_distance = data[key]
+                else:
+                    pos = data[key]
+                    positions.append([pos["x"], pos["y"], pos["z"]])
             positions_array = np.array(positions)
         except (json.JSONDecodeError, KeyError, TypeError) as e:
             print("Failed to parse goal positions from sim output:", e)
@@ -116,6 +123,9 @@ def parse_sim_state(text: str, buffer: BufferClass):
             global GOAL_POSITIONS_LOCK, GOAL_POSITIONS
             with GOAL_POSITIONS_LOCK:
                 GOAL_POSITIONS = positions_array
+            global GOAL_SHORTEST_DISTANCE_LOCK, GOAL_SHORTEST_DISTANCE
+            with GOAL_SHORTEST_DISTANCE_LOCK:
+                GOAL_SHORTEST_DISTANCE = shortest_distance
 
     if last_robot_tag is not None or last_goals_tag is not None:
         # Remove processed data from buffer
@@ -437,6 +447,7 @@ def store_results(
     success: bool,
     time_to_complete: float,
     log_files: list[Path],
+    goal_shortest_distance: Optional[float] = None,
 ):
     state_file = output_root / f"{record}_state_trajectory.npy"
     log_files = list(log_files)
@@ -459,6 +470,9 @@ def store_results(
         "log_files": [str(log_file) for log_file in log_files],
     }
 
+    if goal_shortest_distance is not None:
+        new_record["goal_shortest_distance"] = goal_shortest_distance
+
     if not any(d.get("name") == new_record.get("name") for d in data):
         data.append(new_record)
         with open(output_file, "w") as f:
@@ -469,9 +483,9 @@ def store_results(
 
 
 def build_proccesses(
-    app: Literal["dynamem", "perceivesemantix"], experiment: dict, output_root: Path
+    app: Literal["dynamem", "perceivesemantix", "random"], experiment: dict, output_root: Path
 ) -> tuple[list[dict[str, Any]], list[Path]]:
-    if app.lower() not in ["dynamem", "perceivesemantix"]:
+    if app.lower() not in ["dynamem", "perceivesemantix", "random"]:
         raise ValueError(f"Unsupported app: {app}")
 
     issac_sim_options = []
@@ -542,12 +556,13 @@ def build_proccesses(
     output_dir.mkdir(parents=True, exist_ok=True)
     do_explore = experiment["goal"]["task"] == "explore"
     if "initialmap_experiment" in experiment:
+        input_app = app.lower() if app.lower() != "random" else "perceivesemantix"
         input_path = (
-            output_root / app.lower() / Path(experiment.get("scene")).stem / experiment["initialmap_experiment"]
+            output_root / input_app / Path(experiment.get("scene")).stem / experiment["initialmap_experiment"]
         )
         if app.lower() == "dynamem":
             input_path = input_path.with_suffix(".pkl")
-        elif app.lower() == "perceivesemantix":
+        elif app.lower() == "perceivesemantix" or app.lower() == "random":
             input_path = input_path / "output"
             input_file = latest_pkl(input_path)
             if input_file is None:
@@ -627,9 +642,10 @@ def build_proccesses(
                 "output": OutMode.CONSOLE,
             },
         ]
-    elif app.lower() == "perceivesemantix":
+    elif app.lower() == "perceivesemantix" or app.lower() == "random":
         initial_scene_path = str(input_path) if input_path is not None else '""'
-        triggers = {15.0: "explore\n"} if do_explore else {15.0: f"{experiment['goal']['label']}\n"}
+        prefix = "random_" if app.lower() == "random" else ""
+        triggers = {15.0: "explore\n"} if do_explore else {15.0: f"{prefix}{experiment['goal']['label']}\n"}
         triggers[" found at "] = "SUCCESS\n"
         output_files += [str(output_dir)]
         processes += [
@@ -737,7 +753,7 @@ def robot_has_moved(translation_threshold: float = 0.01, orientation_threshold: 
 
 
 def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict, output_root: Path, overwrite: bool = False) -> bool:
-    global STATE_LOCK, STATE_LIST, GOAL_POSITIONS_LOCK, GOAL_POSITIONS, SUCCESS_FEEDBACK_LOCK, SUCCESS_FEEDBACK
+    global STATE_LOCK, STATE_LIST, GOAL_POSITIONS_LOCK, GOAL_POSITIONS, SUCCESS_FEEDBACK_LOCK, SUCCESS_FEEDBACK, GOAL_SHORTEST_DISTANCE_LOCK, GOAL_SHORTEST_DISTANCE
     processes, log_files = build_proccesses(app, experiment, output_root)
 
     record_key = f"{experiment['name']}_{app.lower()}"
@@ -810,7 +826,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
             for handler in process_handlers:
                 handler.handle_time_triggers()
 
-            if not do_explore and success_monitor(1.0):
+            if not do_explore and success_monitor(1.5):
                 success = True
                 sys.stdout.write("Success condition met. Terminating processes.\n")
                 break
@@ -837,6 +853,9 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
         SUCCESS_FEEDBACK = SUCCESS_FEEDBACK_DEFAULT
     with GOAL_POSITIONS_LOCK:
         GOAL_POSITIONS = None
+    with GOAL_SHORTEST_DISTANCE_LOCK:
+        goal_shortest_distance = GOAL_SHORTEST_DISTANCE
+        GOAL_SHORTEST_DISTANCE = None
 
     # Compute path length
     state_array = np.array(
@@ -847,7 +866,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
 
     # Store results
     store_results(
-        record_key, app, output_file, experiment, output_root, path_length, state_array, success, time_to_complete, log_files
+        record_key, app, output_file, experiment, output_root, path_length, state_array, success, time_to_complete, log_files, goal_shortest_distance=goal_shortest_distance
     )
 
     if app == "dynamem" and len(log_files) > 0:
@@ -904,7 +923,7 @@ def main():
     parser.add_argument(
         "--app",
         type=str,
-        choices=["dynamem", "perceivesemantix"],
+        choices=["dynamem", "perceivesemantix", "random"],
         nargs="+",
         help="One or more apps to run (e.g. --app dynamem perceivesemantix)",
     )
@@ -934,6 +953,10 @@ def main():
             if args.name is not None and experiment["name"] != args.name:
                 continue
             for app in args.app:
+                if experiment["goal"]["task"] == "explore" and app.lower() == "random":
+                    print("Skipping 'random' app for exploration task.")
+                    continue
+
                 overwrite = False
                 for _attempt in range(args.max_attempts):
                     regular_exit = run_expriment(app, experiment, args.out_root, overwrite=overwrite)
