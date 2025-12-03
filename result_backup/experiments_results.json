@@ -3497,5 +3497,599 @@
       "/home/benni/datasets/sim_results_syn_new/kujiale_0004_book-hidden_perceivesemantix_state_trajectory.npy"
     ],
     "goal_shortest_distance": 1.73
+  },
+  {
+    "name": "kujiale_0022_explore_dynamem",
+    "app": "dynamem",
+    "experiment": {
+      "name": "kujiale_0022_explore",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0022_explore_dynamem_state_trajectory.npy",
+    "time_to_complete": 348.8649253845215,
+    "path_length": 12.681317725137408,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/dynamem/kujiale_0022/kujiale_0022_explore",
+      "/home/benni/datasets/sim_results_syn_new/dynamem/kujiale_0022/kujiale_0022_explore.pkl",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0022_explore_dynamem_state_trajectory.npy"
+    ]
+  },
+  {
+    "name": "kujiale_0022_knife_dynamem",
+    "app": "dynamem",
+    "experiment": {
+      "name": "kujiale_0022_knife",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "knife",
+        "asset": "knife"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0022_knife_dynamem_state_trajectory.npy",
+    "time_to_complete": 300.0894584655762,
+    "path_length": 10.35303660817349,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0022_knife_dynamem_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 1.96
+  },
+  {
+    "name": "kujiale_0022_knife_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0022_knife",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "knife",
+        "asset": "knife"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0022_knife_random_state_trajectory.npy",
+    "time_to_complete": 300.0923182964325,
+    "path_length": 19.64185280210014,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0022/kujiale_0022_knife",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0022_knife_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 1.96
+  },
+  {
+    "name": "kujiale_0022_cup_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0022_cup",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "cup"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0022_cup_random_state_trajectory.npy",
+    "time_to_complete": 4.913162469863892,
+    "path_length": 0.0004712977314779281,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0022/kujiale_0022_cup",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0022_cup_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 1.7
+  },
+  {
+    "name": "kujiale_0022_bowl_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0022_bowl",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "bowl",
+        "asset": "bowl"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0022_bowl_random_state_trajectory.npy",
+    "time_to_complete": 300.0908854007721,
+    "path_length": 12.846354815538628,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0022/kujiale_0022_bowl",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0022_bowl_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 1.34
+  },
+  {
+    "name": "kujiale_0022_stove_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0022_stove",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "stove",
+        "asset": "other_cooker"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0022_stove_random_state_trajectory.npy",
+    "time_to_complete": 300.03503918647766,
+    "path_length": 20.834254572919505,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0022/kujiale_0022_stove",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0022_stove_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 0.46
+  },
+  {
+    "name": "kujiale_0022_knife-hidden_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0022_knife-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "knife",
+        "asset": "knife"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0022_knife-hidden_random_state_trajectory.npy",
+    "time_to_complete": 300.09302711486816,
+    "path_length": 20.37332007050869,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0022/kujiale_0022_knife-hidden",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0022_knife-hidden_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 1.96
+  },
+  {
+    "name": "kujiale_0022_cup-hidden_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0022_cup-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "cup"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0022_cup-hidden_random_state_trajectory.npy",
+    "time_to_complete": 300.09846568107605,
+    "path_length": 10.862440824132308,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0022/kujiale_0022_cup-hidden",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0022_cup-hidden_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 1.7
+  },
+  {
+    "name": "kujiale_0022_bowl-hidden_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0022_bowl-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "bowl",
+        "asset": "bowl"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0022_bowl-hidden_random_state_trajectory.npy",
+    "time_to_complete": 153.05971431732178,
+    "path_length": 8.4274927343035,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0022/kujiale_0022_bowl-hidden",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0022_bowl-hidden_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 1.34
+  },
+  {
+    "name": "kujiale_0022_stove-hidden_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0022_stove-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "stove",
+        "asset": "other_cooker"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0022_stove-hidden_random_state_trajectory.npy",
+    "time_to_complete": 300.03104996681213,
+    "path_length": 19.152815309117422,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0022/kujiale_0022_stove-hidden",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0022_stove-hidden_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 0.46
+  },
+  {
+    "name": "kujiale_0024_washingmachine_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0024_washingmachine",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "washing machine",
+        "asset": "washing_machine"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore",
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0024_washingmachine_random_state_trajectory.npy",
+    "time_to_complete": 600.0055809020996,
+    "path_length": 0.0050873711330839564,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0024/kujiale_0024_washingmachine",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0024_washingmachine_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 4.46
+  },
+  {
+    "name": "kujiale_0024_book_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0024_book",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "book",
+        "asset": "book"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore",
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0024_book_random_state_trajectory.npy",
+    "time_to_complete": 300.0129210948944,
+    "path_length": 1.915539457057076,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0024/kujiale_0024_book",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0024_book_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 2.9
+  },
+  {
+    "name": "kujiale_0024_cup_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0024_cup",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "cup"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore",
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0024_cup_random_state_trajectory.npy",
+    "time_to_complete": 124.4172294139862,
+    "path_length": 8.810986056030085,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0024/kujiale_0024_cup",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0024_cup_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 1.06
+  },
+  {
+    "name": "kujiale_0024_book-hidden_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0024_book-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "book",
+        "asset": "book"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore-hidden",
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0024_book-hidden_random_state_trajectory.npy",
+    "time_to_complete": 300.0413568019867,
+    "path_length": 19.16276508500565,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0024/kujiale_0024_book-hidden",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0024_book-hidden_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 2.9
+  },
+  {
+    "name": "kujiale_0024_cup-hidden_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0024_cup-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "cup"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore-hidden",
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0024_cup-hidden_random_state_trajectory.npy",
+    "time_to_complete": 194.4723517894745,
+    "path_length": 13.651992544648184,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0024/kujiale_0024_cup-hidden",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0024_cup-hidden_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 1.06
+  },
+  {
+    "name": "kujiale_0026_laptop_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0026_laptop",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "laptop",
+        "asset": "office_supply_0028"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0026_explore",
+      "remove_assets": [
+        "ornament",
+        "menorah"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0026_laptop_random_state_trajectory.npy",
+    "time_to_complete": 300.0525178909302,
+    "path_length": 19.347415365389832,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0026/kujiale_0026_laptop",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0026_laptop_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 5.64
+  },
+  {
+    "name": "kujiale_0026_plate_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0026_plate",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "plate",
+        "asset": "plate"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0026_explore",
+      "remove_assets": [
+        "ornament",
+        "menorah"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0026_plate_random_state_trajectory.npy",
+    "time_to_complete": 300.08263301849365,
+    "path_length": 19.719470718511623,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0026/kujiale_0026_plate",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0026_plate_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 0.0
+  },
+  {
+    "name": "kujiale_0026_plate-hidden_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0026_plate-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "plate",
+        "asset": "plate"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0026_explore-hidden",
+      "remove_assets": [
+        "ornament",
+        "menorah"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0026_plate-hidden_random_state_trajectory.npy",
+    "time_to_complete": 264.06395745277405,
+    "path_length": 18.391749658279565,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0026/kujiale_0026_plate-hidden",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0026_plate-hidden_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 0.0
+  },
+  {
+    "name": "kujiale_0024_washingmachine-hidden_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0024_washingmachine-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "washing machine",
+        "asset": "washing_machine"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore-hidden",
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0024_washingmachine-hidden_random_state_trajectory.npy",
+    "time_to_complete": 300.0368101596832,
+    "path_length": 20.459019805545168,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0024/kujiale_0024_washingmachine-hidden",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0024_washingmachine-hidden_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 4.46
+  },
+  {
+    "name": "kujiale_0026_laptop-hidden_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0026_laptop-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "laptop",
+        "asset": "office_supply_0028"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0026_explore-hidden",
+      "remove_assets": [
+        "ornament",
+        "menorah"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0026_laptop-hidden_random_state_trajectory.npy",
+    "time_to_complete": 300.0048899650574,
+    "path_length": 19.18534240159253,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0026/kujiale_0026_laptop-hidden",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0026_laptop-hidden_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 5.64
+  },
+  {
+    "name": "kujiale_0021_book-hidden_random",
+    "app": "random",
+    "experiment": {
+      "name": "kujiale_0021_book-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "book",
+        "asset": "book"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0021_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_new/kujiale_0021_book-hidden_random_state_trajectory.npy",
+    "time_to_complete": 222.17598128318787,
+    "path_length": 15.381307599476402,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/random/kujiale_0021/kujiale_0021_book-hidden",
+      "/home/benni/datasets/sim_results_syn_new/kujiale_0021_book-hidden_random_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 1.77
   }
 ]

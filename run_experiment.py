@@ -768,8 +768,21 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
     
     print(f" ############################ Running experiment '{record_key}' ############################")
     print("Making sure FASTDDS is not running...")
-
     subprocess.run("ps aux | grep discovery | grep -v grep | awk '{print $2}' | xargs kill", shell=True, check=False)
+    time.sleep(1.0)
+
+    # This command finds all GPU processes using >1GB and kills them
+    print("Killing any existing GPU processes using >1GB...")
+    cmd = """
+    nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader,nounits | \
+    while IFS=',' read -r pid mem; do
+        if [ "$mem" -gt 1000 ]; then
+            echo "Killing PID $pid using $mem MiB"
+            kill -9 "$pid"
+        fi
+    done
+    """
+    subprocess.run(cmd, shell=True, check=False, executable="/bin/bash")
     time.sleep(1.0)
 
     for p in processes:

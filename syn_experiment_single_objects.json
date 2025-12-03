@@ -19,7 +19,7 @@
                 "task": "search",
                 "label": "book",
                 "asset": "book_0011",
-                "shortest_path": 2.4986
+                "goal_shortest_distance": 2.4986
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0004_explore_moved",
@@ -34,7 +34,7 @@
                 "task": "search",
                 "label": "bowl",
                 "asset": "bowl_0000",
-                "shortest_path": 4.691
+                "goal_shortest_distance": 4.691
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0004_explore_moved",
@@ -49,7 +49,7 @@
                 "task": "search",
                 "label": "wine glass",
                 "asset": "wine_set_0002",
-                "shortest_path": 5.6
+                "goal_shortest_distance": 5.6
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0004_explore_moved",
@@ -64,7 +64,7 @@
                 "task": "search",
                 "label": "plate",
                 "asset": "tray_0001",
-                "shortest_path": 4.77487
+                "goal_shortest_distance": 4.77487
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0004_explore_moved",
@@ -92,7 +92,7 @@
                 "task": "search",
                 "label": "book",
                 "asset": "book_0001",
-                "shortest_path": 9.84
+                "goal_shortest_distance": 9.84
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0008_explore_moved",
@@ -107,7 +107,7 @@
                 "task": "search",
                 "label": "cooking pot",
                 "asset": "cookware_0001",
-                "shortest_path": 3.538
+                "goal_shortest_distance": 3.538
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0008_explore_moved",
@@ -122,7 +122,7 @@
                 "task": "search",
                 "label": "plate",
                 "asset": "plate_0021",
-                "shortest_path": 1.09462
+                "goal_shortest_distance": 1.09462
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0008_explore_moved",
@@ -137,7 +137,7 @@
                 "task": "search",
                 "label": "lamp",
                 "asset": "lamp_0000",
-                "shortest_path": 5.73812
+                "goal_shortest_distance": 5.73812
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0008_explore_moved",
@@ -165,7 +165,7 @@
                 "task": "search",
                 "label": "bottle",
                 "asset": "bottle_0010",
-                "shortest_path": 5.8263
+                "goal_shortest_distance": 5.8263
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0020_explore_moved",
@@ -180,7 +180,7 @@
                 "task": "search",
                 "label": "potted plant",
                 "asset": "flower_0000",
-                "shortest_path": 3.38663
+                "goal_shortest_distance": 3.38663
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0020_explore_moved",
@@ -195,7 +195,7 @@
                 "task": "search",
                 "label": "cup",
                 "asset": "cup_0004",
-                "shortest_path": 2.93628
+                "goal_shortest_distance": 2.93628
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0020_explore_moved",
@@ -223,7 +223,7 @@
                 "task": "search",
                 "label": "cup", 
                 "asset": "cup_0000",
-                "shortest_path": 2.0000
+                "goal_shortest_distance": 2.0000
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0024_explore_moved",
@@ -251,7 +251,7 @@
                 "task": "search",
                 "label": "book",
                 "asset": "book_0035",
-                "shortest_path": 2.5114
+                "goal_shortest_distance": 2.5114
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0026_explore_moved",
@@ -266,7 +266,7 @@
                 "task": "search",
                 "label": "pillow",
                 "asset": "throw_pillow_0007",
-                "shortest_path": 1.1038
+                "goal_shortest_distance": 1.1038
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0026_explore_moved",

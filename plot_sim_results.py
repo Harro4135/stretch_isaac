@@ -26,7 +26,15 @@ def load_result_json(file_path: Path):
             print(f"Warning: Experiment {exp['name']} has path length {exp['path_length']}")
     return data
 
-
+def compute_spl(shortest_distance: list[float], path_length: list[float], success: list[bool]) -> float:
+    spl_values = []
+    for sd, pl, suc in zip(shortest_distance, path_length, success):
+        if suc:
+            sd = max(sd + 1.5, 0.1)  # avoid division by zero
+            spl_values.append(sd / max(pl, sd))
+        else:
+            spl_values.append(0.0)
+    return sum(spl_values) / len(spl_values) if spl_values else 0.0
 
 def main():
 
@@ -36,22 +44,21 @@ def main():
     
     known_ours_experiments = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore']))
     known_ours_success_rates = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore'], success=True)) / known_ours_experiments if known_ours_experiments > 0 else 0
-    known_ours_spl = sum([(max(exp["goal_shortest_distance"], 1.0) / exp["path_length"]) for exp in select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore']) if exp["success"]]) / len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore']))
+    known_ours_spl = compute_spl( *zip(*[(exp["goal_shortest_distance"], exp["path_length"], exp["success"]) for exp in select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore']) ]))
 
     novel_ours_experiments = len(select_experiments(data, app_name='perceivesemantix', name_filter=['hidden'], exclusive_name=['explore']))
     novel_ours_success_rates = len(select_experiments(data, app_name='perceivesemantix', name_filter=['hidden'], exclusive_name=['explore'], success=True)) / novel_ours_experiments if novel_ours_experiments > 0 else 0
-    novel_ours_spl = sum([(max(exp["goal_shortest_distance"], 1.0) / exp["path_length"]) for exp in select_experiments(data, app_name='perceivesemantix', name_filter=['hidden'], exclusive_name=['explore']) if exp["success"]]) / len(select_experiments(data, app_name='perceivesemantix', name_filter=['hidden'], exclusive_name=['explore']))
+    novel_ours_spl = compute_spl( *zip(*[(exp["goal_shortest_distance"], exp["path_length"], exp["success"]) for exp in select_experiments(data, app_name='perceivesemantix', name_filter=['hidden'], exclusive_name=['explore']) ]))
 
     # Dynamem
     # data = load_result_json("/home/benni/datasets/sim_results_syn_dynamem/experiments_results.json")
     known_dynamem_experiments = len(select_experiments(data, app_name='dynamem', exclusive_name=['hidden', 'explore']))
     known_dynamem_success_rates = len(select_experiments(data, app_name='dynamem', exclusive_name=['hidden', 'explore'], success=True)) / known_dynamem_experiments if known_dynamem_experiments > 0 else 0
-    known_dynamem_spl = sum([(max(exp["goal_shortest_distance"], 1.0) / exp["path_length"]) for exp in select_experiments(data, app_name='dynamem', exclusive_name=['hidden', 'explore']) if exp["success"]]) / len(select_experiments(data, app_name='dynamem', exclusive_name=['hidden', 'explore']))
+    known_dynamem_spl = compute_spl(*zip(*[(exp["goal_shortest_distance"], exp["path_length"], exp["success"]) for exp in select_experiments(data, app_name='dynamem', exclusive_name=['hidden', 'explore'])]))
 
     novel_dynamem_experiments = len(select_experiments(data, app_name='dynamem', name_filter=['hidden'], exclusive_name=['explore']))
     novel_dynamem_success_rates = len(select_experiments(data, app_name='dynamem', name_filter=['hidden'], exclusive_name=['explore'], success=True)) / novel_dynamem_experiments if novel_dynamem_experiments > 0 else 0
-    novel_dynamem_spl = sum([(max(exp["goal_shortest_distance"], 1.0) / exp["path_length"]) for exp in select_experiments(data, app_name='dynamem', name_filter=['hidden'], exclusive_name=['explore']) if exp["success"]]) / len(select_experiments(data, app_name='dynamem', name_filter=['hidden'], exclusive_name=['explore']))
-
+    novel_dynamem_spl = compute_spl(*zip(*[(exp["goal_shortest_distance"], exp["path_length"], exp["success"]) for exp in select_experiments(data, app_name='dynamem', name_filter=['hidden'], exclusive_name=['explore'])]))
     # # get expriments where perceivesemantix and dynamem failed
     # failed_experiments_perceivesemantix = select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore'], success=False)
     # failed_experiments_dynamem = select_experiments(data, app_name='dynamem', exclusive_name=['hidden', 'explore'], success=False)
@@ -70,21 +77,21 @@ def main():
     # Random
     known_random_experiments = len(select_experiments(data, app_name='random', exclusive_name=['hidden', 'explore']))
     known_random_success_rates = len(select_experiments(data, app_name='random', exclusive_name=['hidden', 'explore'], success=True)) / known_random_experiments if known_random_experiments > 0 else 0
-    known_random_spl = sum([(max(exp["goal_shortest_distance"], 1.0) / exp["path_length"]) for exp in select_experiments(data, app_name='random', exclusive_name=['hidden', 'explore']) if exp["success"]]) / len(select_experiments(data, app_name='random', exclusive_name=['hidden', 'explore']))
+    known_random_spl = compute_spl( *zip(*[(exp["goal_shortest_distance"], exp["path_length"], exp["success"]) for exp in select_experiments(data, app_name='random', exclusive_name=['hidden', 'explore']) ]))
+    
 
     novel_random_experiments = len(select_experiments(data, app_name='random', name_filter=['hidden'], exclusive_name=['explore']))
     novel_random_success_rates = len(select_experiments(data, app_name='random', name_filter=['hidden'], exclusive_name=['explore'], success=True)) / novel_random_experiments if novel_random_experiments > 0 else 0
-    novel_random_spl = sum([(max(exp["goal_shortest_distance"], 1.0) / exp["path_length"]) for exp in select_experiments(data, app_name='random', name_filter=['hidden'], exclusive_name=['explore']) if exp["success"]]) / len(select_experiments(data, app_name='random', name_filter=['hidden'], exclusive_name=['explore']))
+    novel_random_spl = compute_spl( *zip(*[(exp["goal_shortest_distance"], exp["path_length"], exp["success"]) for exp in select_experiments(data, app_name='random', name_filter=['hidden'], exclusive_name=['explore']) ]))
 
     data = load_result_json("/home/benni/datasets/sim_results_syn_moved/experiments_results.json")
     moved_ours_experiments = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['explore']))
     moved_ours_success_rates = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['explore'], success=True)) / moved_ours_experiments if moved_ours_experiments > 0 else 0
-    moved_our_spl = sum([(exp["experiment"]["goal"]["shortest_path"] / exp["path_length"]) for exp in select_experiments(data, app_name='perceivesemantix', exclusive_name=['explore']) if exp["success"]]) / len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['explore']))
+    moved_our_spl = compute_spl( *zip(*[(exp["experiment"]["goal"]["shortest_path"], exp["path_length"], exp["success"]) for exp in select_experiments(data, app_name='perceivesemantix', exclusive_name=['explore']) ]))
 
     moved_dynamem_experiments = len(select_experiments(data, app_name='dynamem', exclusive_name=['explore']))
     moved_dynamem_success_rates = len(select_experiments(data, app_name='dynamem', exclusive_name=['explore'], success=True)) / moved_dynamem_experiments if moved_dynamem_experiments > 0 else 0
-    moved_dynamem_spl = sum([(exp["experiment"]["goal"]["shortest_path"] / exp["path_length"]) for exp in select_experiments(data, app_name='dynamem', exclusive_name=['explore']) if exp["success"]]) / len(select_experiments(data, app_name='dynamem', exclusive_name=['explore']))
-
+    moved_dynamem_spl = compute_spl( *zip(*[(exp["experiment"]["goal"]["shortest_path"], exp["path_length"], exp["success"]) for exp in select_experiments(data, app_name='dynamem', exclusive_name=['explore']) ]))
 
     print("=== Known ===")
     print(f"Dynamem Success Rates {known_dynamem_success_rates:.2f} over {known_dynamem_experiments} trials")
