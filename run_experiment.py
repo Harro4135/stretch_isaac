@@ -448,44 +448,54 @@ def store_results(
     time_to_complete: float,
     log_files: list[Path],
     goal_shortest_distance: Optional[float] = None,
+    genmap: bool = False,
 ):
-    state_file = output_root / f"{record}_state_trajectory.npy"
-    log_files = list(log_files)
-    log_files += [state_file]
+    if genmap:
+        new_record = {
+            "name": record,
+            "app": app,
+            "experiment": experiment,
+            "log_files": [str(log_file) for log_file in log_files],
+        }
+    else:
+        state_file = output_root / f"{record}_state_trajectory.npy"
+        log_files = list(log_files)
+        log_files += [state_file]
+
+        new_record = {
+            "name": record,
+            "app": app,
+            "experiment": experiment,
+            "state_trajectory_file": state_file.resolve().absolute().as_posix(),
+            "time_to_complete": time_to_complete,
+            "path_length": path_length,
+            "success": success,
+            "log_files": [str(log_file) for log_file in log_files],
+        }
+
+        if goal_shortest_distance is not None:
+            new_record["goal_shortest_distance"] = goal_shortest_distance
 
     try:
         with open(output_file, "r") as f:
             data = json.load(f)
     except FileNotFoundError:
         data = []
-
-    new_record = {
-        "name": record,
-        "app": app,
-        "experiment": experiment,
-        "state_trajectory_file": state_file.resolve().absolute().as_posix(),
-        "time_to_complete": time_to_complete,
-        "path_length": path_length,
-        "success": success,
-        "log_files": [str(log_file) for log_file in log_files],
-    }
-
-    if goal_shortest_distance is not None:
-        new_record["goal_shortest_distance"] = goal_shortest_distance
-
     if not any(d.get("name") == new_record.get("name") for d in data):
         data.append(new_record)
         with open(output_file, "w") as f:
             json.dump(data, f, indent=2)
-        np.save(state_file, state_array)
+        
+        if not genmap:
+            np.save(state_file, state_array)
     else:
         print(f"Experiment record '{record}' already exists in results file.")
 
 
 def build_proccesses(
-    app: Literal["dynamem", "perceivesemantix", "random"], experiment: dict, output_root: Path
+    app: Literal["dynamem", "perceivesemantix", "random", "genmap"], experiment: dict, output_root: Path
 ) -> tuple[list[dict[str, Any]], list[Path]]:
-    if app.lower() not in ["dynamem", "perceivesemantix", "random"]:
+    if app.lower() not in ["dynamem", "perceivesemantix", "random", "genmap"]:
         raise ValueError(f"Unsupported app: {app}")
 
     issac_sim_options = []
@@ -519,6 +529,14 @@ def build_proccesses(
                 experiment["exclude_remove_assets"] = [experiment["exclude_remove_assets"]]
             if len(experiment["exclude_remove_assets"]) > 0:
                 issac_sim_options += ["--rasset-exclude"] + experiment["exclude_remove_assets"]
+
+    output_dir = output_root / app.lower() / Path(experiment.get("scene")).stem / experiment["name"]
+    output_dir = output_dir.resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    if app.lower() == "genmap":
+        issac_sim_options += ["--generate-map", (output_dir / "map.npz").as_posix()]
+
     issac_sim_parse_buffer = BufferClass()
     processes = [
         {
@@ -546,14 +564,11 @@ def build_proccesses(
             "cwd": "/home/benni/repos/stretch_isaac/",
             "color": COLORS["red"],
             "triggers": {},
-            "output": OutMode.DISABLED,
+            "output": OutMode.DISABLED if app != "genmap" else OutMode.CONSOLE,
             "line_handlers": [lambda x: parse_sim_state(x, issac_sim_parse_buffer)],
         },
     ]
 
-    output_dir = output_root / app.lower() / Path(experiment.get("scene")).stem / experiment["name"]
-    output_dir = output_dir.resolve()
-    output_dir.mkdir(parents=True, exist_ok=True)
     do_explore = experiment["goal"]["task"] == "explore"
     if "initialmap_experiment" in experiment:
         input_app = app.lower() if app.lower() != "random" else "perceivesemantix"
@@ -729,6 +744,8 @@ def build_proccesses(
             #     "output": OutMode.DISABLED,
             # },
         ]
+    elif app == "genmap":
+        output_files += [str(output_dir / "map.npz")]
     return processes, output_files
 
 
@@ -848,8 +865,11 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
         for exit_code, proc, handler in zip(exit_codes, running_processes, process_handlers):
             if exit_code is None:
                 continue
-            print(f"Process {handler.name} exited with code {exit_code}. Something went wrong.")
-            regular_exit = False
+            elif exit_code == 0:
+                print(f"Process {handler.name} exited with code {exit_code}.")
+            else:
+                print(f"Process {handler.name} exited with code {exit_code}. Something went wrong.")
+                regular_exit = False
       
     except KeyboardInterrupt:
         print("\nStopping processes...")
@@ -879,7 +899,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
 
     # Store results
     store_results(
-        record_key, app, output_file, experiment, output_root, path_length, state_array, success, time_to_complete, log_files, goal_shortest_distance=goal_shortest_distance
+        record_key, app, output_file, experiment, output_root, path_length, state_array, success, time_to_complete, log_files, goal_shortest_distance=goal_shortest_distance, genmap=(app=="genmap")
     )
 
     if app == "dynamem" and len(log_files) > 0:
@@ -918,7 +938,7 @@ def run_expriment(app: Literal["dynamem", "perceivesemantix"], experiment: dict,
                     pkl.unlink()
                     print(f"Deleted unused dynamem output pkl file '{pkl}'")
     
-    if path_length < 0.4:
+    if app != "genmap" and path_length < 0.4:
         print(f"Robot did not move enough (path length {path_length:.3f}m < 0.4m). Likely something went wrong.")
         regular_exit = False
 
@@ -936,7 +956,7 @@ def main():
     parser.add_argument(
         "--app",
         type=str,
-        choices=["dynamem", "perceivesemantix", "random"],
+        choices=["dynamem", "perceivesemantix", "random", "genmap"],
         nargs="+",
         help="One or more apps to run (e.g. --app dynamem perceivesemantix)",
     )

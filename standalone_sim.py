@@ -3,6 +3,7 @@
 import argparse
 import json
 from pathlib import Path
+import time
 from typing import Literal, Optional, Union
 
 from matplotlib import pyplot as plt
@@ -178,7 +179,9 @@ def dump_state(
     print("<robot>" + json.dumps(data) + "</robot>")
 
 
-def dump_prim_position(prims: list[Usd.Prim], shortest_distance: Optional[float] = None, print_output: bool = True) -> np.ndarray:
+def dump_prim_position(
+    prims: list[Usd.Prim], shortest_distance: Optional[float] = None, print_output: bool = True
+) -> np.ndarray:
     positions = np.ndarray((len(prims), 3))
     data = {}
     for i, prim in enumerate(prims):
@@ -291,8 +294,17 @@ def main(simulation_app):
         type=str,
         help="Goal assets to broadcast their position.",
     )
+    parser.add_argument(
+        "--generate-map",
+        type=Path,
+        help="Path to save the generated occupancy map.",
+        default=None,
+    )
     args = parser.parse_args()
     args.asset = parse_assets(args.asset)
+
+    if args.generate_map is not None and args.generate_map.suffix != ".npz":
+        raise ValueError("generate-map path must end with .npz")
 
     extensions.enable_extension("isaacsim.ros2.bridge")
     simulation_app.update()
@@ -317,11 +329,31 @@ def main(simulation_app):
         print(f"Searching for goal assets with substring: {args.gasset}")
         goal_assets = get_toplevel_prims_substring(_scene, [args.gasset]) if args.gasset is not None else []
 
-        print("Computing shortest path to goals...")
         world.reset()
+
+        if args.generate_map is not None:
+            occupancy_map, x, y = compute_occupancy_map(
+                root_prim_path="/Root", resolution=0.1, width_m=20, height_m=20, z_min=0.2, z_max=1.8
+            )
+            # make occupancy map colored, i.e. add 2 two channels
+            occupancy_map = np.stack([occupancy_map] * 3, axis=-1)
+            occupancy_map = 1 - occupancy_map
+            np.savez_compressed(args.generate_map, occupancy_map=occupancy_map, x=x, y=y)
+            # print state once, so parent process know isaac sim started successfully
+            dump_state(
+                0.0,
+                (0.0, 0.0, 0.0),
+                (1.0, 0.0, 0.0, 0.0),
+                (0.0, 0.0, 0.0),
+            )
+            time.sleep(1.0)  # ensure file is written
+            print(f"Saved map to {args.generate_map}")
+            exit(0)
+
+        print("Computing shortest path to goals...")
         shortest_goal_distance = get_shortest_path_to_prims(goal_assets)
         if shortest_goal_distance is not None:
-            shortest_goal_distance -= 1.5 # viewing distance offset
+            shortest_goal_distance -= 1.5  # viewing distance offset
             print(f"Shortest distance to goal assets (with offset): {round(shortest_goal_distance, 2)}")
 
         print(f"Disabling collision for scene {_scene.GetPath()}")

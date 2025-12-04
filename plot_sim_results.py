@@ -1,9 +1,9 @@
 from pathlib import Path
-import argparse
 import json
 from typing import Optional
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 def select_experiments(data, app_name: Optional[str] = None, name_filter: list[str] = [], exclusive_name: list[str] = [], success: Optional[bool] = None):
     if app_name:
@@ -22,7 +22,7 @@ def load_result_json(file_path: Path):
         data = json.load(f)
 
     for exp in data:
-        if exp["path_length"] < 1.0:
+        if exp["app"] != "genmap" and exp["path_length"] < 1.0:
             print(f"Warning: Experiment {exp['name']} has path length {exp['path_length']}")
     return data
 
@@ -36,6 +36,44 @@ def compute_spl(shortest_distance: list[float], path_length: list[float], succes
             spl_values.append(0.0)
     return sum(spl_values) / len(spl_values) if spl_values else 0.0
 
+def get_genmap_outfile(experiments: dict, experiment_name: str) -> Optional[str]:
+    map_file = None
+    for exp in experiments:
+        if exp['app'] == 'genmap' and exp['experiment']['name'] == experiment_name:
+            map_file = exp['log_files'][0]
+            break
+    if not map_file:
+        print(f"Genmap output file for experiment '{experiment_name}' not found.")
+    return map_file
+
+def create_experiment_plot(experiment_result: dict, all_experiments: dict):
+    experiment_name = experiment_result['experiment']['name']
+    map_file = get_genmap_outfile(all_experiments, experiment_name)
+    if not map_file:
+        return
+    # map file is a .npz file  with occupancy_map, x, y
+    map_data = np.load(map_file)
+    occupancy_map = map_data['occupancy_map']
+    x = map_data['x']
+    y = map_data['y']
+    X, Y = np.meshgrid(x, y, indexing='ij')
+    plt.pcolormesh(X, Y, occupancy_map, shading='auto', cmap='gray_r')
+
+    state_trajectory_file = experiment_result["state_trajectory_file"]
+    state_trajecory = np.load(state_trajectory_file)
+    # state trajectory is like N x 10 array with time, pos(x,y,z), ori(x,y,z,w), vel(x,y,z)
+
+    plt.plot(state_trajecory[:,1], state_trajecory[:,2], color='blue', label='Robot Path')
+    plt.scatter(state_trajecory[0,1], state_trajecory[0,2], color='green', label='Start')
+
+    plt.xlabel('X (m)')
+    plt.ylabel('Y (m)')
+    plt.title(f'Experiment: {experiment_name}')
+    plt.axis('equal')
+    plt.legend()
+
+    plt.show()
+
 def main():
 
     # Ours
@@ -43,6 +81,13 @@ def main():
     data = load_result_json("/home/benni/datasets/sim_results_syn_new/experiments_results.json")
     
     known_ours_experiments = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore']))
+
+    exp = select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore'])
+    for e in exp:
+        create_experiment_plot(e, data)
+
+    return
+
     known_ours_success_rates = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore'], success=True)) / known_ours_experiments if known_ours_experiments > 0 else 0
     known_ours_spl = compute_spl( *zip(*[(exp["goal_shortest_distance"], exp["path_length"], exp["success"]) for exp in select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore']) ]))
 
