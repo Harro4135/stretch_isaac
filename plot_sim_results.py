@@ -51,24 +51,31 @@ def create_experiment_plot(experiment_result: dict, all_experiments: dict):
     map_file = get_genmap_outfile(all_experiments, experiment_name)
     if not map_file:
         return
-    # map file is a .npz file  with occupancy_map, x, y
+    # map file is a .npz file  with colored_map, x, y, goal_positions, shortest_path
     map_data = np.load(map_file)
-    occupancy_map = map_data['occupancy_map']
+    colored_map = map_data['colored_map']
     x = map_data['x']
     y = map_data['y']
+    goal_positions = map_data['goal_positions']
+    shortest_path = map_data['shortest_path']
     X, Y = np.meshgrid(x, y, indexing='ij')
-    plt.pcolormesh(X, Y, occupancy_map, shading='auto', cmap='gray_r')
+    plt.pcolormesh(X, Y, colored_map, shading='auto')
 
     state_trajectory_file = experiment_result["state_trajectory_file"]
     state_trajecory = np.load(state_trajectory_file)
     # state trajectory is like N x 10 array with time, pos(x,y,z), ori(x,y,z,w), vel(x,y,z)
 
-    plt.plot(state_trajecory[:,1], state_trajecory[:,2], color='blue', label='Robot Path')
+    plt.plot(state_trajecory[:,1], state_trajecory[:,2], color='red', label='Robot Path')
     plt.scatter(state_trajecory[0,1], state_trajecory[0,2], color='green', label='Start')
+    plt.scatter(goal_positions[:,0], goal_positions[:,1], color='red', marker='x', label='Goal Positions')
+    # plt.plot(shortest_path[:,0], shortest_path[:,1], color='gray', linestyle=':', label='Shortest Path')
+
+    success = experiment_result['success']
+
 
     plt.xlabel('X (m)')
     plt.ylabel('Y (m)')
-    plt.title(f'Experiment: {experiment_name}')
+    plt.title(f'Experiment: {experiment_name}, Success: {success}')
     plt.axis('equal')
     plt.legend()
 
@@ -80,14 +87,14 @@ def main():
     # data = load_result_json("/home/benni/datasets/sim_results_syn/experiments_results.json")
     data = load_result_json("/home/benni/datasets/sim_results_syn_new/experiments_results.json")
     
-    known_ours_experiments = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore']))
 
-    exp = select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore'])
+    exp = select_experiments(data, app_name='dynamem', name_filter=["bowl"], exclusive_name=['hidden','explore'])
     for e in exp:
         create_experiment_plot(e, data)
 
-    return
+    # return
 
+    known_ours_experiments = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore']))
     known_ours_success_rates = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore'], success=True)) / known_ours_experiments if known_ours_experiments > 0 else 0
     known_ours_spl = compute_spl( *zip(*[(exp["goal_shortest_distance"], exp["path_length"], exp["success"]) for exp in select_experiments(data, app_name='perceivesemantix', exclusive_name=['hidden', 'explore']) ]))
 

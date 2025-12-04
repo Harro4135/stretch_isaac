@@ -1,6 +1,7 @@
 # launch Isaac Sim before any other imports
 # default first two lines in any standalone application
 import argparse
+import csv
 import json
 from pathlib import Path
 import time
@@ -11,7 +12,7 @@ import numpy as np
 from isaacsim import SimulationApp
 from multi_dijkstra import MultiDijkstra
 
-app = SimulationApp({"headless": False})  # we can also run as headless.
+app = SimulationApp({"headless": True})  # we can also run as headless.
 
 import omni.kit.actions.core
 from isaacsim.core.api import World
@@ -23,9 +24,24 @@ import omni
 import carb
 
 
+def read_colors(csv_path: Path) -> dict:
+    colors = {}
+    with csv_path.open() as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            colors[row["object"]] = [float(row["r"]), float(row["g"]), float(row["b"])]
+    return colors
+
 def compute_occupancy_map(
-    root_prim_path: str, resolution: float, width_m: float, height_m: float, z_min: float, z_max: float
-) -> np.ndarray:
+    root_prim_path: str,
+    resolution: float,
+    width_m: float,
+    height_m: float,
+    z_min: float,
+    z_max: float,
+    return_color: bool = False,
+    prim_colors: dict = {},
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """
     Computes a 2D occupancy map under the given root prim.
     Uses fixed grid size (width, height) and cell resolution.
@@ -49,8 +65,17 @@ def compute_occupancy_map(
     ys = center[1] + (np.arange(height) * resolution - height * resolution * 0.5)
 
     occ = np.zeros((width, height))
+    color = np.zeros((width, height, 3))  # RGB map
 
     physx = omni.physx.get_physx_scene_query_interface()
+
+    cell_offsets = [
+        (0, 0),  # center
+        (-0.5, -0.5),
+        (-0.5, 0.5),
+        (0.5, -0.5),
+        (0.5, 0.5),
+    ]
 
     def on_hit(hit):
         return True
@@ -67,9 +92,42 @@ def compute_occupancy_map(
             if num_hits > 0:
                 occ[ix, iy] = 1
 
-    occ[0, :] = 0
+            if not return_color:
+                continue
 
-    return occ, xs, ys
+            if num_hits == 0:
+                color[ix, iy] = (1, 1, 1)  # white
+                continue
+
+            # cast multiple rays to get top prim and base the color on that
+            prim_hit_counts = {}
+            for dx_frac, dy_frac in cell_offsets:
+                rx = x + dx_frac * resolution
+                ry = y + dy_frac * resolution
+                start = carb.Float3(rx, ry, z_max)
+                direction = carb.Float3(0, 0, -1)
+                hit = physx.raycast_closest(start, direction, z_max - z_min, False)
+                if hit["hit"]:
+                    prim_path = hit["collision"]
+                    prim_hit_counts[prim_path] = prim_hit_counts.get(prim_path, 0) + 1
+
+            if prim_hit_counts:
+                # choose prim with most hits
+                top_prim = max(prim_hit_counts, key=lambda k: prim_hit_counts[k])
+                
+                for key in prim_colors:
+                    if key in top_prim:  # substring match
+                        color[ix, iy] = prim_colors[key]
+                        break
+                else:
+                    # fallback: assign random color
+                    prim_colors[top_prim] = np.random.rand(3)
+                    color[ix, iy] = prim_colors[top_prim]
+            else:
+                # fallback black
+                color[ix, iy] = (0, 0, 0)
+
+    return occ, xs, ys, color
 
 
 def get_shortest_path_to_prims(
@@ -81,11 +139,11 @@ def get_shortest_path_to_prims(
     z_min: float = 0.2,
     z_max: float = 1.8,
     visualize: bool = False,
-) -> Optional[float]:
+) -> Optional[tuple[float, np.ndarray]]:
     if len(prims) == 0:
         return None
     goal_positions = dump_prim_position(prims, print_output=False)
-    occupancy_map, x, y = compute_occupancy_map(
+    occupancy_map, x, y, _ = compute_occupancy_map(
         root_prim_path="/Root", resolution=resolution, width_m=map_width, height_m=map_height, z_min=z_min, z_max=z_max
     )
     multi_dijkstra = MultiDijkstra(
@@ -109,7 +167,7 @@ def get_shortest_path_to_prims(
         plt.ylabel("Y")
         plt.show()
 
-    return dist
+    return dist, goal_positions, path
 
 
 def switch_lighting(mode: Literal["camera", "stage"] = "camera"):
@@ -331,14 +389,19 @@ def main(simulation_app):
 
         world.reset()
 
+        print("Computing shortest path to goals...")
+        shortest_goal_distance, goal_positions, shortest_path = get_shortest_path_to_prims(goal_assets)
+        if shortest_goal_distance is not None:
+            shortest_goal_distance -= 1.5  # viewing distance offset
+            print(f"Shortest distance to goal assets (with offset): {round(shortest_goal_distance, 2)}")
+
         if args.generate_map is not None:
-            occupancy_map, x, y = compute_occupancy_map(
-                root_prim_path="/Root", resolution=0.1, width_m=20, height_m=20, z_min=0.2, z_max=1.8
+            prim_colors = read_colors(Path("./interior_agent_objects.csv"))
+            _occupancy_map, x, y, colored_map = compute_occupancy_map(
+                root_prim_path="/Root", resolution=0.1, width_m=20, height_m=20, z_min=0.2, z_max=1.8, return_color=True, prim_colors=prim_colors
             )
-            # make occupancy map colored, i.e. add 2 two channels
-            occupancy_map = np.stack([occupancy_map] * 3, axis=-1)
-            occupancy_map = 1 - occupancy_map
-            np.savez_compressed(args.generate_map, occupancy_map=occupancy_map, x=x, y=y)
+
+            np.savez_compressed(args.generate_map, colored_map=colored_map, x=x, y=y, goal_positions=goal_positions, shortest_path=shortest_path)
             # print state once, so parent process know isaac sim started successfully
             dump_state(
                 0.0,
@@ -349,12 +412,6 @@ def main(simulation_app):
             time.sleep(1.0)  # ensure file is written
             print(f"Saved map to {args.generate_map}")
             exit(0)
-
-        print("Computing shortest path to goals...")
-        shortest_goal_distance = get_shortest_path_to_prims(goal_assets)
-        if shortest_goal_distance is not None:
-            shortest_goal_distance -= 1.5  # viewing distance offset
-            print(f"Shortest distance to goal assets (with offset): {round(shortest_goal_distance, 2)}")
 
         print(f"Disabling collision for scene {_scene.GetPath()}")
         disable_collision(_scene)
