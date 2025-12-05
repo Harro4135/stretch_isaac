@@ -390,10 +390,14 @@ def main(simulation_app):
         world.reset()
 
         print("Computing shortest path to goals...")
-        shortest_goal_distance, goal_positions, shortest_path = get_shortest_path_to_prims(goal_assets)
-        if shortest_goal_distance is not None:
-            shortest_goal_distance -= 1.5  # viewing distance offset
-            print(f"Shortest distance to goal assets (with offset): {round(shortest_goal_distance, 2)}")
+        if len(goal_assets) > 0:
+            shortest_goal_distance, goal_positions, shortest_path = get_shortest_path_to_prims(goal_assets)
+            if shortest_goal_distance is not None:
+                shortest_goal_distance -= 1.5  # viewing distance offset
+                print(f"Shortest distance to goal assets (with offset): {round(shortest_goal_distance, 2)}")
+        else:
+            goal_positions = np.zeros((0, 3))
+            shortest_path = np.zeros((0, 2))
 
         if args.generate_map is not None:
             prim_colors = read_colors(Path("./interior_agent_objects.csv"))
