@@ -3,7 +3,7 @@
         {
             "name": "kujiale_0004_explore_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "explore"
             },
@@ -14,7 +14,7 @@
         {
             "name": "kujiale_0004_book_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "book",
@@ -29,7 +29,7 @@
         {
             "name": "kujiale_0004_bowl_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "bowl",
@@ -44,7 +44,7 @@
         {
             "name": "kujiale_0004_wineglass_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "wine glass",
@@ -59,7 +59,7 @@
         {
             "name": "kujiale_0004_plate_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "plate",
@@ -207,7 +207,7 @@
         {
             "name": "kujiale_0024_explore_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "explore"
             },
@@ -218,7 +218,7 @@
         {
             "name": "kujiale_0024_toilet",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "cup", 
@@ -235,7 +235,7 @@
         {
             "name": "kujiale_0026_explore_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "explore"
             },
@@ -246,7 +246,7 @@
         {
             "name": "kujiale_0026_book_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "book",
@@ -261,7 +261,7 @@
         {
             "name": "kujiale_0026_pillow_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "pillow",
@@ -278,7 +278,7 @@
         {
             "name": "kujiale_0021_explore_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "explore"
             },
@@ -289,7 +289,7 @@
         {
             "name": "kujiale_0021_coffee_table_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "coffee table",
@@ -303,7 +303,7 @@
         {
             "name": "kujiale_0021_potted_plant_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "potted plant",
@@ -317,7 +317,7 @@
         {
             "name": "kujiale_0021_chair_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "chair",
@@ -333,7 +333,7 @@
         {
             "name": "kujiale_0022_explore_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "explore"
             },
@@ -344,7 +344,7 @@
         {
             "name": "kujiale_0022_cup_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "cup",
@@ -358,7 +358,7 @@
         {
             "name": "kujiale_0022_plate_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "plate",
@@ -373,7 +373,7 @@
         {
             "name": "kujiale_0024_explore_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "explore"
             },
@@ -384,7 +384,7 @@
         {
             "name": "kujiale_0024_pillow_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "pillow",
@@ -398,7 +398,7 @@
         {
             "name": "kujiale_0024_chair_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
-            "lighting": "camera",
+            "lighting": "stage",
             "goal": {
                 "task": "search",
                 "label": "chair",
