@@ -242,7 +242,7 @@
             "max_runtime": 900.0,
             "remove_assets": ["ornament", "book", "pillow"],
             "exclude_remove_assets": ["book_0001", "throw_pillow_0004"]
-        },
+        },  
         {
             "name": "kujiale_0026_book_moved",
             "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
@@ -272,6 +272,142 @@
             "initialmap_experiment": "kujiale_0026_explore_moved",
             "remove_assets": ["ornament", "book", "pillow"],
             "exclude_remove_assets": ["throw_pillow_0007"]
+        },
+
+
+        {
+            "name": "kujiale_0021_explore_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament", "table", "flower", "chair"],
+            "exclude_remove_assets": ["dining_table", "table_00002", "flower_0002", "chair_0004"]
+        },
+        {
+            "name": "kujiale_0021_coffee_table_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "coffee table",
+                "asset": "table_00003"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0021_explore_moved",
+            "remove_assets": ["ornament", "table", "flower", "chair"],
+            "exclude_remove_assets": ["dining_table", "table_00003", "flower_0002", "chair_0004"]
+        },
+        {
+            "name": "kujiale_0021_potted_plant_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "potted plant",
+                "asset": "flower_00003"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0021_explore_moved",
+            "remove_assets": ["ornament", "table", "flower", "chair"],
+            "exclude_remove_assets": ["dining_table", "table_00002", "flower_0003", "chair_0004"]
+        },
+        {
+            "name": "kujiale_0021_chair_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "chair",
+                "asset": "chair_0003"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0021_explore_moved",
+            "remove_assets": ["ornament", "table", "flower", "chair"],
+            "exclude_remove_assets": ["dining_table", "table_00002", "flower_0003", "chair_0003"]
+        },
+
+
+        {
+            "name": "kujiale_0022_explore_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament", "cup"] ,
+            "exclude_remove_assets": ["cup_0000", "kitchenware_0000"]
+        },
+        {
+            "name": "kujiale_0022_cup_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "cup",
+                "asset": "ornament_0000"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0022_explore_moved",
+            "remove_assets": ["ornament", "cup"],
+            "exclude_remove_assets": ["ornament_0000"]
+        },
+        {
+            "name": "kujiale_0022_plate_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "plate",
+                "asset": "ornament_0005"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0022_explore_moved",
+            "remove_assets": ["ornament", "cup", "kitchenware_0000"],
+            "exclude_remove_assets": ["ornament_0005"]
+        },
+
+        {
+            "name": "kujiale_0024_explore_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "explore"
+            },
+            "max_runtime": 900.0,
+            "remove_assets": ["ornament", "pillow", "chair"] ,
+            "exclude_remove_assets": ["throw_pillow_0003", "chair_0000"]
+        },
+        {
+            "name": "kujiale_0024_pillow_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "pillow",
+                "asset": "throw_pillow_0005"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0024_explore_moved",
+            "remove_assets": ["ornament", "pillow", "chair"],
+            "exclude_remove_assets": ["throw_pillow_0005"]
+        },
+        {
+            "name": "kujiale_0024_chair_moved",
+            "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+            "lighting": "camera",
+            "goal": {
+                "task": "search",
+                "label": "chair",
+                "asset": "chair_0002"
+            },
+            "max_runtime": 300.0,
+            "initialmap_experiment": "kujiale_0024_explore_moved",
+            "remove_assets": ["ornament", "pillow", "chair"],
+            "exclude_remove_assets": ["chair_0002"]
         }
    ]
 }
