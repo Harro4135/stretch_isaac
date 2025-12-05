@@ -948,11 +948,11 @@
     ]
   },
   {
-    "name": "kujiale_0026_explore_moved_perceivesemantix",
+    "name": "kujiale_0021_explore_moved_perceivesemantix",
     "app": "perceivesemantix",
     "experiment": {
-      "name": "kujiale_0026_explore_moved",
-      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "name": "kujiale_0021_explore_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
       "lighting": "stage",
       "goal": {
         "task": "explore"
@@ -960,56 +960,197 @@
       "max_runtime": 900.0,
       "remove_assets": [
         "ornament",
-        "book",
-        "pillow"
+        "table",
+        "flower",
+        "chair"
       ],
       "exclude_remove_assets": [
-        "book_0001",
-        "throw_pillow_0004"
+        "dining_table",
+        "table_00002",
+        "flower_0002",
+        "chair_0004"
       ]
     },
-    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0026_explore_moved_perceivesemantix_state_trajectory.npy",
-    "time_to_complete": 900.0020914077759,
-    "path_length": 42.40915778996623,
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0021_explore_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 900.0788059234619,
+    "path_length": 44.76720676057664,
     "success": true,
     "log_files": [
-      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0026/kujiale_0026_explore_moved",
-      "/home/benni/datasets/sim_results_syn_moved/kujiale_0026_explore_moved_perceivesemantix_state_trajectory.npy"
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0021/kujiale_0021_explore_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0021_explore_moved_perceivesemantix_state_trajectory.npy"
     ]
   },
   {
-    "name": "kujiale_0026_book_moved_perceivesemantix",
+    "name": "kujiale_0021_coffee_table_moved_perceivesemantix",
     "app": "perceivesemantix",
     "experiment": {
-      "name": "kujiale_0026_book_moved",
-      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "name": "kujiale_0021_coffee_table_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
       "lighting": "stage",
       "goal": {
         "task": "search",
-        "label": "book",
-        "asset": "book_0035",
-        "goal_shortest_distance": 2.5114
+        "label": "coffee table",
+        "asset": "table_0001",
+        "goal_shortest_distance": 2.73
       },
       "max_runtime": 300.0,
-      "initialmap_experiment": "kujiale_0026_explore_moved",
+      "initialmap_experiment": "kujiale_0021_explore_moved",
       "remove_assets": [
         "ornament",
-        "book",
-        "pillow"
+        "table",
+        "flower",
+        "chair"
       ],
       "exclude_remove_assets": [
-        "book_0035"
+        "dining_table",
+        "table_0001",
+        "flower_0002",
+        "chair_0004"
       ]
     },
-    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0026_book_moved_perceivesemantix_state_trajectory.npy",
-    "time_to_complete": 300.00362944602966,
-    "path_length": 2.390447478777588,
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0021_coffee_table_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 54.21367311477661,
+    "path_length": 2.8023516267112183,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0021/kujiale_0021_coffee_table_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0021_coffee_table_moved_perceivesemantix_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 2.73
+  },
+  {
+    "name": "kujiale_0021_chair_moved_perceivesemantix",
+    "app": "perceivesemantix",
+    "experiment": {
+      "name": "kujiale_0021_chair_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "chair",
+        "asset": "chair_0003",
+        "goal_shortest_distance": 5.86
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0021_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "table",
+        "flower",
+        "chair"
+      ],
+      "exclude_remove_assets": [
+        "dining_table",
+        "table_0002",
+        "flower_0003",
+        "chair_0003"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0021_chair_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 300.0863552093506,
+    "path_length": 4.43900658128793,
     "success": false,
     "log_files": [
-      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0026/kujiale_0026_book_moved",
-      "/home/benni/datasets/sim_results_syn_moved/kujiale_0026_book_moved_perceivesemantix_state_trajectory.npy"
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0021/kujiale_0021_chair_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0021_chair_moved_perceivesemantix_state_trajectory.npy"
     ],
-    "goal_shortest_distance": 2.0
+    "goal_shortest_distance": 5.86
+  },
+  {
+    "name": "kujiale_0022_explore_moved_perceivesemantix",
+    "app": "perceivesemantix",
+    "experiment": {
+      "name": "kujiale_0022_explore_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "cup"
+      ],
+      "exclude_remove_assets": [
+        "cup_0000",
+        "kitchenware_0000"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0022_explore_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 679.3757796287537,
+    "path_length": 39.51924376874415,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0022/kujiale_0022_explore_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0022_explore_moved_perceivesemantix_state_trajectory.npy"
+    ]
+  },
+  {
+    "name": "kujiale_0024_explore_moved_perceivesemantix",
+    "app": "perceivesemantix",
+    "experiment": {
+      "name": "kujiale_0024_explore_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "pillow",
+        "chair",
+        "cup"
+      ],
+      "exclude_remove_assets": [
+        "throw_pillow_0003",
+        "chair_0000",
+        "cup_0003"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0024_explore_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 900.0463237762451,
+    "path_length": 55.3375153961614,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0024/kujiale_0024_explore_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0024_explore_moved_perceivesemantix_state_trajectory.npy"
+    ]
+  },
+  {
+    "name": "kujiale_0024_pillow_moved_perceivesemantix",
+    "app": "perceivesemantix",
+    "experiment": {
+      "name": "kujiale_0024_pillow_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "pillow",
+        "asset": "pillow_0000",
+        "goal_shortest_distance": -0.55
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "pillow",
+        "chair",
+        "sofa"
+      ],
+      "exclude_remove_assets": [
+        "pillow_0000"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0024_pillow_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 167.44208145141602,
+    "path_length": 11.83542799491538,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0024/kujiale_0024_pillow_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0024_pillow_moved_perceivesemantix_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": -0.55
   },
   {
     "name": "kujiale_0026_pillow_moved_perceivesemantix",
@@ -1022,7 +1163,7 @@
         "task": "search",
         "label": "pillow",
         "asset": "throw_pillow_0007",
-        "goal_shortest_distance": 1.1038
+        "goal_shortest_distance": 0.39
       },
       "max_runtime": 300.0,
       "initialmap_experiment": "kujiale_0026_explore_moved",
@@ -1044,5 +1185,254 @@
       "/home/benni/datasets/sim_results_syn_moved/kujiale_0026_pillow_moved_perceivesemantix_state_trajectory.npy"
     ],
     "goal_shortest_distance": 0.39
+  },
+  {
+    "name": "kujiale_0021_potted_plant_moved_perceivesemantix",
+    "app": "perceivesemantix",
+    "experiment": {
+      "name": "kujiale_0021_potted_plant_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "potted plant",
+        "asset": "flower_0003",
+        "goal_shortest_distance": 1.19
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0021_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "table",
+        "flower",
+        "chair"
+      ],
+      "exclude_remove_assets": [
+        "dining_table",
+        "table_0002",
+        "flower_0003",
+        "chair_0004"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0021_potted_plant_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 300.06803941726685,
+    "path_length": 16.468216259023926,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0021/kujiale_0021_potted_plant_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0021_potted_plant_moved_perceivesemantix_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 1.19
+  },
+  {
+    "name": "kujiale_0022_plate_moved_perceivesemantix",
+    "app": "perceivesemantix",
+    "experiment": {
+      "name": "kujiale_0022_plate_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "plate",
+        "asset": "ornament_0005",
+        "goal_shortest_distance": 2.34
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "cup",
+        "tea_set",
+        "kitchenware_0000"
+      ],
+      "exclude_remove_assets": [
+        "ornament_0005"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0022_plate_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 300.0753130912781,
+    "path_length": 15.912433301367058,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0022/kujiale_0022_plate_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0022_plate_moved_perceivesemantix_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 2.34
+  },
+  {
+    "name": "kujiale_0030_explore_moved_perceivesemantix",
+    "app": "perceivesemantix",
+    "experiment": {
+      "name": "kujiale_0030_explore_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0030/kujiale_0030.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "vase",
+        "bowl",
+        "tea_set",
+        "cup"
+      ],
+      "exclude_remove_assets": [
+        "cup_0000",
+        "kitchenware_0002",
+        "tea_set_0001"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0030_explore_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 900.0504968166351,
+    "path_length": 55.19165076130197,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0030/kujiale_0030_explore_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0030_explore_moved_perceivesemantix_state_trajectory.npy"
+    ]
+  },
+  {
+    "name": "kujiale_0030_bowl_moved_perceivesemantix",
+    "app": "perceivesemantix",
+    "experiment": {
+      "name": "kujiale_0030_bowl_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0030/kujiale_0030.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "bowl",
+        "asset": "bowl_0001",
+        "goal_shortest_distance": 2.24
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0030_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "vase",
+        "bowl",
+        "tea_set",
+        "cup"
+      ],
+      "exclude_remove_assets": [
+        "bowl_0000",
+        "bowl_0001",
+        "bowl_0002"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0030_bowl_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 154.85929346084595,
+    "path_length": 8.639717480359355,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0030/kujiale_0030_bowl_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0030_bowl_moved_perceivesemantix_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 4.55
+  },
+  {
+    "name": "kujiale_0030_cup_moved_perceivesemantix",
+    "app": "perceivesemantix",
+    "experiment": {
+      "name": "kujiale_0030_cup_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0030/kujiale_0030.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "tea_set_0000",
+        "goal_shortest_distance": 2.24
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0030_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "vase",
+        "bowl",
+        "tea_set",
+        "cup"
+      ],
+      "exclude_remove_assets": [
+        "tea_set_0000"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0030_cup_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 47.07202482223511,
+    "path_length": 3.16096833750428,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0030/kujiale_0030_cup_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0030_cup_moved_perceivesemantix_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 2.24
+  },
+  {
+    "name": "kujiale_0026_explore_moved_perceivesemantix",
+    "app": "perceivesemantix",
+    "experiment": {
+      "name": "kujiale_0026_explore_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 10.0,
+      "remove_assets": [
+        "ornament",
+        "menorah",
+        "book",
+        "pillow",
+        "chair"
+      ],
+      "exclude_remove_assets": [
+        "book_0001",
+        "throw_pillow_0004",
+        "chair_0003"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0026_explore_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 900.0498483181,
+    "path_length": 40.818778574083176,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0026/kujiale_0026_explore_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0026_explore_moved_perceivesemantix_state_trajectory.npy"
+    ]
+  },
+  {
+    "name": "kujiale_0026_chair_moved_perceivesemantix",
+    "app": "perceivesemantix",
+    "experiment": {
+      "name": "kujiale_0026_chair_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "chair",
+        "asset": "chair_0004",
+        "goal_shortest_distance": 1.1038
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0026_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "menorah",
+        "book",
+        "pillow",
+        "chair"
+      ],
+      "exclude_remove_assets": [
+        "chair_0004"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0026_chair_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 97.05264234542847,
+    "path_length": 7.677971720463758,
+    "success": true,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0026/kujiale_0026_chair_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0026_chair_moved_perceivesemantix_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 4.7
   }
 ]
