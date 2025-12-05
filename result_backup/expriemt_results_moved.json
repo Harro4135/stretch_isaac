@@ -1225,41 +1225,6 @@
     "goal_shortest_distance": 1.19
   },
   {
-    "name": "kujiale_0022_plate_moved_perceivesemantix",
-    "app": "perceivesemantix",
-    "experiment": {
-      "name": "kujiale_0022_plate_moved",
-      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
-      "lighting": "stage",
-      "goal": {
-        "task": "search",
-        "label": "plate",
-        "asset": "ornament_0005",
-        "goal_shortest_distance": 2.34
-      },
-      "max_runtime": 300.0,
-      "initialmap_experiment": "kujiale_0022_explore_moved",
-      "remove_assets": [
-        "ornament",
-        "cup",
-        "tea_set",
-        "kitchenware_0000"
-      ],
-      "exclude_remove_assets": [
-        "ornament_0005"
-      ]
-    },
-    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0022_plate_moved_perceivesemantix_state_trajectory.npy",
-    "time_to_complete": 300.0753130912781,
-    "path_length": 15.912433301367058,
-    "success": false,
-    "log_files": [
-      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0022/kujiale_0022_plate_moved",
-      "/home/benni/datasets/sim_results_syn_moved/kujiale_0022_plate_moved_perceivesemantix_state_trajectory.npy"
-    ],
-    "goal_shortest_distance": 2.34
-  },
-  {
     "name": "kujiale_0030_explore_moved_perceivesemantix",
     "app": "perceivesemantix",
     "experiment": {
@@ -1303,7 +1268,7 @@
         "task": "search",
         "label": "bowl",
         "asset": "bowl_0001",
-        "goal_shortest_distance": 2.24
+        "goal_shortest_distance": 4.55
       },
       "max_runtime": 300.0,
       "initialmap_experiment": "kujiale_0030_explore_moved",
@@ -1410,7 +1375,7 @@
         "task": "search",
         "label": "chair",
         "asset": "chair_0004",
-        "goal_shortest_distance": 1.1038
+        "goal_shortest_distance": 4.7
       },
       "max_runtime": 300.0,
       "initialmap_experiment": "kujiale_0026_explore_moved",
@@ -1434,5 +1399,35 @@
       "/home/benni/datasets/sim_results_syn_moved/kujiale_0026_chair_moved_perceivesemantix_state_trajectory.npy"
     ],
     "goal_shortest_distance": 4.7
+  },
+  {
+    "name": "kujiale_0022_cup_moved_perceivesemantix",
+    "app": "perceivesemantix",
+    "experiment": {
+      "name": "kujiale_0022_cup_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "tea_set_0003",
+        "goal_shortest_distance": 4.04
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "cup"
+      ]
+    },
+    "state_trajectory_file": "/home/benni/datasets/sim_results_syn_moved/kujiale_0022_cup_moved_perceivesemantix_state_trajectory.npy",
+    "time_to_complete": 300.0985734462738,
+    "path_length": 2.5781970407822716,
+    "success": false,
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0022/kujiale_0022_cup_moved",
+      "/home/benni/datasets/sim_results_syn_moved/kujiale_0022_cup_moved_perceivesemantix_state_trajectory.npy"
+    ],
+    "goal_shortest_distance": 4.04
   }
 ]
