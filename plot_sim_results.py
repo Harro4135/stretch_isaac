@@ -101,14 +101,14 @@ def main():
     #         fig.savefig(fig_output_dir / f"{e['name']}.pdf")
     #         plt.close(fig)
 
-    exp = select_experiments(data, app_name=['dynamem', 'perceivesemantix', 'random'], name_filter=['hidden'], exclusive_name=['explore'])
-    fig_output_dir = Path("/home/benni/datasets/sim_results_syn_new/plots/hidden")
-    fig_output_dir.mkdir(parents=True, exist_ok=True)
-    for e in exp:
-        fig = create_experiment_plot(e, data)
-        if fig:
-            fig.savefig(fig_output_dir / f"{e['name']}.pdf")
-            plt.close(fig)
+    # exp = select_experiments(data, app_name=['dynamem', 'perceivesemantix', 'random'], name_filter=['hidden'], exclusive_name=['explore'])
+    # fig_output_dir = Path("/home/benni/datasets/sim_results_syn_new/plots/hidden")
+    # fig_output_dir.mkdir(parents=True, exist_ok=True)
+    # for e in exp:
+    #     fig = create_experiment_plot(e, data)
+    #     if fig:
+    #         fig.savefig(fig_output_dir / f"{e['name']}.pdf")
+    #         plt.close(fig)
 
 
     # return
@@ -160,18 +160,13 @@ def main():
     fig_output_dir = Path("/home/benni/datasets/sim_results_syn_moved/plots/moved")
     fig_output_dir.mkdir(parents=True, exist_ok=True)
 
-    exp = select_experiments(data, app_name=['dynamem', 'perceivesemantix', 'random'], exclusive_name=['explore'])
-    for e in exp:
-        fig = create_experiment_plot(e, data)
-        if fig:
-            fig.savefig(fig_output_dir / f"{e['name']}.pdf")
-            plt.close(fig)
-    return
-
-    for exp in select_experiments(data, app_name='dynamem', exclusive_name=['explore']):
-        if "goal_shortest_distance" not in exp:
-            if "goal_shortest_distance" not in exp["experiment"]["goal"]:
-                print(f"Experiment {exp['name']} missing goal_shortest_distance")
+    # exp = select_experiments(data, app_name=['dynamem', 'perceivesemantix', 'random'], exclusive_name=['explore'])
+    # for e in exp:
+    #     fig = create_experiment_plot(e, data)
+    #     if fig:
+    #         fig.savefig(fig_output_dir / f"{e['name']}.pdf")
+    #         plt.close(fig)
+    # return
 
 
     moved_ours_experiments = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['explore']))
@@ -208,7 +203,7 @@ def main():
     print(f"Random Success Rates {moved_random_success_rates:.2f} over {moved_random_experiments} trials")
     print(f"Dynamem SPL {moved_dynamem_spl:.2f}")
     print(f"Ours SPL {moved_ours_spl:.2f}")
-    print(f"Random SPL {moved_random_spl:.2f}")     
+    print(f"Random SPL {moved_random_spl:.2f}")
 
 
     plt.bar(
@@ -231,6 +226,42 @@ def main():
     plt.ylim(0, 1)
     plt.ylabel('SPL')
     plt.title('Simulation SPL')
+
+    # Create LaTeX table
+    table = np.array([
+        [known_ours_success_rates,   known_ours_spl,
+        novel_ours_success_rates,   novel_ours_spl,
+        moved_ours_success_rates,   moved_ours_spl],
+
+        [known_dynamem_success_rates, known_dynamem_spl,
+        novel_dynamem_success_rates, novel_dynamem_spl,
+        moved_dynamem_success_rates, moved_dynamem_spl],
+
+        [known_random_success_rates, known_random_spl,
+        novel_random_success_rates, novel_random_spl,
+        moved_random_success_rates, moved_random_spl],
+    ])
+
+    methods = ["Ours", "DynaMem", "Random"]
+
+    # Compute max for each column
+    col_max = table.max(axis=0)
+
+    def fmt(v, m):
+        s = f"{v:.2f}"
+        return r"$\mathbf{" + s + "}$" if v == m else "$" + s + "$"
+
+    # Build LaTeX
+    print(r"\begin{tabular}{c@{\hspace{5pt}}|c@{\hspace{2pt}}c@{\hspace{7pt}}c@{\hspace{2pt}}c@{\hspace{7pt}}c@{\hspace{2pt}}c@{\hspace{5pt}}}")
+    print(r"Method & \multicolumn{2}{c}{Known} & \multicolumn{2}{c}{Novel} & \multicolumn{2}{c}{Moved} \\")
+    print(r" & SR $\uparrow$ & SPL $\uparrow$ & SR $\uparrow$ & SPL $\uparrow$ & SR $\uparrow$ & SPL $\uparrow$ \\")
+    print(r"\hline")
+
+    for i, name in enumerate(methods):
+        row = [fmt(table[i, j], col_max[j]) for j in range(6)]
+        print(name + " & " + " & ".join(row) + r" \\")
+
+    print(r"\end{tabular}")
 
     plt.show()
 
