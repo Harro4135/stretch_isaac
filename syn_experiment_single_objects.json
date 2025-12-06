@@ -19,7 +19,8 @@
                 "task": "search",
                 "label": "book",
                 "asset": "book_0011",
-                "goal_shortest_distance": 2.4986
+                "goal_shortest_distance": 2.4986,
+                "prior_map_object": "book_0010"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0004_explore_moved",
@@ -34,7 +35,8 @@
                 "task": "search",
                 "label": "bowl",
                 "asset": "bowl_0000",
-                "goal_shortest_distance": 4.691
+                "goal_shortest_distance": 4.691,
+                "prior_map_object": "bowl_0004"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0004_explore_moved",
@@ -49,7 +51,8 @@
                 "task": "search",
                 "label": "wine glass",
                 "asset": "wine_set_0002",
-                "goal_shortest_distance": 5.6
+                "goal_shortest_distance": 5.6,
+                "prior_map_object": "wine_set_0001"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0004_explore_moved",
@@ -64,7 +67,8 @@
                 "task": "search",
                 "label": "plate",
                 "asset": "tray_0001",
-                "goal_shortest_distance": 4.77487
+                "goal_shortest_distance": 4.77487,
+                "prior_map_object": "tray_0002"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0004_explore_moved",
@@ -82,7 +86,7 @@
             },
             "max_runtime": 900.0,
             "remove_assets": ["ornament", "book", "cookware", "plate", "lamp"],
-            "exclude_remove_assets": ["book_0008", "cookware_0000", "plate_0001"]
+            "exclude_remove_assets": ["book_0008", "cookware_0000", "plate_0001", "lamp_0001"]
         },
         {
             "name": "kujiale_0008_book_moved",
@@ -92,7 +96,8 @@
                 "task": "search",
                 "label": "book",
                 "asset": "book_0001",
-                "goal_shortest_distance": 9.84
+                "goal_shortest_distance": 9.84,
+                "prior_map_object": "book_0008"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0008_explore_moved",
@@ -107,7 +112,8 @@
                 "task": "search",
                 "label": "cooking pot",
                 "asset": "cookware_0001",
-                "goal_shortest_distance": 3.538
+                "goal_shortest_distance": 3.538,
+                "prior_map_object": "cookware_0000"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0008_explore_moved",
@@ -122,7 +128,8 @@
                 "task": "search",
                 "label": "plate",
                 "asset": "plate_0021",
-                "goal_shortest_distance": 1.09462
+                "goal_shortest_distance": 1.09462,
+                "prior_map_object": "plate_0001"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0008_explore_moved",
@@ -137,7 +144,8 @@
                 "task": "search",
                 "label": "lamp",
                 "asset": "lamp_0000",
-                "goal_shortest_distance": 5.73812
+                "goal_shortest_distance": 5.73812,
+                "prior_map_object": "lamp_0001"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0008_explore_moved",
@@ -165,7 +173,8 @@
                 "task": "search",
                 "label": "bottle",
                 "asset": "bottle_0010",
-                "goal_shortest_distance": 5.8263
+                "goal_shortest_distance": 5.8263,
+                "prior_map_object": "bottle_0012"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0020_explore_moved",
@@ -180,7 +189,8 @@
                 "task": "search",
                 "label": "potted plant",
                 "asset": "flower_0000",
-                "goal_shortest_distance": 3.38663
+                "goal_shortest_distance": 3.38663,
+                "prior_map_object": "flower_0003"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0020_explore_moved",
@@ -195,7 +205,8 @@
                 "task": "search",
                 "label": "cup",
                 "asset": "cup_0004",
-                "goal_shortest_distance": 2.93628
+                "goal_shortest_distance": 2.93628,
+                "prior_map_object": "cup_0003"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0020_explore_moved",
@@ -226,7 +237,8 @@
             "goal": {
                 "task": "search",
                 "label": "coffee table",
-                "asset": "table_0001"
+                "asset": "table_0001",
+                "prior_map_object": "table_0002"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0021_explore_moved",
@@ -240,7 +252,8 @@
             "goal": {
                 "task": "search",
                 "label": "potted plant",
-                "asset": "flower_0003"
+                "asset": "flower_0003",
+                "prior_map_object": "flower_0002"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0021_explore_moved",
@@ -254,7 +267,8 @@
             "goal": {
                 "task": "search",
                 "label": "chair",
-                "asset": "chair_0003"
+                "asset": "chair_0003",
+                "prior_map_object": "chair_0004"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0021_explore_moved",
@@ -281,7 +295,8 @@
             "goal": {
                 "task": "search",
                 "label": "cup",
-                "asset": "tea_set_0003"
+                "asset": "tea_set_0003",
+                "prior_map_object": "cup_0000"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0022_explore_moved",
@@ -307,7 +322,8 @@
                 "task": "search",
                 "label": "pillow",
                 "asset": "pillow_0000",
-                "exclude_goal_asset": "throw"
+                "exclude_goal_asset": "throw",
+                "prior_map_object": "throw_pillow_0003"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0024_explore_moved",
@@ -336,7 +352,8 @@
                 "task": "search",
                 "label": "chair",
                 "asset": "chair_0004",
-                "goal_shortest_distance": 1.1038
+                "goal_shortest_distance": 1.1038,
+                "prior_map_object": "chair_0003"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0026_explore_moved",
@@ -351,7 +368,8 @@
                 "task": "search",
                 "label": "pillow",
                 "asset": "throw_pillow_0007",
-                "goal_shortest_distance": 1.1038
+                "goal_shortest_distance": 1.1038,
+                "prior_map_object": "throw_pillow_0004"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0026_explore_moved",
@@ -378,7 +396,8 @@
             "goal": {
                 "task": "search",
                 "label": "bowl",
-                "asset": "bowl_0001"
+                "asset": "bowl_0001",
+                "prior_map_object": "kitchenware_0002"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0030_explore_moved",
@@ -392,7 +411,8 @@
             "goal": {
                 "task": "search",
                 "label": "cup",
-                "asset": "tea_set_0000"
+                "asset": "tea_set_0000",
+                "prior_map_object": "tea_set_0001"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0030_explore_moved",

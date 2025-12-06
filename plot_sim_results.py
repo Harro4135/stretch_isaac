@@ -38,19 +38,21 @@ def compute_spl(shortest_distance: list[float], path_length: list[float], succes
             spl_values.append(0.0)
     return sum(spl_values) / len(spl_values) if spl_values else 0.0
 
-def get_genmap_outfile(experiments: dict, experiment_name: str) -> Optional[str]:
+def get_genmap_outfile(experiments: dict, experiment_name: str) -> tuple[Optional[str], Optional[str]]:
     map_file = None
+    prior_map_object = None
     for exp in experiments:
         if exp['app'] == 'genmap' and exp['experiment']['name'] == experiment_name:
             map_file = exp['log_files'][0]
+            prior_map_object = exp['experiment']['goal'].get('prior_map_object', None)
             break
     if not map_file:
         print(f"Genmap output file for experiment '{experiment_name}' not found.")
-    return map_file
+    return map_file, prior_map_object
 
 def create_experiment_plot(experiment_result: dict, all_experiments: dict, figsize=(8,8)):
     experiment_name = experiment_result['experiment']['name']
-    map_file = get_genmap_outfile(all_experiments, experiment_name)
+    map_file, prior_map_object = get_genmap_outfile(all_experiments, experiment_name)
     if not map_file:
         return
     # map file is a .npz file  with colored_map, x, y, goal_positions, shortest_path
@@ -60,6 +62,7 @@ def create_experiment_plot(experiment_result: dict, all_experiments: dict, figsi
     y = map_data['y']
     goal_positions = map_data['goal_positions'] if 'goal_positions' in map_data else np.ndarray((0,2))
     shortest_path = map_data['shortest_path'] if 'shortest_path' in map_data else np.ndarray((0,2))
+
 
     fig = plt.figure(figsize=figsize)
     X, Y = np.meshgrid(x, y, indexing='ij')
@@ -73,6 +76,11 @@ def create_experiment_plot(experiment_result: dict, all_experiments: dict, figsi
     plt.scatter(state_trajecory[0,1], state_trajecory[0,2], color='green', label='Start')
     plt.scatter(goal_positions[:,0], goal_positions[:,1], color='red', marker='x', label='Goal Positions')
     # plt.plot(shortest_path[:,0], shortest_path[:,1], color='gray', linestyle=':', label='Shortest Path')
+
+    if prior_map_object is not None and "additional_positions" in map_data:
+        prior_obj_positions = map_data["additional_positions"]
+        if len(prior_obj_positions) > 0:
+            plt.scatter(prior_obj_positions[:,0], prior_obj_positions[:,1], color='blue', marker='o', label='Prior Map Object')
 
     success = experiment_result['success']
 
@@ -160,13 +168,14 @@ def main():
     fig_output_dir = Path("/home/benni/datasets/sim_results_syn_moved/plots/moved")
     fig_output_dir.mkdir(parents=True, exist_ok=True)
 
-    # exp = select_experiments(data, app_name=['dynamem', 'perceivesemantix', 'random'], exclusive_name=['explore'])
-    # for e in exp:
-    #     fig = create_experiment_plot(e, data)
-    #     if fig:
-    #         fig.savefig(fig_output_dir / f"{e['name']}.pdf")
-    #         plt.close(fig)
-    # return
+    exp = select_experiments(data, app_name=['dynamem', 'perceivesemantix', 'random'], exclusive_name=['explore'])
+    for e in exp:
+        fig = create_experiment_plot(e, data)
+        if fig:
+            fig.savefig(fig_output_dir / f"{e['name']}.pdf")
+            plt.close(fig)
+            # plt.show()
+    return
 
 
     moved_ours_experiments = len(select_experiments(data, app_name='perceivesemantix', exclusive_name=['explore']))

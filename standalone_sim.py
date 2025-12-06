@@ -365,6 +365,14 @@ def main(simulation_app):
         help="Path to save the generated occupancy map.",
         default=None,
     )
+    parser.add_argument(
+        "--generate-map-objs",
+        type=str,
+        help="Objects whose positions to store additionally",
+        nargs="*",
+        default=[],
+    )
+
     args = parser.parse_args()
     args.asset = parse_assets(args.asset)
 
@@ -417,7 +425,14 @@ def main(simulation_app):
                 root_prim_path="/Root", resolution=0.1, width_m=20, height_m=20, z_min=0.2, z_max=1.8, return_color=True, prim_colors=prim_colors
             )
 
-            np.savez_compressed(args.generate_map, colored_map=colored_map, x=x, y=y, goal_positions=goal_positions, shortest_path=shortest_path)
+            if len(args.generate_map_objs) > 0:
+                additional_assets = get_toplevel_prims_substring(_scene, args.generate_map_objs)
+                print(f"Found additional assets for map generation: {[prim.GetPath() for prim in additional_assets]} for substrings {args.generate_map_objs}")
+                additional_positions = dump_prim_position(additional_assets, print_output=False)
+            else:
+                additional_positions = np.ndarray((0, 3))
+
+            np.savez_compressed(args.generate_map, colored_map=colored_map, x=x, y=y, goal_positions=goal_positions, shortest_path=shortest_path, additional_positions=additional_positions)
             # print state once, so parent process know isaac sim started successfully
             dump_state(
                 0.0,

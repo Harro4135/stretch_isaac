@@ -542,6 +542,10 @@ def build_proccesses(
 
     if app.lower() == "genmap":
         issac_sim_options += ["--generate-map", (output_dir / "map.npz").as_posix()]
+        if "prior_map_object" in experiment["goal"]:
+            if isinstance(experiment["goal"]["prior_map_object"], str):
+                experiment["goal"]["prior_map_object"] = [experiment["goal"]["prior_map_object"]]
+            issac_sim_options += ["--generate-map-objs"] + experiment["goal"]["prior_map_object"]
 
     issac_sim_parse_buffer = BufferClass()
     processes = [
