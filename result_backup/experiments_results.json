@@ -4091,5 +4091,1189 @@
       "/home/benni/datasets/sim_results_syn_new/kujiale_0021_book-hidden_random_state_trajectory.npy"
     ],
     "goal_shortest_distance": 1.77
+  },
+  {
+    "name": "kujiale_0004_explore_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0004_explore",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0004/kujiale_0004_explore/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0004_book_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0004_book",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "book",
+        "asset": "book"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0004_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0004/kujiale_0004_book/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0004_bowl_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0004_bowl",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "bowl",
+        "asset": "bowl"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0004_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0004/kujiale_0004_bowl/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0004_wineglass_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0004_wineglass",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "wine glass",
+        "asset": "wine_set"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0004_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0004/kujiale_0004_wineglass/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0004_plate_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0004_plate",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "plate",
+        "asset": "tray"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0004_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0004/kujiale_0004_plate/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0004_explore-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0004_explore-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "bowl",
+        "book",
+        "office_supply",
+        "tray",
+        "wine_set"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0004/kujiale_0004_explore-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0004_book-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0004_book-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "book",
+        "asset": "book"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0004_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0004/kujiale_0004_book-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0004_bowl-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0004_bowl-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "bowl",
+        "asset": "bowl"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0004_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0004/kujiale_0004_bowl-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0004_wineglass-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0004_wineglass-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "wine glass",
+        "asset": "wine_set"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0004_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0004/kujiale_0004_wineglass-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0004_plate-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0004_plate-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0004/kujiale_0004.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "plate",
+        "asset": "tray"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0004_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0004/kujiale_0004_plate-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0008_explore_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0008_explore",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0008/kujiale_0008_explore/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0008_book_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0008_book",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "book",
+        "asset": "book"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0008_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0008/kujiale_0008_book/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0008_cookingpot_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0008_cookingpot",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "cooking pot",
+        "asset": "cookware"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0008_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0008/kujiale_0008_cookingpot/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0008_explore-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0008_explore-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "book",
+        "wine_set",
+        "cookware"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0008/kujiale_0008_explore-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0008_book-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0008_book-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "book",
+        "asset": "book"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0008_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0008/kujiale_0008_book-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0008_cookingpot-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0008_cookingpot-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0008/kujiale_0008.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "cooking pot",
+        "asset": "cookware"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0008_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0008/kujiale_0008_cookingpot-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0020_explore_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0020_explore",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0020/kujiale_0020_explore/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0020_bottle_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0020_bottle",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "bottle",
+        "asset": "bottle"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0020_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0020/kujiale_0020_bottle/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0020_lamp_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0020_lamp",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "lamp",
+        "asset": "lamp"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0020_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0020/kujiale_0020_lamp/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0020_explore-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0020_explore-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "bottle",
+        "lamp"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0020/kujiale_0020_explore-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0020_bottle-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0020_bottle-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "bottle",
+        "asset": "bottle"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0020_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0020/kujiale_0020_bottle-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0020_lamp-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0020_lamp-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0020/kujiale_0020.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "lamp",
+        "asset": "lamp"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0020_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0020/kujiale_0020_lamp-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0021_explore_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0021_explore",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0021/kujiale_0021_explore/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0021_bowl_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0021_bowl",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "bowl",
+        "asset": "bowl"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0021_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0021/kujiale_0021_bowl/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0021_cup_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0021_cup",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "cup"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0021_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0021/kujiale_0021_cup/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0021_book_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0021_book",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "book",
+        "asset": "book"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0021_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0021/kujiale_0021_book/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0021_explore-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0021_explore-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "bowl",
+        "cup",
+        "book"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0021/kujiale_0021_explore-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0021_bowl-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0021_bowl-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "bowl",
+        "asset": "bowl"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0021_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0021/kujiale_0021_bowl-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0021_cup-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0021_cup-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "cup"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0021_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0021/kujiale_0021_cup-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0021_book-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0021_book-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "book",
+        "asset": "book"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0021_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0021/kujiale_0021_book-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0022_explore_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0022_explore",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0022/kujiale_0022_explore/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0022_knife_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0022_knife",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "knife",
+        "asset": "knife"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0022/kujiale_0022_knife/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0022_cup_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0022_cup",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "cup"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0022/kujiale_0022_cup/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0022_bowl_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0022_bowl",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "bowl",
+        "asset": "bowl"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0022/kujiale_0022_bowl/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0022_stove_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0022_stove",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "stove",
+        "asset": "other_cooker"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0022/kujiale_0022_stove/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0022_explore-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0022_explore-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "knife",
+        "cup",
+        "bowl",
+        "other_cooker"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0022/kujiale_0022_explore-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0022_knife-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0022_knife-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "knife",
+        "asset": "knife"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0022/kujiale_0022_knife-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0022_cup-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0022_cup-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "cup"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0022/kujiale_0022_cup-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0022_bowl-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0022_bowl-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "bowl",
+        "asset": "bowl"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0022/kujiale_0022_bowl-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0022_stove-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0022_stove-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "stove",
+        "asset": "other_cooker"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore-hidden",
+      "remove_assets": [
+        "ornament"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0022/kujiale_0022_stove-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0024_explore_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0024_explore",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0024/kujiale_0024_explore/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0024_washingmachine_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0024_washingmachine",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "washing machine",
+        "asset": "washing_machine"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore",
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0024/kujiale_0024_washingmachine/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0024_book_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0024_book",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "book",
+        "asset": "book"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore",
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0024/kujiale_0024_book/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0024_cup_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0024_cup",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "cup"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore",
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0024/kujiale_0024_cup/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0024_explore-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0024_explore-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "cosmetic",
+        "washing_machine",
+        "closestool",
+        "book",
+        "cup"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0024/kujiale_0024_explore-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0024_washingmachine-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0024_washingmachine-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "washing machine",
+        "asset": "washing_machine"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore-hidden",
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0024/kujiale_0024_washingmachine-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0024_book-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0024_book-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "book",
+        "asset": "book"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore-hidden",
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0024/kujiale_0024_book-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0024_cup-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0024_cup-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "cup"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore-hidden",
+      "remove_assets": [
+        "ornament",
+        "cosmetic"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0024/kujiale_0024_cup-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0026_explore_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0026_explore",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "menorah"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0026/kujiale_0026_explore/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0026_laptop_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0026_laptop",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "laptop",
+        "asset": "office_supply_0028"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0026_explore",
+      "remove_assets": [
+        "ornament",
+        "menorah"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0026/kujiale_0026_laptop/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0026_plate_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0026_plate",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "plate",
+        "asset": "plate"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0026_explore",
+      "remove_assets": [
+        "ornament",
+        "menorah"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0026/kujiale_0026_plate/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0026_explore-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0026_explore-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "menorah",
+        "office_supply",
+        "plate",
+        "wine_set"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0026/kujiale_0026_explore-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0026_laptop-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0026_laptop-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "laptop",
+        "asset": "office_supply_0028"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0026_explore-hidden",
+      "remove_assets": [
+        "ornament",
+        "menorah"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0026/kujiale_0026_laptop-hidden/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0026_plate-hidden_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0026_plate-hidden",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "camera",
+      "goal": {
+        "task": "search",
+        "label": "plate",
+        "asset": "plate"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0026_explore-hidden",
+      "remove_assets": [
+        "ornament",
+        "menorah"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_new/genmap/kujiale_0026/kujiale_0026_plate-hidden/map.npz"
+    ]
   }
 ]
