@@ -1128,7 +1128,7 @@
         "task": "search",
         "label": "pillow",
         "asset": "pillow_0000",
-        "goal_shortest_distance": -0.55
+        "goal_shortest_distance": 7.76
       },
       "max_runtime": 300.0,
       "initialmap_experiment": "kujiale_0024_explore_moved",
@@ -1150,7 +1150,7 @@
       "/home/benni/datasets/sim_results_syn_moved/perceivesemantix/kujiale_0024/kujiale_0024_pillow_moved",
       "/home/benni/datasets/sim_results_syn_moved/kujiale_0024_pillow_moved_perceivesemantix_state_trajectory.npy"
     ],
-    "goal_shortest_distance": -0.55
+    "goal_shortest_distance": 7.76
   },
   {
     "name": "kujiale_0026_pillow_moved_perceivesemantix",
@@ -2225,7 +2225,7 @@
     "log_files": [
       "/home/benni/datasets/sim_results_syn_moved/kujiale_0024_pillow_moved_dynamem_state_trajectory.npy"
     ],
-    "goal_shortest_distance": -0.55
+    "goal_shortest_distance": 7.76
   },
   {
     "name": "kujiale_0024_pillow_moved_random",
@@ -2259,7 +2259,7 @@
       "/home/benni/datasets/sim_results_syn_moved/random/kujiale_0024/kujiale_0024_pillow_moved",
       "/home/benni/datasets/sim_results_syn_moved/kujiale_0024_pillow_moved_random_state_trajectory.npy"
     ],
-    "goal_shortest_distance": -0.55
+    "goal_shortest_distance": 7.76
   },
   {
     "name": "kujiale_0026_explore_moved_dynamem",
@@ -3077,6 +3077,346 @@
     },
     "log_files": [
       "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0021/kujiale_0021_coffee_table_moved/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0021_potted_plant_moved_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0021_potted_plant_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "potted plant",
+        "asset": "flower_0003"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0021_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "table",
+        "flower",
+        "chair"
+      ],
+      "exclude_remove_assets": [
+        "dining_table",
+        "table_0002",
+        "flower_0003",
+        "chair_0004"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0021/kujiale_0021_potted_plant_moved/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0021_chair_moved_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0021_chair_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0021/kujiale_0021.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "chair",
+        "asset": "chair_0003"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0021_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "table",
+        "flower",
+        "chair"
+      ],
+      "exclude_remove_assets": [
+        "dining_table",
+        "table_0002",
+        "flower_0003",
+        "chair_0003"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0021/kujiale_0021_chair_moved/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0022_explore_moved_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0022_explore_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "cup"
+      ],
+      "exclude_remove_assets": [
+        "cup_0000",
+        "kitchenware_0000"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0022/kujiale_0022_explore_moved/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0022_cup_moved_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0022_cup_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0022/kujiale_0022.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "tea_set_0003"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0022_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "cup"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0022/kujiale_0022_cup_moved/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0024_explore_moved_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0024_explore_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "pillow",
+        "chair",
+        "cup"
+      ],
+      "exclude_remove_assets": [
+        "throw_pillow_0003",
+        "chair_0000",
+        "cup_0003"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0024/kujiale_0024_explore_moved/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0026_explore_moved_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0026_explore_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "menorah",
+        "book",
+        "pillow",
+        "chair"
+      ],
+      "exclude_remove_assets": [
+        "book_0001",
+        "throw_pillow_0004",
+        "chair_0003"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0026/kujiale_0026_explore_moved/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0026_chair_moved_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0026_chair_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "chair",
+        "asset": "chair_0004",
+        "goal_shortest_distance": 1.1038
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0026_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "menorah",
+        "book",
+        "pillow",
+        "chair"
+      ],
+      "exclude_remove_assets": [
+        "chair_0004"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0026/kujiale_0026_chair_moved/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0030_explore_moved_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0030_explore_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0030/kujiale_0030.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "explore"
+      },
+      "max_runtime": 900.0,
+      "remove_assets": [
+        "ornament",
+        "vase",
+        "bowl",
+        "tea_set",
+        "cup"
+      ],
+      "exclude_remove_assets": [
+        "cup_0000",
+        "kitchenware_0002",
+        "tea_set_0001"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0030/kujiale_0030_explore_moved/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0030_bowl_moved_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0030_bowl_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0030/kujiale_0030.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "bowl",
+        "asset": "bowl_0001"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0030_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "vase",
+        "bowl",
+        "tea_set",
+        "cup"
+      ],
+      "exclude_remove_assets": [
+        "bowl_0000",
+        "bowl_0001",
+        "bowl_0002"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0030/kujiale_0030_bowl_moved/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0030_cup_moved_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0030_cup_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0030/kujiale_0030.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "cup",
+        "asset": "tea_set_0000"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0030_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "vase",
+        "bowl",
+        "tea_set",
+        "cup"
+      ],
+      "exclude_remove_assets": [
+        "tea_set_0000"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0030/kujiale_0030_cup_moved/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0024_pillow_moved_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0024_pillow_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0024/kujiale_0024.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "pillow",
+        "asset": "pillow_0000",
+        "exclude_goal_asset": "throw"
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0024_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "pillow",
+        "chair",
+        "sofa"
+      ],
+      "exclude_remove_assets": [
+        "pillow_0000"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0024/kujiale_0024_pillow_moved/map.npz"
+    ]
+  },
+  {
+    "name": "kujiale_0026_pillow_moved_genmap",
+    "app": "genmap",
+    "experiment": {
+      "name": "kujiale_0026_pillow_moved",
+      "scene": "/home/benni/datasets/InteriorAgent/kujiale_0026/kujiale_0026.usda",
+      "lighting": "stage",
+      "goal": {
+        "task": "search",
+        "label": "pillow",
+        "asset": "throw_pillow_0007",
+        "goal_shortest_distance": 1.1038
+      },
+      "max_runtime": 300.0,
+      "initialmap_experiment": "kujiale_0026_explore_moved",
+      "remove_assets": [
+        "ornament",
+        "menorah",
+        "book",
+        "pillow"
+      ],
+      "exclude_remove_assets": [
+        "throw_pillow_0007"
+      ]
+    },
+    "log_files": [
+      "/home/benni/datasets/sim_results_syn_moved/genmap/kujiale_0026/kujiale_0026_pillow_moved/map.npz"
     ]
   }
 ]

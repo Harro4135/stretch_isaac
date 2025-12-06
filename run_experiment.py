@@ -517,6 +517,12 @@ def build_proccesses(
                 "--gasset",
                 str(asset),
             ]
+    if "exclude_goal_asset" in experiment["goal"]:
+        exclude_asset = experiment["goal"]["exclude_goal_asset"]
+        if isinstance(exclude_asset, str):
+            exclude_asset = [exclude_asset]
+        if len(exclude_asset) > 0:
+            issac_sim_options += ["--gasset-exclude"] + exclude_asset
     if "remove_assets" in experiment:
         if experiment["remove_assets"]:
             if isinstance(experiment["remove_assets"], str):
@@ -679,7 +685,7 @@ def build_proccesses(
                     "-p",
                     "image_rotations_clockwise:=1",
                     "-p",
-                    "occupancy_map/floor_height:=0.1",
+                    "occupancy_map/floor_height:=0.15",
                     "-p",
                     f"store_output:={str(do_explore)}",
                     "-p",

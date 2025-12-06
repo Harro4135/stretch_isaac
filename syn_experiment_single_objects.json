@@ -306,7 +306,8 @@
             "goal": {
                 "task": "search",
                 "label": "pillow",
-                "asset": "pillow_0000"
+                "asset": "pillow_0000",
+                "exclude_goal_asset": "throw"
             },
             "max_runtime": 300.0,
             "initialmap_experiment": "kujiale_0024_explore_moved",

@@ -353,6 +353,13 @@ def main(simulation_app):
         help="Goal assets to broadcast their position.",
     )
     parser.add_argument(
+        "--gasset-exclude",
+        type=str,
+        help="Substring of goal assets to exclude from broadcasting even if they match gasset.",
+        nargs="*",
+        default=[],
+    )
+    parser.add_argument(
         "--generate-map",
         type=Path,
         help="Path to save the generated occupancy map.",
@@ -386,8 +393,13 @@ def main(simulation_app):
 
         print(f"Searching for goal assets with substring: {args.gasset}")
         goal_assets = get_toplevel_prims_substring(_scene, [args.gasset]) if args.gasset is not None else []
+        goal_assets = [prim for prim in goal_assets if not any(exclude in prim.GetName() for exclude in args.gasset_exclude)]
 
         world.reset()
+
+        # disable collision of hidden assests before computing the map
+        for prim in hide_assets:
+            disable_collision(prim)
 
         print("Computing shortest path to goals...")
         if len(goal_assets) > 0:
