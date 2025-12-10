@@ -8,7 +8,7 @@ from collections import defaultdict
 def main():
     plt.rcParams.update({
             "text.usetex": True,
-            "font.size": 10,
+            "font.size": 8,
             "mathtext.fontset" : "stix",
             "font.family" : "STIXGeneral",
             "mathtext.fontset" : "cm",
@@ -75,14 +75,14 @@ def main():
 
 
 
-    fig2, ax3 = plt.subplots(figsize=(6*cm2inch,4*cm2inch))
+    fig2, ax3 = plt.subplots(figsize=(2.75*cm2inch,2*cm2inch))
     ax3.set_xlabel('Number of Objects')
-    ax3.set_ylabel('Update Interval (s)')
+    ax3.set_ylabel('Period (s)')
     # plot with std region
     num_objects_array = np.array([d[0] for d in sorted_data])
     intervals_array = np.array([d[1] for d in sorted_data])
     std_array = np.array([d[2] for d in sorted_data])
-    ax3.plot(num_objects_array, intervals_array, color='blue', label='Average Interval')
+    ax3.plot(num_objects_array, intervals_array, color='blue', label='Average Interval', lw=0.75)
     ax3.fill_between(num_objects_array, intervals_array - std_array, intervals_array + std_array, color='blue', alpha=0.2, label='Std Dev')
 
     # fit a curve to the data
@@ -98,7 +98,7 @@ def main():
 
 
 
-    plt.show()
+    # plt.show()
 
 if __name__ == "__main__":
     main()
