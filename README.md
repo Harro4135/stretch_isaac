@@ -3,7 +3,8 @@
 
 - Pixi installed for IsaacSim and ROS2(https://pixi.sh/dev/installation/)
 - NVIDIA GPU with up-to-date drivers  
-- `ros2-bridge` plugin enabled in Isaac Sim  
+- `ros2-bridge` plugin enabled in Isaac Sim 
+  - It is already automatically enabled. Go to Window > Extensions, find "ROS 2 Bridge," and check if it is **Enabled**.
 
 ## Directory Layout
 
@@ -20,16 +21,16 @@ Adapted from the Isaac Sim docs:
 - https://docs.isaacsim.omniverse.nvidia.com/4.5.0/ros2_tutorials/index.html  
 
 1. **Create a new Isaac Sim project with importing scenes**  
-  - the file `interior_agent_scene.usd` contains the scene (including imported stretch) `kujale_0003` from the dataset https://huggingface.co/datasets/spatialverse/InteriorAgent/tree/main (skip step 2)
-  - the file `hm3d_scene.usd` contains a scene (including imported stretch) from the [Habitat-Matterport3D](https://github.com/matterport/habitat-matterport-3dresearch?tab=readme-ov-file) dataset (skip step 2)
-  - There are existing environments and assets for setting up environments with the path Content>Isaac Sim
-    - To enable physics performance, select your object (like a cube or Xform), right-click it in the Stage window, and choose Add > Physics > Rigid Body, then add a Collider Preset for interaction
+  - the file `interior_agent_scene.usd` contains the scene (including imported stretch) `kujale_0003` from the dataset https://huggingface.co/datasets/spatialverse/InteriorAgent/tree/main
+  - the file `hm3d_scene.usd` contains a scene (including imported stretch) from the [Habitat-Matterport3D](https://github.com/matterport/habitat-matterport-3dresearch?tab=readme-ov-file) dataset
+  - There are existing environments and assets for setting up environments with the path `Content>Isaac Sim`
+    - To enable physics performance, select your object (like a cube or Xform), right-click it in the Stage window, and choose `Add > Physics > Rigid Body`, then add a Collider Preset for object interaction
 2. **Import the Stretch as USD File** 
   - Import `importable_stretch.usd` into your IsaacSim stage
   - Original URDF used square collision meshes on the wheels, which caused physics artifacts.  
   - Replaced them with cylinders; see `Robot_Import_Files/`.  
   - Enabled self-collision and set the base link movable.  
-3. **Tune joint dynamics**  
+3. **Tune joint dynamics**
   - **Wheels**  
     - `link_right_wheel` and `link_left_wheel`
     - Armature: 2.0 kg·m² (reduces jitter)  
@@ -55,7 +56,7 @@ Adapted from the Isaac Sim docs:
       - `/tf_static`
     4. Estimated state publisher
       - `/state_estimator/pose_filtered`
-    5. Differential controller 
+    5. Differential controller for the wheels
       - `/stretch/cmd_vel`
     6. Joint state publisher/subscriber and controller
       - `/joint_state`
@@ -69,5 +70,18 @@ Adapted from the Isaac Sim docs:
   - launch by executing `isaacsim`
 2. Play simulation and run ROS2 nodes
 
-## Future Work
-- Force feedback gripper control
+## Testing
+To see if the stetch robot is set up in the scene correctly, type in following commands:
+1. Check physics properties. Test the moveable links with the ROS2 topics `/stretch/cmd_vel` and `/joint_command`
+  - Test wheels
+    ```bash
+    $ ros2 topic pub --once /stretch/cmd_vel \
+    geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}"
+
+  - Test 'link_lift'
+    ```bash
+    $ ros2 topic pub --once /stretch/cmd_vel \
+    geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}"
+2. Check ROS2 topics are publishing/ subscribing. You should see the topics listed above.
+  ```bash
+  $ ros2 topic list
