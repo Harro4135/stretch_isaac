@@ -148,4 +148,4 @@ Adapted from the Isaac Sim docs:
   > If the joints do not move:
   > - Check the lower/ upper limit or max force value of the joints.
   > - Recheck armature, damping, and stiffness values.
-  ![Editing joint driving properties](img/joint_drive.png)
+  <img src="img/joint_drive.png" width="50%">
