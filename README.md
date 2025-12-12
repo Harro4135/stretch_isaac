@@ -1,10 +1,25 @@
 # stretch_isaac
+## Quick Start Overview
+This repository provides an Isaac Sim environment for deploying and testing the Hello Robot **Stretch** with ROS 2.
+A minimal end-to-end workflow is as follows:
+1. Install prerequisites (Pixi, Isaac Sim, ROS 2).
+2. Launch Isaac Sim using Pixi.
+3. Open an example scene or create a new environment.
+4. Import the Stretch USD model into the scene.
+5. Verify physics and joint dynamics.
+6. Enable and configure the ROS 2 bridge (already enabled by default).
+7. Play the simulation.
+8. Run ROS 2 nodes and test base and joint control.
+This README explains each step in more detail below.
+
 ## Prerequisites
 
-- Pixi installed for IsaacSim and ROS2(https://pixi.sh/dev/installation/)
+- Pixi installed for Isaac Sim 5.1.0 and ROS2 Humble
+  (https://pixi.sh/dev/installation/)
 - NVIDIA GPU with up-to-date drivers  
 - `ros2-bridge` plugin enabled in Isaac Sim 
-  - It is already automatically enabled. Go to Window > Extensions, find "ROS 2 Bridge," and check if it is **Enabled**.
+  - It is already automatically enabled. 
+  - Go to Window > Extensions, find "ROS 2 Bridge," and verify it is **Enabled**.
 
 ## Directory Layout
 
@@ -20,68 +35,121 @@ Adapted from the Isaac Sim docs:
 - https://docs.isaacsim.omniverse.nvidia.com/4.5.0/robot_setup/import_urdf.html  
 - https://docs.isaacsim.omniverse.nvidia.com/4.5.0/ros2_tutorials/index.html  
 
-1. **Create a new Isaac Sim project with importing scenes**  
-  - the file `interior_agent_scene.usd` contains the scene (including imported stretch) `kujale_0003` from the dataset https://huggingface.co/datasets/spatialverse/InteriorAgent/tree/main
-  - the file `hm3d_scene.usd` contains a scene (including imported stretch) from the [Habitat-Matterport3D](https://github.com/matterport/habitat-matterport-3dresearch?tab=readme-ov-file) dataset
-  - There are existing environments and assets for setting up environments with the path `Content>Isaac Sim`
-    - To enable physics performance, select your object (like a cube or Xform), right-click it in the Stage window, and choose `Add > Physics > Rigid Body`, then add a Collider Preset for object interaction
+1. **Create or Open an Isaac Sim scene**  
+  You may either open an existing prepared scene or create your own.
+    - `interior_agent_scene.usd` 
+      - It contains the scene (including imported stretch) `kujale_0003` from the dataset https://huggingface.co/datasets/spatialverse/InteriorAgent/tree/main
+    - `hm3d_scene.usd` 
+      - It contains a scene (including imported stretch) from the [Habitat-Matterport3D](https://github.com/matterport/habitat-matterport-3dresearch?tab=readme-ov-file) dataset
+    > If you open try to open these two scenes, make sure you have downloaded the scene from the dataset link and Isaac Sim can find their location in your local.
+    > After you opened the scenes, you may skip step 2.
+  You may also use built-in Isaac Sim assets:
+    - Navigate to **Content > Isaac** Sim to browse default environments and props.
+  **Physics note:**
+  For objects to interact physically with the robot:
+    - Select the object in the Stage window
+    - Right-click → Add > Physics > Rigid Body
+    - Add a Collider Preset
 2. **Import the Stretch as USD File** 
-  - Import `importable_stretch.usd` into your IsaacSim stage
-  - Original URDF used square collision meshes on the wheels, which caused physics artifacts.  
-  - Replaced them with cylinders; see `Robot_Import_Files/`.  
-  - Enabled self-collision and set the base link movable.  
+  If your scene does not already include the robot:
+    - Import `importable_stretch.usd` into the current stage
+    - Use **File > Import Reference** so the robot remains reusable
+  Model details: 
+    - Original URDF used square collision meshes on the wheels, which caused physics artifacts.  
+    - Replace them with cylinders; see `Robot_Import_Files/`.  
+    - Enable self-collision and set the base link movable.
+  
 3. **Tune joint dynamics**
-  - **Wheels**  
-    - `link_right_wheel` and `link_left_wheel`
-    - Armature: 2.0 kg·m² (reduces jitter)  
-    - Damping: 1000; Stiffness: 0  
-    - Clamped max torque and brake force  
-  - **Positional joints**  
+  Proper joint tuning is critical for stable simulation.
+  - **Wheels** 
+    - Joints: `link_right_wheel` and `link_left_wheel`
+    - Recommended parameters
+      - Armature: 2.0 kg·m² (reduces jitter)  
+      - Damping: 1000
+      - Stiffness: 0  
+      - Max torque and brake force clamped
+  > Where to set this in the UI:
+  >   - Select the wheel link in the Stage window
+  >   - Open the Property panel
+  >   - Navigate to **Physics > Articulation > Drive**
+  - **Positional joints (arm,lift, wrist)**  
     - Armature: 0.1 kg·m²  
     - Damping & stiffness hand-tuned via GUI  
-      (Tools > Robotics > Asset Editors > Gain Tuner)
+      - **Tools > Robotics > Asset Editors > Gain Tuner**
+
 4. **ROS 2 Bridge configuration** (synchronized to system time)  
-   - Adapt or reuse OmniGraph templates from  
-     Tools > Robotics > ROS 2 OmniGraphs  
-   - Key graphs:  
-    1. Camera broadcast 
-      - `/spectacular_ai/camera_info` 
-      - `/spectacular_ai/point_cloud`
-      - `/spectacular_ai/depth_image`
-      - `/spectacular_ai/color_image`
-    2. Lidar broadcast
-      - `/scan_filtered`
-    3. TF/ TF static broadcast
-      - `/tf`
-      - `/tf_static`
-    4. Estimated state publisher
-      - `/state_estimator/pose_filtered`
-    5. Differential controller for the wheels
-      - `/stretch/cmd_vel`
-    6. Joint state publisher/subscriber and controller
-      - `/joint_state`
-      - `/joint_command`
-    7. Home The Robot publisher and service server
-      - `/is_homed`
+  - Adapt or reuse OmniGraph templates from **Window > Graph Editors > Action Graph**
+  **ROS2 Topic Overview**
+  | Component | Topics                           | Direction | Purpose                     |
+  | --------- | -------------------------------- | --------- | --------------------------- |
+  | Base      | `/stretch/cmd_vel`               | Sub       | Differential drive control  |
+  | Joints    | `/joint_command`, `/joint_state` | Sub / Pub | Joint commands and feedback |
+  | Camera    | `/spectacular_ai/*`              | Pub       | RGB, depth, point cloud     |
+  | Lidar     | `/scan_filtered`                 | Pub       | Laser scan                  |
+  | TF        | `/tf`, `/tf_static`              | Pub       | Coordinate transforms       |
+  | State     | `/state_estimator/pose_filtered` | Pub       | Estimated robot pose        |
+  | Homing    | `/is_homed`                      | Pub / Srv | Robot homing status         |
+
+  - Key graphs:  
+  1. Camera information and image (PointCloud, Depth and RGB Image) broadcast 
+    - `/spectacular_ai/camera_info` 
+    - `/spectacular_ai/point_cloud`
+    - `/spectacular_ai/depth_image`
+    - `/spectacular_ai/color_image`
+  2. Lidar broadcast
+    - `/scan_filtered`
+  3. TF/ TF static broadcast
+    - `/tf`
+    - `/tf_static`
+  4. Estimated state publisher
+    - `/state_estimator/pose_filtered`
+  5. Differential controller for the wheels
+    - `/stretch/cmd_vel`
+  6. Joint state publisher/subscriber and controller
+    - `/joint_state`
+    - `/joint_command`
+  7. Home The Robot publisher and service server
+    - `/is_homed`
 
 ## Launching the Simulation
-1. To install Isaac Sim with Pixi do
-  - `pixi shell` (in the root diretory of this repo)
-  - launch by executing `isaacsim`
-2. Play simulation and run ROS2 nodes
+1. Enter the Pixi environment in the root diretory of this repo:
+  ```bash
+  $ pixi shell
+  ```
+2. Launch Isaac Sim
+  ```bash
+  $ isaacsim
+  ```
+3. Open a scene or import the Stretch USD.
+4. Press **Play** to start the simulation.
+5. Run ROS2 nodes in a separate terminal.
 
 ## Testing
-To see if the stetch robot is set up in the scene correctly, type in following commands:
-1. Check physics properties. Test the moveable links with the ROS2 topics `/stretch/cmd_vel` and `/joint_command`
-  - Test wheels
+  1. Base Motion Control
+    `/stretch/cmd_vel`: Topic to control the movement of the stretch robot.
     ```bash
     $ ros2 topic pub --once /stretch/cmd_vel \
     geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}"
-
-  - Test 'link_lift'
+    ```
+    Expected behavior:
+      - The robot rotates in place.
+    If the robot does not move:
+      - Check wheel joint drive settings
+      - Verify ground plane has a collider
+      - Ensure simulation is playing
+  2. Joint-Level Control
+    `/joint_command`: Topic to control each joint.
     ```bash
-    $ ros2 topic pub --once /stretch/cmd_vel \
-    geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}"
-2. Check ROS2 topics are publishing/ subscribing. You should see the topics listed above.
-  ```bash
-  $ ros2 topic list
+    $ ros2 topic pub /joint_command \
+    sensor_msgs/JointState "{name: ['joint_lift'], position: [0.2]}"
+    ```
+    Verify feedback:
+    ```bash
+    $ ros2 topic echo /joint_state
+    ```
+    Expected behavior:
+      - The joint moves to the commanded position.
+      - `/joint_command` reflects the correct value.
+    If the joints do not move:
+      - Check the max angle or max force value of the joints.
+      - Recheck armature, damping, and stiffness values.
