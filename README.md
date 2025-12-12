@@ -104,11 +104,11 @@ Adapted from the Isaac Sim docs:
 ## Launching the Simulation
 1. Enter the Pixi environment in the root diretory of this repo:
     ```bash
-    $ pixi shell
+    pixi shell
     ```
 2. Launch Isaac Sim
     ```bash
-    $ isaacsim
+    isaacsim
     ```
 3. Open a scene or import the Stretch USD.
 4. Press **Play** to start the simulation.
@@ -117,31 +117,31 @@ Adapted from the Isaac Sim docs:
 ## Testing
 
 1. **Base Motion Control (`/stretch/cmd_vel`)**
-
-   - This command controls the differential drive of the robot base.
+  - This command controls the differential drive of the robot base.
       ```bash
       ros2 topic pub --once /stretch/cmd_vel \
       geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}"
-
-    > Expected behavior:
-    > - The robot rotates in place.
-    > If the robot does not move:
-    > - Check wheel joint drive settings
-    > - Verify ground plane has a collider
-    > - Ensure simulation is playing
+      ```
+  - Expected behavior:
+    - The robot rotates in place.
+  - If the robot does not move:
+    - Check wheel joint drive settings
+    - Verify ground plane has a collider
+    - Ensure simulation is playing
   2. **Joint-Level Control (`/joint_command`)**:
     - This command controls individual articulated joints (arm, lift, wrist).
       ```bash
       $ ros2 topic pub /joint_command \
       sensor_msgs/JointState "{name: ['joint_lift'], position: [0.2]}"
-      
+      ```
     - Verify feedback:
       ```bash
       $ ros2 topic echo /joint_state
-      
-    > Expected behavior:
-    > - The joint moves to the commanded position.
-    > - `/joint_command` reflects the correct value.
-    > If the joints do not move:
-    > - Check the max angle or max force value of the joints.
-    > - Recheck armature, damping, and stiffness values.
+      ```
+    - Expected behavior:
+      - The joint moves to the commanded position.
+      - `/joint_state` reflects the correct value.
+
+    - If the joints do not move:
+      - Check the max angle or max force value of the joints.
+      - Recheck armature, damping, and stiffness values.
