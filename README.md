@@ -43,8 +43,10 @@ Adapted from the Isaac Sim docs:
       - It contains a scene (including imported stretch) from the [Habitat-Matterport3D](https://github.com/matterport/habitat-matterport-3dresearch?tab=readme-ov-file) dataset
     > If you open try to open these two scenes, make sure you have downloaded the scene from the dataset link and Isaac Sim can find their location in your local.
     > After you opened the scenes, you may skip step 2.
+
   You may also use built-in Isaac Sim assets:
     - Navigate to **Content > Isaac** Sim to browse default environments and props.
+
   **Physics note:**
   For objects to interact physically with the robot:
     - Select the object in the Stage window
@@ -68,88 +70,67 @@ Adapted from the Isaac Sim docs:
       - Damping: 1000
       - Stiffness: 0  
       - Max torque and brake force clamped
-  > Where to set this in the UI:
-  >   - Select the wheel link in the Stage window
-  >   - Open the Property panel
-  >   - Navigate to **Physics > Articulation > Drive**
-  - **Positional joints (arm,lift, wrist)**  
+    > Where to set this in the UI:
+    > - Select the wheel link in the Stage window
+    > - Open the Property panel
+    > - Navigate to **Physics > Articulation > Drive**
+  - **Positional joints (arm, lift, wrist)**  
     - Armature: 0.1 kg·m²  
     - Damping & stiffness hand-tuned via GUI  
       - **Tools > Robotics > Asset Editors > Gain Tuner**
 
 4. **ROS 2 Bridge configuration** (synchronized to system time)  
   - Adapt or reuse OmniGraph templates from **Window > Graph Editors > Action Graph**
-  **ROS2 Topic Overview**
-  | Component | Topics                           | Direction | Purpose                     |
-  | --------- | -------------------------------- | --------- | --------------------------- |
-  | Base      | `/stretch/cmd_vel`               | Sub       | Differential drive control  |
-  | Joints    | `/joint_command`, `/joint_state` | Sub / Pub | Joint commands and feedback |
-  | Camera    | `/spectacular_ai/*`              | Pub       | RGB, depth, point cloud     |
-  | Lidar     | `/scan_filtered`                 | Pub       | Laser scan                  |
-  | TF        | `/tf`, `/tf_static`              | Pub       | Coordinate transforms       |
-  | State     | `/state_estimator/pose_filtered` | Pub       | Estimated robot pose        |
-  | Homing    | `/is_homed`                      | Pub / Srv | Robot homing status         |
-
-  - Key graphs:  
-  1. Camera information and image (PointCloud, Depth and RGB Image) broadcast 
-    - `/spectacular_ai/camera_info` 
-    - `/spectacular_ai/point_cloud`
-    - `/spectacular_ai/depth_image`
-    - `/spectacular_ai/color_image`
-  2. Lidar broadcast
-    - `/scan_filtered`
-  3. TF/ TF static broadcast
-    - `/tf`
-    - `/tf_static`
-  4. Estimated state publisher
-    - `/state_estimator/pose_filtered`
-  5. Differential controller for the wheels
-    - `/stretch/cmd_vel`
-  6. Joint state publisher/subscriber and controller
-    - `/joint_state`
-    - `/joint_command`
-  7. Home The Robot publisher and service server
-    - `/is_homed`
+  - **ROS2 Topic Overview**
+    | Component | Topics                           | Direction | Purpose                     |
+    | :--------- | :-------------------------------- | :--------- | :--------------------------- |
+    | Base      | `/stretch/cmd_vel`               | Sub       | Differential drive control  |
+    | Joints    | `/joint_command`, `/joint_state` | Sub / Pub | Joint commands and feedback |
+    | Camera    | `/spectacular_ai/*`              | Pub       | RGB, depth, point cloud     |
+    | Lidar     | `/scan_filtered`                 | Pub       | Laser scan                  |
+    | TF        | `/tf`, `/tf_static`              | Pub       | Coordinate transforms       |
+    | State     | `/state_estimator/pose_filtered` | Pub       | Estimated robot pose        |
+    | Homing    | `/is_homed`                      | Pub / Srv | Robot homing status         |
 
 ## Launching the Simulation
 1. Enter the Pixi environment in the root diretory of this repo:
-  ```bash
-  $ pixi shell
-  ```
+    ```bash
+    $ pixi shell
+    ```
 2. Launch Isaac Sim
-  ```bash
-  $ isaacsim
-  ```
+    ```bash
+    $ isaacsim
+    ```
 3. Open a scene or import the Stretch USD.
 4. Press **Play** to start the simulation.
 5. Run ROS2 nodes in a separate terminal.
 
 ## Testing
-  1. Base Motion Control
-    `/stretch/cmd_vel`: Topic to control the movement of the stretch robot.
-    ```bash
-    $ ros2 topic pub --once /stretch/cmd_vel \
-    geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}"
-    ```
-    Expected behavior:
-      - The robot rotates in place.
-    If the robot does not move:
-      - Check wheel joint drive settings
-      - Verify ground plane has a collider
-      - Ensure simulation is playing
-  2. Joint-Level Control
-    `/joint_command`: Topic to control each joint.
-    ```bash
-    $ ros2 topic pub /joint_command \
-    sensor_msgs/JointState "{name: ['joint_lift'], position: [0.2]}"
-    ```
-    Verify feedback:
-    ```bash
-    $ ros2 topic echo /joint_state
-    ```
-    Expected behavior:
-      - The joint moves to the commanded position.
-      - `/joint_command` reflects the correct value.
-    If the joints do not move:
-      - Check the max angle or max force value of the joints.
-      - Recheck armature, damping, and stiffness values.
+  1. Base Motion Control `/stretch/cmd_vel`:
+    - Joint commands control individual articulated joints (arm, lift, wrist).
+      ```bash
+      $ ros2 topic pub --once /stretch/cmd_vel \
+      geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}"
+      ```
+    > Expected behavior:
+    > - The robot rotates in place.
+    > If the robot does not move:
+    > - Check wheel joint drive settings
+    > - Verify ground plane has a collider
+    > - Ensure simulation is playing
+  2. Joint-Level Control `/joint_command`:
+    - Joint commands control individual articulated joints (arm, lift, wrist).
+      ```bash
+      $ ros2 topic pub /joint_command \
+      sensor_msgs/JointState "{name: ['joint_lift'], position: [0.2]}"
+      ```
+    - Verify feedback:
+      ```bash
+      $ ros2 topic echo /joint_state
+      ```
+    > Expected behavior:
+    > - The joint moves to the commanded position.
+    > - `/joint_command` reflects the correct value.
+    > If the joints do not move:
+    > - Check the max angle or max force value of the joints.
+    > - Recheck armature, damping, and stiffness values.
