@@ -35,23 +35,32 @@ Adapted from the Isaac Sim docs:
 - https://docs.isaacsim.omniverse.nvidia.com/4.5.0/robot_setup/import_urdf.html  
 - https://docs.isaacsim.omniverse.nvidia.com/4.5.0/ros2_tutorials/index.html  
 
-1. **Create or Open an Isaac Sim scene**  
-  You may either open an existing prepared scene or create your own.
-    - `interior_agent_scene.usd` 
-      - It contains the scene (including imported stretch) `kujale_0003` from the dataset https://huggingface.co/datasets/spatialverse/InteriorAgent/tree/main
-    - `hm3d_scene.usd` 
-      - It contains a scene (including imported stretch) from the [Habitat-Matterport3D](https://github.com/matterport/habitat-matterport-3dresearch?tab=readme-ov-file) dataset
-    > If you open try to open these two scenes, make sure you have downloaded the scene from the dataset link and Isaac Sim can find their location in your local.
-    > After you opened the scenes, you may skip step 2.
+1. **Create or Open an Isaac Sim Scene**  
+   You may either open an existing prepared scene or create your own.
 
-  You may also use built-in Isaac Sim assets:
-    - Navigate to **Content > Isaac** Sim to browse default environments and props.
+   - `interior_agent_scene.usd`
+     - Contains the InteriorAgent scene `kujale_0003` with Stretch already imported  
+       Dataset: https://huggingface.co/datasets/spatialverse/InteriorAgent/tree/main
 
-  **Physics note:**
-  For objects to interact physically with the robot:
-    - Select the object in the Stage window
-    - Right-click → Add > Physics > Rigid Body
-    - Add a Collider Preset
+   - `hm3d_scene.usd`
+     - Contains an HM3D environment with Stretch already imported  
+       Dataset: https://github.com/matterport/habitat-matterport-3dresearch
+
+   > **Note:**  
+   > If you try to open either of these two scenes, make sure you have downloaded the corresponding datasets and that Isaac Sim can locate them on your local system.  
+   >  
+   > After opening one of these scenes, you may skip **Step 2**.
+
+   You may also use built-in Isaac Sim assets:
+   - Navigate to **Content > Isaac Sim** to browse default environments and props.
+
+   **Physics note:**  
+   For objects to interact physically with the robot:
+
+   - Select the object in the **Stage** window  
+   - Right-click → **Add > Physics > Rigid Body**  
+   - Add a **Collider Preset**
+
 2. **Import the Stretch as USD File** 
   If your scene does not already include the robot:
     - Import `importable_stretch.usd` into the current stage
@@ -106,28 +115,30 @@ Adapted from the Isaac Sim docs:
 5. Run ROS2 nodes in a separate terminal.
 
 ## Testing
-  1. Base Motion Control `/stretch/cmd_vel`:
-    - Joint commands control individual articulated joints (arm, lift, wrist).
+
+1. **Base Motion Control (`/stretch/cmd_vel`)**
+
+   - This command controls the differential drive of the robot base.
       ```bash
-      $ ros2 topic pub --once /stretch/cmd_vel \
+      ros2 topic pub --once /stretch/cmd_vel \
       geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}"
-      ```
+
     > Expected behavior:
     > - The robot rotates in place.
     > If the robot does not move:
     > - Check wheel joint drive settings
     > - Verify ground plane has a collider
     > - Ensure simulation is playing
-  2. Joint-Level Control `/joint_command`:
-    - Joint commands control individual articulated joints (arm, lift, wrist).
+  2. **Joint-Level Control (`/joint_command`)**:
+    - This command controls individual articulated joints (arm, lift, wrist).
       ```bash
       $ ros2 topic pub /joint_command \
       sensor_msgs/JointState "{name: ['joint_lift'], position: [0.2]}"
-      ```
+      
     - Verify feedback:
       ```bash
       $ ros2 topic echo /joint_state
-      ```
+      
     > Expected behavior:
     > - The joint moves to the commanded position.
     > - `/joint_command` reflects the correct value.
