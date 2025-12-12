@@ -10,6 +10,7 @@ A minimal end-to-end workflow is as follows:
 6. Enable and configure the ROS 2 bridge (already enabled by default).
 7. Play the simulation.
 8. Run ROS 2 nodes and test base and joint control.
+
 This README explains each step in more detail below.
 
 ## Prerequisites
@@ -124,6 +125,7 @@ Adapted from the Isaac Sim docs:
       ```
   > Expected behavior:
   > - The robot rotates in place.
+  > 
   > If the robot does not move:
   > - Check wheel joint drive settings
   > - Verify ground plane has a collider
@@ -141,6 +143,7 @@ Adapted from the Isaac Sim docs:
   > Expected behavior:
   > - The joint moves to the commanded position.
   > - `/joint_state` reflects the correct value.
+  > 
   > If the joints do not move:
   > - Check the max angle or max force value of the joints.
   > - Recheck armature, damping, and stiffness values.
