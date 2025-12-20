@@ -38,7 +38,9 @@ Adapted from the Isaac Sim docs:
 
 1. **Create or Open an Isaac Sim Scene**  
    You may either open an existing prepared scene or create your own.
-   **DON'T WORRY** It **ALWAYS** takes a long time during the first launch.(roughly 15 min for work stations and 20 min for laptops)
+   > **DON'T WORRY** 
+   >
+   >It **ALWAYS** takes a long time during the first launch.(roughly 15 min for work stations and 20 min for laptops)
 
    - `interior_agent_scene.usd`
      - Contains the InteriorAgent scene `kujale_0003` with Stretch already imported  
