@@ -75,14 +75,14 @@ Adapted from the Isaac Sim docs:
 3. **Tune joint dynamics**
   Proper joint tuning is critical for stable simulation.
   - **Wheels** 
-    - Joints: `link_right_wheel` and `link_left_wheel`
+    - Joints: `joint_right_wheel` and `joint_left_wheel`
     - Recommended parameters
       - Armature: 2.0 kg·m² (reduces jitter)  
       - Damping: 1000
       - Stiffness: 0  
-      - Max torque and brake force clamped
+      - Max torque and break force clamped
     > Where to set this in the UI:
-    > - Select the wheel link in the Stage window
+    > - Select the wheel joint in the Stage window
     > - Open the Property panel
     > - Navigate to **Physics > Articulation > Drive**
   - **Positional joints (arm, lift, wrist)**  
@@ -92,6 +92,7 @@ Adapted from the Isaac Sim docs:
 
 4. **ROS 2 Bridge configuration** (synchronized to system time)  
   - Adapt or reuse OmniGraph templates from **Window > Graph Editors > Action Graph**
+  ![Action graph path](img/action_graph.png)
   - **ROS2 Topic Overview**
     | Component | Topics                           | Direction | Purpose                     |
     | :--------- | :-------------------------------- | :--------- | :--------------------------- |
@@ -134,17 +135,18 @@ Adapted from the Isaac Sim docs:
 2. **Joint-Level Control (`/joint_command`)**
   - This command controls individual articulated joints (arm, lift, wrist).
     ```bash
-    $ ros2 topic pub /joint_command \
+    ros2 topic pub /joint_command \
     sensor_msgs/JointState "{name: ['joint_lift'], position: [0.2]}"
     ```
   - Verify feedback:
     ```bash
-    $ ros2 topic echo /joint_state
+    ros2 topic echo /joint_state
     ```
   > Expected behavior:
   > - The joint moves to the commanded position.
   > - `/joint_state` reflects the correct value.
   > 
   > If the joints do not move:
-  > - Check the max angle or max force value of the joints.
+  > - Check the lower/ upper limit or max force value of the joints.
   > - Recheck armature, damping, and stiffness values.
+  <img src="img/joint_drive.png" width="50%">
