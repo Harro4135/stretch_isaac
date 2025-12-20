@@ -17,7 +17,7 @@ This README explains each step in more detail below.
 
 - Pixi installed for Isaac Sim 5.1.0 and ROS2 Humble
   (https://pixi.sh/dev/installation/)
-- NVIDIA GPU with up-to-date drivers  
+- NVIDIA GPU with up-to-date drivers
 - `ros2-bridge` plugin enabled in Isaac Sim 
   - It is already automatically enabled. 
   - Go to Window > Extensions, find "ROS 2 Bridge," and verify it is **Enabled**.
@@ -33,11 +33,12 @@ This README explains each step in more detail below.
 ## Import Process
 
 Adapted from the Isaac Sim docs:  
-- https://docs.isaacsim.omniverse.nvidia.com/4.5.0/robot_setup/import_urdf.html  
-- https://docs.isaacsim.omniverse.nvidia.com/4.5.0/ros2_tutorials/index.html  
+- https://docs.isaacsim.omniverse.nvidia.com/5.1.0/importer_exporter/importers_exporters.html 
+- https://docs.isaacsim.omniverse.nvidia.com/5.1.0/ros2_tutorials/ros2_landing_page.html
 
 1. **Create or Open an Isaac Sim Scene**  
    You may either open an existing prepared scene or create your own.
+   **DON'T WORRY** It **ALWAYS** takes a long time during the first launch.(roughly 15 min for work stations and 20 min for laptops)
 
    - `interior_agent_scene.usd`
      - Contains the InteriorAgent scene `kujale_0003` with Stretch already imported  
